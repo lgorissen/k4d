@@ -124,6 +124,7 @@ We have now realized the configuration below:
 
 
 **Networking**
+
 A Pod is a group of containers that runs on the same node and in the same Linux namespace. Therefore, the Pod not only has its own files and processes, but also its own network interfaces and hostname. So, the Pod has its own IP address and the hostname is the same as the Pod name. 
 [todo: make a network diagram drawing here]
 
