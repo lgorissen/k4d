@@ -1,10 +1,10 @@
-#2. Run that app on Kubernetes
+# 2. Run that app on Kubernetes
 
 Steps:
 - Run a Docker container
 - Run the container in Kubernetes
 
-##2.1 Run a Docker container
+## 2.1 Run a Docker container
 
 Run the container lgorissen/terra10 in Docker:
 
@@ -41,7 +41,7 @@ Pointing the browser to `http://localhost:8080/` shows the page:
 Note that the container id is the hostname...
 
 
-##2.2 Run the container in Kubernetes
+## 2.2 Run the container in Kubernetes
 
 
 Goal is now to run the container in Kubernetes. The figure below illustrates the configuration that we want to build:
@@ -57,7 +57,7 @@ We wil create this configuration in 2 steps:
 1. run the container in a Pod, controlled by a ReplicationController
 2. create an endpoint for accessing the terra10 app
 
-###2.2.1 Run the container in a Pod
+### 2.2.1 Run the container in a Pod
 Now, let's run the container under Kubernetes:
 ```bash
 developer@developer-VirtualBox:~$ k run terra10 --image=lgorissen/terra10 --port=8080 --generator=run/v1
@@ -88,7 +88,7 @@ NAME            READY     STATUS    RESTARTS   AGE
 terra10-gtdcl   1/1       Running   0          37m
 developer@developer-VirtualBox:~$ 
 ```
-###2.2.2. create an endpoint for accessing the terra10 app
+### 2.2.2. create an endpoint for accessing the terra10 app
 
 With the Pod running, now it has to be made accessible. Let's create a Service object to expose the terra10 ReplicationController:
 ```bash
@@ -127,7 +127,7 @@ We have now realized the configuration below:
 A Pod is a group of containers that runs on the same node and in the same Linux namespace. Therefore, the Pod not only has its own files and processes, but also its own network interfaces and hostname. So, the Pod has its own IP address and the hostname is the same as the Pod name. 
 [todo: make a network diagram drawing here]
 
-** Cluster IP address:**
+**Cluster IP address:**
 ```bash
 developer@developer-VirtualBox:~$ minikube ip
 10.0.2.15
