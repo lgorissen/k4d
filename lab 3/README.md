@@ -58,6 +58,10 @@ developer@developer-VirtualBox:~$ curl 10.105.67.164:8080
 Hello, you landed on Terra10 and host terra10-gtdcl welcomes you!
 ```
 
+***
+You can now try to scale down to 2 Pods using the command `k scale rc terra10 --replicas=2`
+Carefully examine what happens to your Pods!
+***
 By now, you have already covered some ground and should be familiar with the kubectl commands. We thinks it's important that you are familiar with the kubectl command line - even though we expect in a real production environment you will script your stuff :-S
 
 Kubernetes also offers a dashboard that is convenient for looking at what is happening in your Kubernetes cluster. Ìn minikube, you can launch the dashboard with the command:

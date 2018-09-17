@@ -83,3 +83,4 @@ Finally, you will end up with a Kubernetes system that has all the components of
 
 ![kubernetes architecture](img/lab1-overview.png)
 
+For reference: Kubernetes documentation can be found ![here](http://kubernetes.io/docs/reference/). Throughout all labs, you can refer here for more information about all the different Kubernetes objects.

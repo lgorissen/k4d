@@ -184,9 +184,11 @@ Containers:
 So, on minikube, our app is accessible on:
 
 http://10.0.2.15:32735/ -- via the Kubernetes Cluster IP
+
 http://10.105.67.164:8080/ -- via the internal service IP, which works from any node in the cluster (hence, also on your minikube machine)
-http://172.17.0.6:8080/ -- via the Pod IP 
+
+http://172.17.0.6:8080/ -- via the Pod IP
 
 In a comercial Cloud's Kubernetes environment, all of the above IPs will normally not be publicly accessible. The Service IP will normally have an External IP, that will be accessible as that is the only right route for your App's clients.
 
-** Often, trouble shooting a Pod starts with determining whether it can be accessed. For a real good analysis, you need to master the Kubernetes networking. Spend some time on it! **
+**Often, trouble shooting a Pod starts with determining whether it can be accessed. For a real good analysis, you need to master the Kubernetes networking. Spend some time on it!**
