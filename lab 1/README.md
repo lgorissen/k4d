@@ -1,9 +1,10 @@
 # 1. Preparing the environment
 
 For running the exercises, a Kubernetes environment is required. The exercises are run with a minikube environment on an Ubuntu machine:
+- Ubuntu 18.04
 - docker 18.03.1-ce
 - minikube v0.28.2
-- - kubernetes v1.10.0
+- kubernetes v1.10.0
 
 You may choose to run the exercises on a different Kubernetes environment: the differences with the material presented in the labs should only be very small ;-)
 
@@ -49,7 +50,7 @@ Run the installation as described in the page above.
 
 E.g., run the Linux intallation:
 `curl -Lo minikube https://storage.googleapis.com/minikube/releases/v0.28.2/minikube-linux-amd64 && chmod +x minikube && sudo mv minikube /usr/local/bin/`
-and then run the 'minikube start' command
+and then run the `minikube start` command
 
 Tip: when running minikube in a VirtualBox virtual machine, the startup command will look like:
 ```bash
@@ -76,9 +77,9 @@ Pointing your browser to the Kubernetes master url (here: https://10.0.2.15:8443
 A lot of exercises will require uasage of the kubectl command and argument. Therefore, it may be very useful to have an alias for kubectl (e.g, 'k') and to use the kubectl autocompletion.
 How to configure this is described [here](https://kubernetes.io/docs/tasks/tools/install-kubectl/#enabling-shell-autocompletion).
 
-(for windows... it's a bit more difficult: look [here]( https://medium.com/@sandipchitale/command-completion-for-minikube-and-kubectl-on-windows-10-580710bc464c)
+For windows ... it's a bit more difficult: look [here]( https://medium.com/@sandipchitale/command-completion-for-minikube-and-kubectl-on-windows-10-580710bc464c)
 
-Finally, you will end up with a Kubernetes system that has all the components of a full-fledged production system, elbeit with only one node ...
+Finally, you will end up with a Kubernetes system that has all the components of a full-fledged production system, albeit with only one master/worker node ...
 
 ![kubernetes architecture](img/lab1-overview.png)
 

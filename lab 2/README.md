@@ -1,12 +1,14 @@
 # 2. Run that app on Kubernetes
 
 Steps:
-- Run a Docker container
-- Run the container in Kubernetes
+1. Run a Docker container
+2. Run the container in Kubernetes
+
+
 
 ## 2.1 Run a Docker container
 
-Run the container lgorissen/terra10 in Docker:
+Run the container `lgorissen/terra10` in Docker:
 
 ```bash
 developer@developer-VirtualBox:~$ docker run -d -p 8080:8080 lgorissen/terra10
@@ -34,11 +36,11 @@ developer@developer-VirtualBox:~$ docker ps | grep terra
 developer@developer-VirtualBox:~$ 
 ```
 
-Pointing the browser to `http://localhost:8080/` shows the page:
+Pointing the browser to `http://localhost:8080/` invokes the container and shows the page:
 
-![](img/lab2-dashboard.png)
+![](img/lab2-browser-pod.png)
 
-Note that the container id is the hostname...
+Note that the container id (terra10-98s4k) is the hostname...
 
 
 ## 2.2 Run the container in Kubernetes
@@ -65,13 +67,17 @@ replicationcontroller/terra10 created
 developer@developer-VirtualBox:~$ 
 ```
 Where:
-- **k** ::  short for kubectl (is your auto-complete running properly?)
-- **terra10** :: name of the ReplicationController that will be created
-- **--image=lgorissen/terra10** :: name of the image that will be used
-- **--port=8080** :: the port that the app will listen to
-- **--generator=run/v1** :: indicates that a ReplicationController will be created
 
-This command has created the ReplicationController terra10, which in turn will create the Pod with the lgorissen/terra10 container running inside.
+| Command (part)  | Description      |
+|-------- |--------|
+| **k**   |  short for kubectl (is your auto-complete running properly?) |
+| **terra10** | name of the ReplicationController that will be created |
+| **--image=lgorissen/terra10** | name of the container image that will be used |
+| **--port=8080** | the port that the app will listen to |
+| **--generator=run/v1** | indicates that a ReplicationController will be created |
+
+
+This command has created the ReplicationController `terra10`, which in turn will create the Pod with the `lgorissen/terra10` container running inside.
 
 Verify that the ReplicationController is there:
 ```bash
@@ -152,6 +158,8 @@ kubernetes     ClusterIP      10.96.0.1       <none>        443/TCP          50d
 terra10-http   LoadBalancer   10.105.67.164   <pending>     8080:32735/TCP   16m
 developer@developer-VirtualBox:~/projects/k4d$ 
 ```
+This shows the internal cluster IP for the service, and shows that the service does NOT have an external IP (as we're running minikube)
+
 **Pod IP address**
 ```bash
 developer@developer-VirtualBox:~$ k describe pod terra10-gtdcl 
@@ -176,9 +184,9 @@ Containers:
 So, on minikube, our app is accessible on:
 
 http://10.0.2.15:32735/ -- via the Kubernetes Cluster IP
-http://10.105.67.164:8080/ -- via the Service IP
-http://172.17.0.6:8080/ -- via the Pod IP
+http://10.105.67.164:8080/ -- via the internal service IP, which works from any node in the cluster (hence, also on your minikube machine)
+http://172.17.0.6:8080/ -- via the Pod IP 
 
-In a comercial Cloud's Kubernetes environment, all of the above IPs will normally not be publicly accessible. The Service IP will normally have an External IP, that will be.
+In a comercial Cloud's Kubernetes environment, all of the above IPs will normally not be publicly accessible. The Service IP will normally have an External IP, that will be accessible as that is the only right route for your App's clients.
 
-
+** Often, trouble shooting a Pod starts with determining whether it can be accessed. For a real good analysis, you need to master the Kubernetes networking. Spend some time on it! **
