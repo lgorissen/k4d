@@ -2,7 +2,7 @@
 
 This archive has the labs for a Terra10 internal training for Kubernetes. Its goal is to let application developers become familiar with Kubernetes. 
 
-The training is intended as a first step to prepare the participants for the **'Kubernetes Application Developer' certification**. After going through this training, the participants are **NOT ready** to do the Kubernetes for Developers. However, the participants will be able to complete studying for the certification at a much quicker pace...
+The training is intended as a first step to prepare the participants for the **'Kubernetes Application Developer' certification**. After going through this training, the participants are **NOT ready** to do the Kubernetes Application Developer certification. However, the participants will be able to complete studying for the certification at a much quicker pace...
 
 The material in this training is highly inspired by the book [Kubernetes in Action](https://www.manning.com/books/kubernetes-in-action) by Marko Luksa. If you need further studying material ... **BUY THAT BOOK**.
 
