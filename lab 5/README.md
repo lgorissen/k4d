@@ -16,9 +16,28 @@ An approach for organizing your Pods could be to assign a label 'microservice' w
 
 
 Create a Pod with labels
-Let's take this whole label thing step by step and create some Pods with labels. We will create the situation below:
+Let's take this whole label thing step by step. An example of a yaml manifest for a Pod with labels looks like:
+```bash
+apiVersion: v1
+kind: Pod
+metadata:
+  name: terra10-playback-0340
+  labels:                           # Labels are added in the Pod manifest metadata section
+    microservice: playback          # Add label 'microservice' with value 'playback'
+    rel: 18.1.3                     # Add label 'rel' with value '18.1.3'
+spec:
+  containers:
+  - image: lgorissen/terra10
+    name: terra10
+    ports:
+    - containerPort: 8080
+      protocol: TCP
+
+```
+Now, let's create some Pods with labels. We will create the situation below:
 
 ![multiple pods and labels](img/lab5-multiple-pods-and-labels.png)
+
 
 The lab_5 directory has some yaml files that enable you to quickly create the desired situation:
 ```bash
