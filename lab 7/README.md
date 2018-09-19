@@ -8,7 +8,7 @@ So far, we have created lots of Kubernetes objects: Pods, ReplicationController,
 
 Without much further ado...
 
-** Delete a Pod **
+**Delete a Pod**
 Start simple by deleting the Pod named `terra10-simple`:
 
 ```bash
@@ -30,7 +30,7 @@ developer@developer-VirtualBox:~/projects/k4d/lab 7$
 ```
 By listing the Pods again, verify that it is deleted.
 
-** Delete Pods using a label selector **
+**Delete Pods using a label selector**
 Remember the labels we introduced in lab 4? Let's delete all Pods with label 'microservice'  set to 'playback' :
 
 ```bash
@@ -47,7 +47,7 @@ developer@developer-VirtualBox:~/projects/k4d/lab 7$
 ```
 Again, verify by listing the Pods again
 
-** Delete a ReplicationContoller (and ...)**
+**Delete a ReplicationContoller (and ...)**
 We created a ReplicationController named `terra10` that controls 3 Pods that have a name of format `terra10-nnnn`:
 ```bash
 developer@developer-VirtualBox:~/projects/k4d/lab 7$ k get rc
@@ -74,7 +74,7 @@ terra10-record-4139   1/1       Running   1          23h
 developer@developer-VirtualBox:~/projects/k4d/lab 7
 ```
 
-** Delete a namespace **
+**Delete a namespace**
 By now, you can guess how to delete a namespace. But did you realize that deleting a namespace also removes all the Kubernetes objects in that namespace?
 ```bash
 developer@developer-VirtualBox:~/projects/k4d/lab 7$ k get pod -n terra10-namespace 
@@ -89,7 +89,7 @@ developer@developer-VirtualBox:~/projects/k4d/lab 7$
 Be careful!
 
 
-** Delete a service **
+**Delete a service**
 Now we do have one 'dangling' service named `terra10-http`. Dangling because the Pods that it refers to are already deleted... Now it's also time for the service to go:
 ```bash
 developer@developer-VirtualBox:~/projects/k4d/lab 7$ k get service
@@ -102,7 +102,7 @@ developer@developer-VirtualBox:~/projects/k4d/lab 7$
 ```
 Nice
 
-** Any Pods left?**
+**Any Pods left?**
 
 There is a way to remove all Pods from a namespace:
 ```bash
