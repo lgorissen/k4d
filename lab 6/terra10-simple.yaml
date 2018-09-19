@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: terra10-simple
+spec:
+  containers:
+  - image: lgorissen/terra10
+    name: terra10
+    ports:
+    - containerPort: 8080
+      protocol: TCP
