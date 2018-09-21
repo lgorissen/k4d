@@ -9,7 +9,7 @@ This lab and the next ones will focus on functionality to deal with Pod failures
 Let's look at what happens with a manually started Pod...when the container crashes...
 We will start the Pod terra10-simple (file in the `lab 8` directory) and then stop the Docker container manually - to simulate a container crash. The Kubelet should detect that the container is no longer present and will start a new container. So, after a short while, the Pod should be functioning again. Let's go:
 
-** start the Pod and check that it works **
+**start the Pod and check that it works**
 
 ```bash
 developer@developer-VirtualBox:~/projects/k4d/lab 8$ k create -f terra10-simple.yaml 
@@ -23,7 +23,7 @@ NAME             READY     STATUS    RESTARTS   AGE
 terra10-simple   1/1       Running   0          40s
 developer@developer-VirtualBox:~/projects/k4d/lab 8$
 ```
-** stop the Docker container manually: **
+**stop the Docker container manually:**
 
 ```bash
 developer@developer-VirtualBox:~/projects/k4d/lab 8$ docker ps | grep "lgorissen/terra10" 
@@ -33,7 +33,7 @@ developer@developer-VirtualBox:~/projects/k4d/lab 8$ docker stop 9476f
 developer@developer-VirtualBox:~/projects/k4d/lab 8$
 ```
 
-** observe **
+**observe**
 
 Now, the kubelet should have started a new container (check for the new number) and the Pod should still be accessible:
 ```bash
@@ -76,7 +76,7 @@ The proof of the pudding is in the eating, so we'll try the following recipe:
 - Start a Pod with this container AND a Liveness Probe
 - Observe!
 
-** Create an app/container that has a liveness problem **
+**Create an app/container that has a liveness problem**
 
 The container image `lgorissen/terra10:liveness-problem` is already present in Docker Hub. For those of your who want to have a look at it, the code is in the `lab 8/terra10-liveness-problem'` directory.
 This image will return upon the first 5 requests a response with HTTP 200 code. After the fifth request, it will return an HTTP 500 code:
@@ -104,7 +104,7 @@ developer@developer-VirtualBox:~/projects/k4d/lab 8$ docker stop 511f
 developer@developer-VirtualBox:~/projects/k4d/lab 8$
 ```
 
-** Start a Pod with this container AND a Liveness Probe **
+**Start a Pod with this container AND a Liveness Probe**
 
 Now, we will define a Pod that (1) uses this malfunctioning container and (2) has a Liveness Probe configured. The manifest file looks like:
 ```bash
@@ -142,7 +142,7 @@ developer@developer-VirtualBox:~/projects/k4d/lab 8$
 ```
 The Pod is running ...
 
-** Observe! **
+**Observe!**
 
 If you wait a couple of minutes, and look at the Pods, you will see something like:
 ```bash
@@ -183,7 +183,7 @@ Again, the proof of the pudding is in the eating, so we'll:
 - Start a Pod with this container AND a Readyness Probe
 - Observe!
 
-** Create an app/container that has a readiness problem **
+**Create an app/container that has a readiness problem**
 
 The container image `lgorissen/terra10:readiness-problem` is already present in Docker Hub. For those of your who want to have a look at it, the code is in the `lab 8/terra10-readiness-problem'` directory.
 This image will return a response with HTTP 200 code for the first 10 requests. Then, it will return an HTTP 500 code for the next 10 requests. And then HTTP 200 for the next 10 requests, etc. A well, you get it:
@@ -215,7 +215,7 @@ Something went wrong in your landing - this landing platform is malfunctioning: 
 developer@developer-VirtualBox:~/projects/k4d/lab 8$
 ```
 
-** Start a Pod with this container AND a Readiness Probe **
+**Start a Pod with this container AND a Readiness Probe**
 
 Now, we will define a Pod that (1) uses this ready-status-toggling container and (2) has a Readiness Probe configured. The manifest file looks like:
 ```bash
@@ -249,7 +249,7 @@ developer@developer-VirtualBox:~/projects/k4d/lab 8$
 ```
 The Pod is running...
 
-** Observe! **
+**Observe!**
 
 For a better understanding of how the Readiness Probe works and what can be configured, use the command `k describe pod terra10-readiness`  and have a close look at the output. Below, a description of the relevant parts of the Readiness Probe:
 
