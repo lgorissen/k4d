@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: terra10-readiness
+spec:
+  containers:
+  - image: lgorissen/terra10:readiness-problem
+    name: terra10
+    readinessProbe:
+      periodSeconds: 2
+      httpGet:
+        path: /
+        port: 8080

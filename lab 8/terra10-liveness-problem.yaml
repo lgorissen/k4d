@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: terra10-liveness
+spec:
+  containers:
+  - image: lgorissen/terra10:liveness-problem
+    name: terra10
+    livenessProbe:
+      httpGet:
+        path: /
+        port: 8080
+      initialDelaySeconds: 15
+
