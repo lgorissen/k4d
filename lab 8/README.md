@@ -256,7 +256,7 @@ This line means:
 | #failure=3    | Minimum consecutive failures for the probe to be considered failed after having succeeded.| 
 
 Now, we have Pod `tera10-readiness` running. This Pod has a Readiness probe that runs every 2 seconds. And after 10 requests, it will toggle between HTTP 200 and HTTP 500 responses. That means that our Pod Ready status must also toggle... let's find out:
-'''bash
+```bash
 developer@developer-VirtualBox:~/projects/k4d/lab 8$ while true; do k get pod;sleep 2; done
 NAME                READY     STATUS    RESTARTS   AGE
 terra10-readiness   1/1       Running   1          1h
@@ -282,7 +282,7 @@ NAME                READY     STATUS    RESTARTS   AGE
 terra10-readiness   1/1       Running   1          1h
 NAME                READY     STATUS    RESTARTS   AGE
 terra10-readiness   1/1       Running   1          1h
-'''
+```
 
 Did you notice that the Pod is slightly more 'ready' than 'not ready'? That's because 1 successful probe request marks the Pod as 'ready', whereas it takes 3 failures to mark the Pod as ' not ready'.
 
