@@ -1,0 +1,17 @@
+apiVersion: batch/v1beta1
+kind: CronJob
+metadata:
+  name: terra10-cronjob-10min
+spec:
+  schedule: "0,10,20,30,40,50 * * * *"
+  jobTemplate:
+    spec:
+      template:
+        metadata:
+          labels:
+            app: terra10-cronjob
+        spec:
+          restartPolicy: OnFailure
+          containers:
+          - name: main
+            image: lgorissen/terra10-job
