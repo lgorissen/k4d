@@ -7,9 +7,9 @@ As an additional feature, nodes can also be selected using the ***nodeSelector**
 
 ## DaemonSet example
 
-Our example will run a Pod on all nodes with node label **gpu** set to **true**. Think of the Pod as a 'monitor of the Node's GPU capability'.
+Our example will run a Pod on all nodes with node label **gpu** set to **high**. Think of the Pod as a 'monitor of the Node's GPU capability'.
 
-The DaemonSet manifest file (in the lab 10 directory, name `daemonset-gpu.yaml`):
+The DaemonSet manifest file (in the lab 11 directory, name `daemonset-gpu.yaml`):
 
 ```bash
 apiVersion: apps/v1beta2    # mind the API version
@@ -31,6 +31,8 @@ spec:
       - name: main
         image: lgorissen/gpu-monitor
 ```
+
+The container `lgorissen/gpu-monitor` that is defined writes a message 'GPU OK' to the log, every 5 seconds.
 
 Now, create the DaemonSet (manifest file 'daemonset-gpu.yaml' in the lab 11 directory):
 
@@ -77,3 +79,4 @@ developer@developer-VirtualBox:~/projects/k4d/lab 11$
 ```
 
 Clean up!
+

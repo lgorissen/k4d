@@ -1,0 +1,16 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: terra10-mulitple-job
+spec:
+  completions: 5
+  parallelism: 2
+  template:
+    metadata:
+      labels:
+        app: terra10-job
+    spec:
+      restartPolicy: OnFailure
+      containers:
+      - name: main
+        image: lgorissen/terra10-job
