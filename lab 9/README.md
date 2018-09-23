@@ -1,94 +1,139 @@
-# 10. Replication Sets
+# 9. Replication Controllers
 
-ReplicationControllers are deprecated. It is good to know them, as you will encounter them in 'older' Kubernetes systems. However, whenever you have the choice, you should use Replication Sets.
+I like ReplicationControllers. To me, they feel like they are at the core of what Kubernetes is about: ensuring that your containers are all sound.
 
-**Replication Sets vs Replication Controllers**
+**Definition**
 
-Replication Sets and Replication Controllers are different in 2 areas:
+In the Kubernetes reference manuals, the Replication Controller is described:
+'A ReplicationController ensures that a specified number of pod replicas are running at any one time. In other words, a ReplicationController makes sure that a pod or a homogeneous set of pods is always up and available.'
 
-1. **Label selectors:** the Kubernetes documentation learns us that 'ReplicaSet supports the new set-based selector requirements as described in the labels user guide whereas a Replication Controller only supports equality-based selector requirements'
-2. **Deployments:** the Replication Controller supports the kubectl 'rolling-update' command for updating to new Pod version. In case of the Replication Set however, updates are done using the combination of the Kubernetes Deployment and the Replication Set 
+Aha! So, if I have a Kubernetes cluster with 2 nodes, and a Replication Controller that specifies that 3 Pods have to be up and running, that could look like:
 
-For deployment and updates, there will be separate labs. In this lab, we'll focus on the Replication Set. There, you will also learn that ' Deployments are the way to go'!
+<img src="img/lab9-rc-3-pods-OK.png" width="350px"/>
+
+**Failures**
+
+Now, in the previous lab, we saw that using Liveness Probes, the kubelet can re-start a container in a Pod when it is malfunctioning or crashed. But ... when a complete Worker node crashes, the kubelet is also gone.
+
+<img src="img/lab9-rc-3-pods-worker-gone.png" width="350px"/>
+
+That is where the Replication Controller kicks in. The Replication Controller will then start the Pods on the other Worker node.
+
+<img src="img/lab9-rc-3-pods-worker-restarted.png" width="350px"/>
+
+So, basically, the ReplicationController counts its Pods every now and then, and when the number of Pods does not match with the specified count, it will take action. 
+
+**How does the Replication Controller work?**
+
+The Replication Controller's main task is to ensure that the proper number of Pods is scheduled to the cluster. It does so by regularly counting the number of Pods and compare the count with the number specified in the Replication Controller. If the count is too low, it will schedule new Pods. If the count is too high, it will stop Pods.
+The counting mechanism is label based: the Replication Controller has a Label Selector (lab 5) that it uses for selecting (=counting) the Pods that match the Label Selector.
+
+In a figure:
+
+<img src="img/lab9-rc-label-selector.png" width="450px"/>
 
 
-**Replication Sets and set-based Label Selectors**
+## 9.1 A simple Replication Controller
 
-The Replication Controller supports Label Selectors with requirements of the type 'equality-based'. With these 'equality-based' requirements, matching is done based on Label keys and values, and matching objects must satify ALL of the specified Label constraints. Three operators are supported: '=', '==' and '!='. Ahum, well ... that's only 2 different operators!
-
-The Replication Set on the other hand supports Label Selectors withr requirements of the type 'set-based'. With these 'set-based' requirements, matching is done by 'filtering keys according to a set of values'. Three operators is supported: 'in', 'notin' and 'exists'. For example:
-
-| selector                        | selects resources with |
-|---------------------------------|--------------------------|
-| environment in (production, qa) | **key** 'environment' and **value** 'production' or 'qa' |
-| tier notin (frontend, backend   | **key** 'tier' and **value** not 'frontend' and not 'backend' | 
-| partition                       | **key** 'partition' is present   |
-| !partition                      | **key** 'partition' is not present| 
-
-The ***set-based*** requirements can be mixed with ***equality-based*** requirements.
-
-## Replication Set example
-
-A Replication Set manifest file example:
+Time to get some hands-on experience. Remember in lab 2, we created a Replication Controller with the command `k run terra10 --image=lgorissen/terra10 --port
+=8080 --generator=run/v1`. 
+In this lab, however, we will use a manifest file for a Replication Controller:
 
 ```bash
-apiVersion: apps/v1beta2   # Replication Set is part of a newer API version
-kind: ReplicaSet           # type ReplicaSet
+apiVersion: v1
+kind: ReplicationController       # type of resource
 metadata:
-  name: terra10-rs
+  name: terra10-rc                # name
 spec:
-  replicas: 3              # number of Pods
-  selector:                # label selector - set-based
-    matchExpressions:      # def of a Label Selector requirement
-      - key: app           # key 'app' is in set of values (terra10)
-        operator: In
-        values:
-         - terra10
-  template:                # start of Pod template
+  replicas: 3                     # desired number of Pods
+  selector:
+    app: terra10                  # Label Selector for counting Pods
+  template:                       # Pod specification starts here
     metadata:
-      labels:
-        app: terra10
-    spec:
+      labels:                     # Pod labels
+        app: terra10              # the label that is also used in the Label Selector
+    spec:                         # start of Container specification
       containers:
       - name: terra10
         image: lgorissen/terra10
+        ports:
+        - containerPort: 8080
 ```
+Note that in the manifest file the Label `app: terra10` appears twice. That leaves room for errors. There are 2 things you must know:
 
-Running the manifest file:
+1. You don't have to specify a label selector. If you don't, Kubernetes will get the labels from the Pod specification
+2. If the Label Selector and the Pod labels don't match, Kubernetes will not accept the Replication Controller manifest file
 
+Now, we will use `kubectl` to create the Replication Controller. Note that we will not explicitly create Pods: the Replication Controller will do that :-) (the manifest file `terra1-rc.yaml` is in the lab 9 directory):
+ 
 ```bash
-developer@developer-VirtualBox:~/projects/k4d/lab 10$ k create -f terra10-replicationset.yaml 
-replicaset.apps/terra10-rs created
-developer@developer-VirtualBox:~/projects/k4d/lab 10$ k get pod
+developer@developer-VirtualBox:~/projects/k4d/lab 9$ k create -f terra10-rc.yaml 
+replicationcontroller/terra10-rc created
+developer@developer-VirtualBox:~/projects/k4d/lab 9$ k get rc
+NAME         DESIRED   CURRENT   READY     AGE
+terra10-rc   3         3         3         13s
+developer@developer-VirtualBox:~/projects/k4d/lab 9$ k get pod
 NAME               READY     STATUS    RESTARTS   AGE
-terra10-rs-g65nx   1/1       Running   0          9s
-terra10-rs-k7vbz   1/1       Running   0          9s
-terra10-rs-t9rjr   1/1       Running   0          9s
-developer@developer-VirtualBox:~/projects/k4d/lab 10$ 
+terra10-rc-4d4zf   1/1       Running   0          17s
+terra10-rc-dqrw4   1/1       Running   0          17s
+terra10-rc-jc5q4   1/1       Running   0          17s
+developer@developer-VirtualBox:~/projects/k4d/lab 9$ 
 ```
 
-The Replication Set created 3 Pods - just as expected.
-Now, let's delete the Replication Set without deleting the Pods:
+**Replication Controller and failures**
+
+When we simulate a failure by manually deleting one of the Pods, the Replication Controller should create a new Pod:
 
 ```bash
-developer@developer-VirtualBox:~/projects/k4d/lab 10$ k delete rs terra10-rs --cascade=false
-replicaset.extensions "terra10-rs" deleted
-developer@developer-VirtualBox:~/projects/k4d/lab 10$ k get pod
+developer@developer-VirtualBox:~/projects/k4d/lab 9$ k delete pod terra10-rc-4d4zf 
+pod "terra10-rc-4d4zf" deleted
+developer@developer-VirtualBox:~/projects/k4d/lab 9$
+developer@developer-VirtualBox:~$ k get rc
+NAME         DESIRED   CURRENT   READY     AGE
+terra10-rc   3         3         3         6m
+developer@developer-VirtualBox:~$ k get pod
+NAME               READY     STATUS        RESTARTS   AGE
+terra10-rc-4d4zf   1/1       Terminating   0          6m
+terra10-rc-dqrw4   1/1       Running       0          6m
+terra10-rc-jc5q4   1/1       Running       0          6m
+terra10-rc-nxgsm   1/1       Running       0          7s
+developer@developer-VirtualBox:~$ k get pod
 NAME               READY     STATUS    RESTARTS   AGE
-terra10-rs-g65nx   1/1       Running   0          3m
-terra10-rs-k7vbz   1/1       Running   0          3m
-terra10-rs-t9rjr   1/1       Running   0          3m
-developer@developer-VirtualBox:~/projects/k4d/lab 10$
+terra10-rc-dqrw4   1/1       Running   0          7m
+terra10-rc-jc5q4   1/1       Running   0          7m
+terra10-rc-nxgsm   1/1       Running   0          35s
+developer@developer-VirtualBox:~$
 ```
 
-You now can delete the Pods manually:
+As expected, with a Termining Pod present, the Replication Controller immediately starts a new Pod.
+
+**Replication Controller and scaling**
+
+A production environment could require at some point a higher - or lower - number of Pods. It is very easy to achieve that:
 
 ```bash
-developer@developer-VirtualBox:~/projects/k4d/lab 10$ k delete pod -l app=terra10
-pod "terra10-rs-g65nx" deleted
-pod "terra10-rs-k7vbz" deleted
-pod "terra10-rs-t9rjr" deleted
-developer@developer-VirtualBox:~/projects/k4d/lab 10$ 
+developer@developer-VirtualBox:~/projects/k4d/lab 9$ k scale rc terra10-rc --replicas=4
+replicationcontroller/terra10-rc scaled
+developer@developer-VirtualBox:~/projects/k4d/lab 9$ k get pod
+NAME               READY     STATUS    RESTARTS   AGE
+terra10-rc-dqrw4   1/1       Running   0          28m
+terra10-rc-jc5q4   1/1       Running   0          28m
+terra10-rc-nxgsm   1/1       Running   0          21m
+terra10-rc-vcxp6   1/1       Running   0          4s
+developer@developer-VirtualBox:~/projects/k4d/lab 9$
 ```
 
-Remember to drink coffee...
+Clean up the Replication Controller:
+
+```bash
+developer@developer-VirtualBox:~/projects/k4d/lab 9$ k delete rc terra10-rc 
+replicationcontroller "terra10-rc" deleted
+developer@developer-VirtualBox:~/projects/k4d/lab 9$ k get pod
+No resources found.
+developer@developer-VirtualBox:~/projects/k4d/lab 9$ k get rc
+No resources found.
+developer@developer-VirtualBox:~/projects/k4d/lab 9$
+```
+
+If you would have wanted the Pods to keep alive, you should have used the command ` kubectl delete rc terra10-rc --cascade=false`.
+
