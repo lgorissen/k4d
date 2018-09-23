@@ -27,7 +27,7 @@ The Replication Set on the other hand supports Label Selectors withr requirement
 
 The ***set-based*** requirements can be mixed with ***equality-based*** requirements.
 
-## Replication Set example
+## 10.1 Replication Set example
 
 A Replication Set manifest file example:
 
