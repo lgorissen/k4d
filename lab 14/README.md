@@ -370,7 +370,7 @@ Hello, you landed on Terra10 and host terra10-rc-zkwt5 welcomes you!
 developer@developer-VirtualBox:~/projects/k4d/lab 14$
 ```
 
-Clean UP
+Don't clean up - if you want to do lab 15
 
 ## Summary
 
@@ -383,4 +383,4 @@ The various solutions for accessing Pods via clients are summarized below:
 | LoadBalancer | Makes the Service accessible through a LoadBalancer that is part of the Cluster infrastructure. The Nodes open a port, just like with the NodePort Service. **Load Balancer included**. | 
 | Ingress  |   Offers Layer 7 HTTP(S) load balancing. Supported only when the Kubernetes platform has implemented an **Ingress Controller**  |
 
-Clean UP
+Don't clean up - if you want to do lab 15

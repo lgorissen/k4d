@@ -24,8 +24,8 @@ The labs in this archive cover the following topics:
 |12 | Controller| Job - a Pod that terminates  | Let a Pod do a single task                    |
 |13 | Controller| CronJob - a periodically running Job | Timing when the Pod is executed       |
 |14 | Services  | Expose your ... Pod          | Access Pods via a Service (ClusterIP, NodePort, LoadBalancer and Ingress) |
-|15 | Services  | Endpoint: external services  | Access external services via an Endpoint      |
-|16 | Services  | Access a service/Pod via DNS | Kubernetes DNS for accessing Services and Pods|               
+|15 | Services  | Access a service via DNS     | Kubernetes DNS for accessing Services and Pods|               
+|16 | Services  | Endpoint: external services  | Access external services via an Endpoint      |
 
 
 
