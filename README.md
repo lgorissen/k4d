@@ -23,7 +23,7 @@ The labs in this archive cover the following topics:
 |11 | Controller| DaemonSet - one Pod on each Node | great title                               |
 |12 | Controller| Job - a Pod that terminates  | Let a Pod do a single task                    |
 |13 | Controller| CronJob - a periodically running Job | Timing when the Pod is executed       |
-|14 | Services  | Expose your ... Pod          | Access your Pods via a Service                |
+|14 | Services  | Expose your ... Pod          | Access Pods via a Service (ClusterIP, NodePort, LoadBalancer and Ingress) |
 |15 | Services  | Endpoint: external services  | Access external services via an Endpoint      |
 |16 | Services  | Access a service/Pod via DNS | Kubernetes DNS for accessing Services and Pods|               
 

@@ -1,0 +1,13 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: terra10-ingress
+spec:
+  rules:
+  - host: terra10.io
+    http:
+      paths:
+      - path: /landing
+        backend:
+          serviceName: terra10-nodeport
+          servicePort: 80
