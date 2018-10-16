@@ -26,6 +26,6 @@ The labs in this archive cover the following topics:
 |14 | Services  | Expose your ... Pod          | Access Pods via a Service (ClusterIP, NodePort, LoadBalancer and Ingress) |
 |15 | Services  | Access a service via DNS     | Kubernetes DNS for accessing Services and Pods|               
 |16 | Services  | Endpoint: external services  | Access external services via an Endpoint      |
-
-
+|17 | Services  | Headless Service: point-to-multipoint | Finding/addressing all Pods behind a Service |
+|18 | Volumes   | Volume emptyDir | Share data between Pods using a Volume |
 
