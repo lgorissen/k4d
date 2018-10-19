@@ -28,6 +28,7 @@ The labs in this archive cover the following topics:
 |16 | Services  | Endpoint: external services  | Access external services via an Endpoint      |
 |17 | Services  | Headless Service: point-to-multipoint | Finding/addressing all Pods behind a Service |
 |18 | Volumes   | Volume emptyDir | Share data between Pods using a Volume |
-|19 | Volumes   | Volumes hostPath | worker node file system |
+|19 | Volumes   | Volume hostPath | Worker Node file system |
+|20 | Volumes   | Volume gitRepo  | Clones a Git repository into the mounted empty directory | 
 
 

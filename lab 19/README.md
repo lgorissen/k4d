@@ -1,11 +1,11 @@
-# 19. Volumes hostPath: worker node file system
+# 19. Volume hostPath: Worker Node file system
 
 The previous lab has the *emptyDir* Volume type. Kubernetes knows a lot of different (types of) Volumes. They can be clustered in some categories:
 
 | Volume type  | Description                                                     | Lab   |
 |--------------|-----------------------------------------------------------------|-------|
 |emptyDir      | Attached to a Pod, initially empty, deleted when Pod is deleted | 18    |
-|hostPath      | Local on the worker Node                                        | 19    |
+|hostPath      | Local on the Worker Node                                        | 19    |
 |gitRepo       | Volume initializes with the contact of a Git repository         | 20    |
 |network storages | nfs, cinder, cephfs, iscsi, flocker, glusterfs, quobyte, rbd, flexVolume, vsphere-Volume, photonPersistentDisk, scaleIO | - |
 | Cloud storage | gcePersistentDisk (Google Compute Engine Persistent Disk), awsElastic-BlockStore (Amazon Web Services Elastic Block Store Volume), azureDisk (Microsoft Azure Disk Volume) | - |
@@ -24,7 +24,7 @@ Depending on your Kubernetes provider, some volume types may not be supported: w
 
 ## hostPath volumes
 
-The *hostPath* volume mounts a file or directory from the Worker (host) node’s filesystem into your Pod. This is a solution that you have to think through carefully: is will make the data for your Pod dependending on the Worker node that the Pod is running on. That is something that for most Pods your don't want!
+The *hostPath* volume mounts a file or directory from the Worker (host) Node’s filesystem into your Pod. This is a solution that you have to think through carefully: is will make the data for your Pod dependending on the Worker Node that the Pod is running on. That is something that for most Pods your don't want!
 However, it may be a viable use case in some situations, e.g. with DaemonSets.
 
 In this lab, we will replace the *emptyDir* volume of lab 18 with a *hostPath* volume:
@@ -60,7 +60,7 @@ spec:
   volumes:
   - name: transportlog-hostpath
     hostPath:                          # hostPath Volume
-      path: /tmp/terra10-transporter   # path on the Worker node where the Volume is mounted
+      path: /tmp/terra10-transporter   # path on the Worker Node where the Volume is mounted
 ```
 
 Let's get this to work. Create the directory and post the manifest file:

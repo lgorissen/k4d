@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: terra10-gitrepo
+spec:
+  containers:
+  - image: lgorissen/terra10-gitrepo
+    name: terra10-gitrepo
+    volumeMounts:
+    - name: terra10-git-volume
+      mountPath: /tmp/gitRepo
+    ports:
+    - containerPort: 8094
+      protocol: TCP
+  volumes:
+  - name: terra10-git-volume
+    gitRepo:
+      repository: "https://github.com/lgorissen/k4d.git"
+      revision: "42ee9a72a82e35aa017a132c9b553ad79c05421e"
