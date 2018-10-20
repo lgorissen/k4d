@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: terra10-transporter-config
+data:
+  transporter-delay: "45"
+  transporter-platform: "local_development"

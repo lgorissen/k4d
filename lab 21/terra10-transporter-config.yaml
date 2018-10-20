@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: terra10-transporter-config
+spec:
+  containers:
+  - image: lgorissen/terra10-transporter:config
+    env:
+    - name: TRANSPORTER_PLATFORM
+      value: "local_container"
+    args: ["12"]
+    name: terra10-transporter-config
+    ports:
+    - containerPort: 8096
+      protocol: TCP

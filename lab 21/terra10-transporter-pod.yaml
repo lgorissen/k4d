@@ -1,0 +1,23 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: terra10-transporter
+spec:
+  containers:
+  - image: lgorissen/terra10-transporter:config
+    env:
+    - name: TRANSPORTER_PLATFORM
+      valueFrom: 
+        configMapKeyRef:
+          name: terra10-transporter-config
+          key: transporter-platform
+    - name: TRANSPORTER_DELAY
+      valueFrom: 
+        configMapKeyRef:
+          name: terra10-transporter-config
+          key: transporter-delay
+    args: ["$(TRANSPORTER_DELAY)"]
+    name: terra10-transporter
+    ports:
+    - containerPort: 8096
+      protocol: TCP
