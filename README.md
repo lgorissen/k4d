@@ -31,4 +31,4 @@ The labs in this archive cover the following topics:
 |19 | Volumes   | Volume hostPath | Worker Node file system |
 |20 | Volumes   | Volume gitRepo  | Clones a Git repository into the mounted empty directory | 
 |21 | Volumes   | Volume configMap | Inject configuration information in your Pod |
-
+|22 | Volumes   | Volume configMap advanced | Handling config files and directories |

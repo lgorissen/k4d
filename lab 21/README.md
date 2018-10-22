@@ -1,4 +1,4 @@
-# 20. Volume configMap
+# 21. Volume configMap
 
 Your Pod consists of a number of Containers, and each of them requires configuration data - well, except for the most simple cases. 
 

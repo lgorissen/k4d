@@ -1,0 +1,13 @@
+spec:
+  containers:
+  - image: some/image
+    volumeMounts:
+    - name: myconfigvolume
+      mountPath: /etc/someconfig.json
+      subPath: transporter.json
+...
+
+  volumes:
+  - name: myconfigvolume
+    configMap:
+      name: myconfigmap

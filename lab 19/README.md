@@ -9,10 +9,10 @@ The previous lab has the *emptyDir* Volume type. Kubernetes knows a lot of diffe
 |gitRepo       | Volume initializes with the contact of a Git repository         | 20    |
 |network storages | nfs, cinder, cephfs, iscsi, flocker, glusterfs, quobyte, rbd, flexVolume, vsphere-Volume, photonPersistentDisk, scaleIO | - |
 | Cloud storage | gcePersistentDisk (Google Compute Engine Persistent Disk), awsElastic-BlockStore (Amazon Web Services Elastic Block Store Volume), azureDisk (Microsoft Azure Disk Volume) | - |
-| configMap    | inject configuration data into a Pod                            | 21    | 
-| secret       | inject sensitive configuration data into a Pod                  | 22    |
-| downwardAPI  | makes downward API data available in plain text files           | 23    |
-| persistentVolumeClaim | claim durable storage without knowing the implementation details | 24 |
+| configMap    | inject configuration data into a Pod                            | 21, 22    | 
+| secret       | inject sensitive configuration data into a Pod                  | 23    |
+| downwardAPI  | makes downward API data available in plain text files           | 24    |
+| persistentVolumeClaim | claim durable storage without knowing the implementation details | 25 |
 
 
 Note:
