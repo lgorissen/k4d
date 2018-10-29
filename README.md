@@ -33,5 +33,4 @@ The labs in this archive cover the following topics:
 |21 | Volumes   | Volume configMap | Inject configuration information in your Pod |
 |22 | Volumes   | Volume configMap advanced | Handling config files and directories |
 |23 | Volumes   | Volume secret | Passing sensitive information to Pods |
-|23 | Volumes   | Volume secret | Passing sensitive information to Pods |
 |24 | Volumes   | Volume downwardAPI | Make downward API data available in plain text files|

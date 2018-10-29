@@ -30,7 +30,7 @@ In the above:
 - *memory* is measured with an integer, or using the suffixes like G, M, K, ...
 
 
-** Downward API and environment variables
+## Downward API and environment variables
 
 In this part, we will create a Pod and environment variables for the Downward API supported fields:
 
@@ -117,7 +117,7 @@ root@terra10-env-variables:/#
 ```
 
 
-** Downward API and Volumes
+## Downward API and Volumes
 
 In this part, we will create a Pod and a Volume for the Downward API supported fields:
 
