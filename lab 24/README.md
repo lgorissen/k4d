@@ -32,7 +32,11 @@ In the above:
 
 ** Downward API and environment variables
 
-In this part, we will create a Pod and environment variables for the Downward API supported fields. The manifest file can be found in directory `lab 24` under name `terra10-env-variables.yaml`:
+In this part, we will create a Pod and environment variables for the Downward API supported fields:
+
+![environment variables](img/lab24-downward-env-variables.png)
+
+The manifest file can be found in directory `lab 24` under name `terra10-env-variables.yaml`:
 
 ```bash
 apiVersion: v1
@@ -115,7 +119,11 @@ root@terra10-env-variables:/#
 
 ** Downward API and Volumes
 
-In this part, we will create a Pod and environment variables for the Downward API supported fields. The manifest file can be found in directory `lab 24` under name `terra10-volumes.yaml`:
+In this part, we will create a Pod and a Volume for the Downward API supported fields:
+
+![volumes](img/lab24-downward-volumes.png)
+
+The manifest file can be found in directory `lab 24` under name `terra10-volumes.yaml`:
 
 ```bash
 apiVersion: v1
@@ -140,7 +148,7 @@ spec:
         mountPath: /etc/podinfo                  # on location /etc/podinfo
   volumes:
     - name: podinfo                              # specification of the podinfo Volume
-      downwardAPI:
+      downwardAPI:                               # volume type: downwardAPI
         items:
           - path: "name"                         # file name holds metadata.name
             fieldRef:
