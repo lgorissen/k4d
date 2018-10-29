@@ -1,4 +1,4 @@
-# 24. Volume downwardAPI: make downward API data available in plain text files
+# 24. Volume downwardAPI: accessing downward API data 
 
 The Downward API can be used to expose Pod and Container fields to a running Container. These fields can be exposed as an environmen variable, or as a DownwardAPIVolumeFile. The Downward API supports the following information (this pretty much depends on the Kubernetes version: check for your version the ref documentation):
 
