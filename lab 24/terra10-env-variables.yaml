@@ -1,0 +1,57 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: terra10-env-variables
+spec:
+  containers:
+  - image: lgorissen/terra10
+    name: terra10
+    ports:
+    - containerPort: 8080
+      protocol: TCP
+    env:
+      - name: MY_NODE_NAME
+        valueFrom:
+          fieldRef:
+            fieldPath: spec.nodeName
+      - name: MY_POD_NAME
+        valueFrom:
+          fieldRef:
+            fieldPath: metadata.name
+      - name: MY_POD_NAMESPACE
+        valueFrom:
+          fieldRef:
+            fieldPath: metadata.namespace
+      - name: MY_POD_IP
+        valueFrom:
+          fieldRef:
+            fieldPath: status.podIP
+      - name: MY_POD_SERVICE_ACCOUNT
+        valueFrom:
+          fieldRef:
+            fieldPath: spec.serviceAccountName
+      - name: MY_CONTAINER_MEMORY_REQUEST
+        valueFrom:
+          resourceFieldRef:
+            containerName: terra10
+            resource: requests.memory
+            divisor: 1
+      - name: MY_CONTAINER_MEMORY_LIMITS
+        valueFrom:
+          resourceFieldRef:
+            containerName: terra10
+            resource: limits.memory
+            divisor: 1
+      - name: MY_CONTAINER_CPU_REQUESTS
+        valueFrom:
+          resourceFieldRef:
+            containerName: terra10
+            resource: requests.cpu
+            divisor: 1m
+      - name: MY_CONTAINER_CPU_LIMITS
+        valueFrom:
+          resourceFieldRef:
+            containerName: terra10
+            resource: limits.cpu
+            divisor: 1m
+
