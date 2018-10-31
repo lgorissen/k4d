@@ -1,0 +1,28 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: terra10-transporter
+spec:
+  containers:
+  - image: lgorissen/terra10-transporter
+    name: terra10-transporter
+    volumeMounts:
+    - name: transportlog
+      mountPath: /tmp
+    ports:
+    - containerPort: 8092
+      protocol: TCP
+  - image: lgorissen/terra10-monitor
+    name: terra10-monitor
+    volumeMounts:
+    - name: transportlog
+      mountPath: /var/log
+      readOnly: true
+    ports:
+    - containerPort: 8090
+      protocol: TCP
+  volumes:
+  - name: transportlog
+    persistentVolumeClaim:
+      claimName: terra10-transporter-pvc
+

@@ -34,3 +34,4 @@ The labs in this archive cover the following topics:
 |22 | Volumes   | Volume configMap advanced | Handling config files and directories |
 |23 | Volumes   | Volume secret | Passing sensitive information to Pods |
 |24 | Volumes   | Volume downwardAPI | Accessing downward API data |
+|25 | Volumes   | Persistent Volumes | Hiding tech details from the developer |
