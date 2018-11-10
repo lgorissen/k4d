@@ -27,16 +27,17 @@ The labs in this archive cover the following topics:
 |15 | Services  | Access a service via DNS     | Kubernetes DNS for accessing Services and Pods|               
 |16 | Services  | Endpoint: external services  | Access external services via an Endpoint      |
 |17 | Services  | Headless Service: point-to-multipoint | Finding/addressing all Pods behind a Service |
-|18 | Volumes   | Volume emptyDir | Share data between Pods using a Volume |
-|19 | Volumes   | Volume hostPath | Worker Node file system |
-|20 | Volumes   | Volume gitRepo  | Clones a Git repository into the mounted empty directory | 
-|21 | Volumes   | Volume configMap | Inject configuration information in your Pod |
-|22 | Volumes   | Volume configMap advanced | Handling config files and directories |
-|23 | Volumes   | Volume secret | Passing sensitive information to Pods |
-|24 | Volumes   | Volume downwardAPI | Accessing downward API data |
-|25 | Volumes   | Persistent Volumes | Hiding tech details from the developer |
-|26 | Volumes   | Dynamic Volume Provisioning | Hiding the developer from the administrator |
-|27 | k8s API Server | Kubernetes API Server | Access via the kubectl proxy |
-|28 | k8s API Server | Kubernetes API Server | Curl from within a Pod |
-|29 | k8s API Server | Kubernetes API Server | Curl and a sidercar Container |
-|30 | k8s API Server | Kubernetes API Server | Client libraries |
+|18 | Volumes   | Volume emptyDir              | Share data between Pods using a Volume |
+|19 | Volumes   | Volume hostPath              | Worker Node file system |
+|20 | Volumes   | Volume gitRepo               | Clones a Git repository into the mounted empty directory | 
+|21 | Volumes   | Volume configMap             | Inject configuration information in your Pod |
+|22 | Volumes   | Volume configMap advanced    | Handling config files and directories |
+|23 | Volumes   | Volume secret                | Passing sensitive information to Pods |
+|24 | Volumes   | Volume downwardAPI           | Accessing downward API data |
+|25 | Volumes   | Persistent Volumes           | Hiding tech details from the developer |
+|26 | Volumes   | Dynamic Volume Provisioning  | Hiding the developer from the administrator |
+|27 | k8s API Server | Kubernetes API Server   | Access via the kubectl proxy |
+|28 | k8s API Server | Kubernetes API Server   | Curl from within a Pod |
+|29 | k8s API Server | Kubernetes API Server   | Curl and a sidercar Container |
+|30 | k8s API Server | Kubernetes API Server   | Client libraries |
+|31 | Upgrades  | ReplicaSet based             | manual options |

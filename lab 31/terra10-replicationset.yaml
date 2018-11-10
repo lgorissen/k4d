@@ -1,0 +1,20 @@
+apiVersion: apps/v1beta2
+kind: ReplicaSet
+metadata:
+  name: terra10-rs
+spec:
+  replicas: 3
+  selector:
+    matchExpressions:
+      - key: app
+        operator: In
+        values:
+         - terra10
+  template:
+    metadata:
+      labels:
+        app: terra10
+    spec:
+      containers:
+      - name: terra10
+        image: lgorissen/terra10:r1
