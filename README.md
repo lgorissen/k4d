@@ -36,6 +36,7 @@ The labs in this archive cover the following topics:
 |24 | Volumes   | Volume downwardAPI | Accessing downward API data |
 |25 | Volumes   | Persistent Volumes | Hiding tech details from the developer |
 |26 | Volumes   | Dynamic Volume Provisioning | Hiding the developer from the administrator |
-|27 | k8s API Server | Kubernetes API Server | Access via the kubecrl proxy |
+|27 | k8s API Server | Kubernetes API Server | Access via the kubectl proxy |
 |28 | k8s API Server | Kubernetes API Server | Curl from within a Pod |
 |29 | k8s API Server | Kubernetes API Server | Curl and a sidercar Container |
+|30 | k8s API Server | Kubernetes API Server | Client libraries |

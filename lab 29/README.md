@@ -148,4 +148,6 @@ more advanced, look at your own Pod:
 ...        
 ```
 
+Note how accessing the Kubernetes from the main Container does not have to deal with the certificate verification and authentication like in the previous lab!
+
 Clean up!
