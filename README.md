@@ -40,4 +40,5 @@ The labs in this archive cover the following topics:
 |28 | k8s API Server | Kubernetes API Server   | Curl from within a Pod |
 |29 | k8s API Server | Kubernetes API Server   | Curl and a sidercar Container |
 |30 | k8s API Server | Kubernetes API Server   | Client libraries |
-|31 | Upgrades  | ReplicaSet based             | manual options |
+|31 | Upgrades  | ReplicaSet based - manual    | manual upgrade of a ReplicaSet |
+|32 | Upgrades  | ReplicacationController based - automatic    | automatic, rolling upgrade of a ReplicationController |

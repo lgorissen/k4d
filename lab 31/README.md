@@ -1,4 +1,4 @@
-# 31. Deployments: manual
+# 31. Deployments: manual - ReplicatSet
 
 In real life, your applications will continuously evolve: new versions will become available. New versions means deployment, and there are various strategies to do that. These strategies will usually have to take into account:
 
@@ -64,12 +64,12 @@ spec:
 
 ```
 
-The files can be found in the `lab 31` director as `terra10-replicationset.yaml` and `terra10-service.yaml`.
+The files can be found in the `lab 31` director as `terra10-replicaset.yaml` and `terra10-service.yaml`.
 
 Start the ReplicaSet and Service:
 
 ```bash
-developer@developer-VirtualBox:~/projects/k4d/lab 31$ k create -f terra10-replicationset.yaml 
+developer@developer-VirtualBox:~/projects/k4d/lab 31$ k create -f terra10-replicaset.yaml 
 replicaset.apps/terra10-rs created
 developer@developer-VirtualBox:~/projects/k4d/lab 31$ k create -f terra10-service-loadbalancer.yaml 
 service/terra10-loadbalancer created
@@ -323,7 +323,7 @@ Again, first, verify that in your separate window the *curl test loop* still run
 
 **new ReplicaSet**
 
-Next, have a look at the new ReplicaSet definition (`terra10-replicationset-r2.yaml`):
+Next, have a look at the new ReplicaSet definition (`terra10-replicaset-r2.yaml`):
 
 ```bash
 apiVersion: apps/v1beta2
@@ -358,9 +358,9 @@ NAME               READY     STATUS    RESTARTS   AGE       LABELS
 terra10-rs-2jtmc   1/1       Running   0          10m       app=terra10
 terra10-rs-42m4n   1/1       Running   0          15m       app=terra10
 terra10-rs-gdqnh   1/1       Running   0          11m       app=terra10
-developer@developer-VirtualBox:~/projects/k4d/lab 31$ k create -f terra10-replicationset
-terra10-replicationset-r2.yaml  terra10-replicationset.yaml     
-developer@developer-VirtualBox:~/projects/k4d/lab 31$ k create -f terra10-replicationset-r2.yaml 
+developer@developer-VirtualBox:~/projects/k4d/lab 31$ k create -f terra10-replicaset
+terra10-replicaset-r2.yaml  terra10-replicaset.yaml     
+developer@developer-VirtualBox:~/projects/k4d/lab 31$ k create -f terra10-replicaset-r2.yaml 
 replicaset.apps/terra10-rs-r2 created
 developer@developer-VirtualBox:~/projects/k4d/lab 31$ k get pod --show-labels 
 NAME                  READY     STATUS    RESTARTS   AGE       LABELS

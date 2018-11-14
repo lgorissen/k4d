@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: ReplicationController
+metadata:
+  name: terra10-rc
+spec:
+  replicas: 3
+  selector:
+    app: terra10
+  template:
+    metadata:
+      labels:
+        app: terra10
+    spec:
+      containers:
+      - name: terra10
+        image: lgorissen/terra10:r1
