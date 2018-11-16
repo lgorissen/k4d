@@ -1,0 +1,15 @@
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  name: terra10-dpl
+spec:
+  replicas: 3
+  template:
+    metadata:
+      name: terra10
+      labels:
+        app: terra10
+    spec:
+      containers:
+      - name: terra10
+        image: lgorissen/terra10:r1

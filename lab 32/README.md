@@ -253,14 +253,14 @@ developer@developer-VirtualBox:~/projects/k4d/lab 32$
 
 ## Summary
 
-In the previous lab, we agreed that a manual upgrade was complex and error prone. Well ... they may be people that claim otherwise, but just don't believe them.
+In the previous lab, we agreed that a manual upgrade was complex and error prone. Well ... there may be people that claim otherwise, but just don't believe them.
 
 This lab has shown an automatic upgrade of an ReplicationController, which is ... still not quite what we want. Basically, the upgrade is now automated, but still has some shortcomings:
 
 - the upgrade messes with your ReplicationController definition. It adds labels and even replaces it with a complete different one. Now that is confusing: you want your resources under version control and not being changed by the platform itself. 
 - in case of an error during the upgrade, the system will be left behind in an inconsistent status for the involved Pods and ReplicationController(s). And note that the upgrade is driven from `kubectl`, sending out commands to the Kubernetes objects. A network failure would be enough to stop the upgrade.
 
-Thenext labs shows how upgrades are done using a ... *Deployment*.
+The next lab shows how upgrades are done using a ... *Deployment*.
 
  But first ...
 
