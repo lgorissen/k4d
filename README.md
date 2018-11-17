@@ -43,3 +43,4 @@ The labs in this archive cover the following topics:
 |31 | Upgrades  | ReplicaSet based - manual    | manual upgrade of a ReplicaSet |
 |32 | Upgrades  | ReplicacationController based - automatic    | automatic, rolling upgrade of a ReplicationController |
 |33 | Upgrades  | Deployments - using the Kubernetes Deployment |  how you should do it ... |
+|34 | Upgrades  | Deployments - readiness probes block bad rollouts | Bad Bad   Developer |

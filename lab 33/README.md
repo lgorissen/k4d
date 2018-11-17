@@ -342,6 +342,9 @@ deployment.extensions/terra10-dpl
 developer@developer-VirtualBox:~/projects/k4d/lab 33$ 
 ```
 
+Note that the Revision numbers correspond to the ReplicaSets that are created bu the Deployment!
+
+
 By now, you should be able to:
 
 - Watch your test window!
