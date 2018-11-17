@@ -7,7 +7,7 @@ The previous labs have shown 2 options how to upgrade - manually and using the R
 
 The Deployment uses a ReplicaSet which in turn controls the Pods:
 
-[todo: add image]
+![](img/lab33-deployment-setup.png)
 
 To be more precise: the Deployment creates the ReplicaSet that in turn controls the Pods.
  
@@ -100,15 +100,32 @@ developer@developer-VirtualBox:~$
 
 So far, all is OK. Ready for upgrade.
 
+## Upgrade - the theory
+
+The start situation for the upgrade is:
+
+![start](img/lab33-deployment-start.png)
+
+After giving the upgrade command,the Deployment adds a new ReplicationSet and gradually adds/removes Pods:
+
+![start](img/lab33-deployment-during-upgrade.png)
+
+Until the final situation is reached:
+
+![start](img/lab33-deployment-final.png)
+
+Note that the ReplicaSet remains present i.e. it is not deleted. That will make a rollback easier.
+ 
 
 ## Upgrade - for real ;-)
 
 So, ready to do the upgrade for real?
 
-Upgrading with a Deployment is easy: just change the Containre image name in the Deployment manifest and ... Kubernetes will handle the rest.
+Upgrading with a Deployment is easy: just change the Container image name in the Deployment manifest and ... Kubernetes will handle the rest.
 
 **Apply brakes**
-There's only one thing you need to do before upgrading, and that is to slow donw the upgrade, so you can monitor in your test loop what is happening:
+
+There's only one thing you need to do before upgrading, and that is to slow down the upgrade, so you can monitor in your test loop what is happening:
 
 ```bash
 developer@developer-VirtualBox:~/projects/k4d/lab 33$ k patch deployment terra10-dpl -p '{"spec": {"minReadySeconds":20}}'
@@ -177,6 +194,15 @@ Hello, you landed on Terra10 (version r2) and host terra10-dpl-78599579b-jnzzf w
 ```
 
 ... until finally all responses come from the new Container image.
+
+The upgrade:
+
+1. created a new ReplicaSet
+2. gradually deleted Pods in the old Replicaset and create new Pods in the new ReplicaSet
+
+The new situation is:
+
+
 
 **verify new situation**
 
