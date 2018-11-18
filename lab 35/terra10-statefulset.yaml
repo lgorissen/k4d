@@ -1,0 +1,40 @@
+apiVersion: apps/v1beta1
+kind: StatefulSet
+metadata:
+  name: terra10
+spec:
+  serviceName: terra10
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        app: terra10
+    spec:
+      containers:
+      - image: lgorissen/terra10-transporter:podname
+        name: terra10-transporter
+        volumeMounts:
+        - name: transportlog
+          mountPath: /tmp
+        ports:
+        - containerPort: 8092
+          protocol: TCP
+      - image: lgorissen/terra10-monitor
+        name: terra10-monitor
+        volumeMounts:
+        - name: transportlog
+          mountPath: /var/log
+          readOnly: true
+        ports:
+        - containerPort: 8090
+          protocol: TCP
+  volumeClaimTemplates:
+  - metadata:
+      name: transportlog
+    spec:
+      resources:
+        requests:
+          storage: 1Mi
+      accessModes:
+      - ReadWriteOnce
+      storageClassName: standard

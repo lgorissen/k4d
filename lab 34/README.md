@@ -236,7 +236,7 @@ developer@developer-VirtualBox:~/projects/k4d/lab 34$ k rollout undo deployment 
 deployment.extensions/terra10-dpl
 developer@developer-VirtualBox:~/projects/k4d/lab 34$
 ```
-Note that the Revision numbers correspond to the ReplicaSets that are created bu the Deployment!
+Note that the Revision numbers correspond to the ReplicaSets that are created by the Deployment!
 
 
 Clean up!
