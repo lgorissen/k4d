@@ -41,13 +41,13 @@ A StatefulSet, just like a ReplicaSet, creates a number of Pods from the Pod tem
 
 In the figure below, there is a StatefulSet named *S*, and 3 Pods that have names *S-0*, *S-1* and *S-2*:
 
-[lab35-predictable-host-names]
+![lab35-predictable-host-names](img/lab35-predictable-host-names.png)
 
 This results in Pods having a predictable hostname, in our case *S-0*, *S-1* and *S-2*. However, that is not enough! It must be possible for clients to address a specific Pod. Unlike the stateless Pods, where a LoadBalancer Service distrubutes requests over all available Pods, the statefull application has different requirements: the client must be able to address a specific Pod.
 
-For this requirements the Headless Service can be used. This Service controls the domain of the Pods, and is also known as the *governing service*:
+For these requirements the Headless Service can be used. This Service controls the domain of the Pods, and is also known as the *governing service*:
 
-[C:\Users\lgori\Documents\800 sig\100 k4d\lab35-predictable-host-names-and-hs.png]
+![predictable-host-names-and-hs](img/lab35-predictable-host-names-and-hs.png)
 
 All Pods will then have their own DNS entry. Our example is illustrated with the table below for Pod S-0. Assume that all values indicate that all objects are in namespace *default*:
 
@@ -66,7 +66,7 @@ With all these Pod DNS records available, a client can address Pods directly.
 
 Next step is to add storage to the Pods. The StatefulSet definition can also have Volume Claim Templates that define how/what Persistent Volume Claims the Pods will do:
 
-[C:\Users\lgori\Documents\800 sig\100 k4d\lab35-added-storage.png]
+![added-storage](img/lab35-added-storage.png)
 
 For each VolumeClaimTemplate, Kubernetes creates for each Pods a Persistent Volume Claim and the corresponding Persistent Volume.
 
@@ -87,14 +87,14 @@ The above set of rules ensures that deployment and scaling operations are only e
 
 With respect to scaling, it is important to understand what happens with Pods and their storage. When the size of a StatefulSet is decreased, scale down, the N-1 Pod is deleted:
 
-[scale down]
+![scale down](img/lab35-scale-down.png)
 
 Note that the corresponding storage remains in place.
 Now, when scaling up again, the new Pod will (re-)use the still present storage:
 
 That behaviour around storage, together with assigning the same Pod (DNS) names, gives a predictable, stable network and storage experience.
 
-[scale up]
+![scale up](img/lab35-scale-up.png)
 
 
 **Recovery**
@@ -133,7 +133,7 @@ For further details on updates, like e.g. Partitions, please refer to the Kubern
 
 So far, a lot of theory. Now it's time to get to work. We will create an example based on the set-up in Lab 19:
 
-[earlier set-up]
+![earlier set-up](img/lab35-earlier-setup.png)
 
 We will re-structure this set-up into a configuration of multiple transporters that write their data into a log file. We will change the Container slightly: it will write the Pod's hostname into the log file... The code - as well as all the other files -  is available in the `lab 35` directory.
 
@@ -141,7 +141,7 @@ The Container images are available in Docker Hub: `lgorissen/terra10-transporter
 
 The set-up we will make is shown below:
 
-[example set-up]
+![example set-up](img/lab35-example-set-up.png)
 
 The above set-up will be created in 2 steps:
 
@@ -261,7 +261,7 @@ developer@developer-VirtualBox:~/projects/k4d/lab 35$
 
 By now, we have created our example set-up:
 
-[add same image again]
+![example set-up](img/lab35-example-set-up.png)
 
 
 
@@ -401,7 +401,7 @@ In tabular format, we expect our situation to be:
 | Pod hostname       | terra10-1                              |
 | Pod DNS            | terra10-1.terra10-hs.default.svc.cluster.local |
 
-To test this
+To test this [lgo: show how to retrieve the DNS records]
 
 
 Clean up!
