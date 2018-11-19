@@ -401,7 +401,54 @@ In tabular format, we expect our situation to be:
 | Pod hostname       | terra10-1                              |
 | Pod DNS            | terra10-1.terra10-hs.default.svc.cluster.local |
 
-To test this [lgo: show how to retrieve the DNS records]
+Look at the hostname:
+
+```bash
+developer@developer-VirtualBox:~$ k exec terra10-0 -c terra10-transporter -- /bin/sh -c 'hostname'; 
+terra10-0
+developer@developer-VirtualBox:~$ k exec terra10-1 -c terra10-transporter -- /bin/sh -c 'hostname'; 
+terra10-1
+developer@developer-VirtualBox:~$ 
+
+```
+The full hostname:
+
+```bash
+developer@developer-VirtualBox:~$ k exec terra10-0 -c terra10-transporter -- /bin/sh -c 'hostname -A'; 
+terra10-0.terra10.default.svc.cluster.local 
+developer@developer-VirtualBox:~$ k exec terra10-1 -c terra10-transporter -- /bin/sh -c 'hostname -A'; 
+terra10-1.terra10.default.svc.cluster.local 
+developer@developer-VirtualBox:~$ 
+```
+
+From another Pod, nslookup can discover the IP addresses of the Pods behind the Headless Service:
+
+```bash
+developer@developer-VirtualBox:~$ k run busybox --image=busybox:1.28.4 --command -- sleep 3600 
+developer@developer-VirtualBox:~$ k get pod
+NAME                      READY     STATUS    RESTARTS   AGE
+busybox-c8d74cd49-6wh2s   1/1       Running   0          1m
+terra10-0                 2/2       Running   0          48m
+terra10-1                 2/2       Running   0          47m
+developer@developer-VirtualBox:~$ k exec -it busybox-c8d74cd49-6wh2s /bin/sh
+/ # nslookup terra10-0.terra10-hs.default.svc.cluster.local
+Server:    10.96.0.10
+Address 1: 10.96.0.10 kube-dns.kube-system.svc.cluster.local
+
+Name:      terra10-0.terra10-hs.default.svc.cluster.local
+Address 1: 172.17.0.6 terra10-0.terra10-hs.default.svc.cluster.local
+/ # nslookup terra10-hs.default.svc.cluster.local
+Server:    10.96.0.10
+Address 1: 10.96.0.10 kube-dns.kube-system.svc.cluster.local
+
+Name:      terra10-hs.default.svc.cluster.local
+Address 1: 172.17.0.5 terra10-0.terra10-hs.default.svc.cluster.local
+Address 2: 172.17.0.6 terra10-1.terra10-hs.default.svc.cluster.local
+/ #
+```
+
+So far, all that the Headless Service promised us has been delivered. Thanks!
+
 
 
 Clean up!
