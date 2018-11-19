@@ -3,7 +3,7 @@ kind: StatefulSet
 metadata:
   name: terra10
 spec:
-  serviceName: terra10
+  serviceName: terra10-hs
   replicas: 2
   template:
     metadata:
