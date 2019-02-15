@@ -11,7 +11,7 @@ The labs in this archive cover the following topics:
 |Nr | Category  | Lab                          | Description                                   |
 |---|-----------|------------------------------|-----------------------------------------------|
 |1  | Setup     | Preparing the environment    | Install the minikube Kubernetes environment   |
-|2  | Example   | Run that app on Kubernetes   | Run a container in a Kubernetes Pod           |
+|2  | Example   | Run that app on Kubernetes   | Run a Container in a Kubernetes Pod           |
 |3  | Pod       | Scale and monitor that Pod!  | Use a ReplicationController for scaling your app|
 |4  | Pod       | Pods and YAML (and JSON) (and Logs) | Create a Pod from a manifest file      |
 |5  | Labels    | Pods and labels              | Organize your Pods with Labels                |
@@ -30,18 +30,18 @@ The labs in this archive cover the following topics:
 |18 | Volumes   | Volume emptyDir              | Share data between Pods using a Volume |
 |19 | Volumes   | Volume hostPath              | Worker Node file system |
 |20 | Volumes   | Volume gitRepo               | Clones a Git repository into the mounted empty directory | 
-|21 | Volumes   | Volume configMap             | Inject configuration information in your Pod |
+|21 | Volumes   | Volume configMap             | Inject configuration information into your Pod |
 |22 | Volumes   | Volume configMap advanced    | Handling config files and directories |
 |23 | Volumes   | Volume secret                | Passing sensitive information to Pods |
 |24 | Volumes   | Volume downwardAPI           | Accessing downward API data |
 |25 | Volumes   | Persistent Volumes           | Hiding tech details from the developer |
-|26 | Volumes   | Dynamic Volume Provisioning  | Hiding the developer from the administrator |
+|26 | Volumes   | Dynamic Volume Provisioning  | Hiding the developer from the administrator (or vice versa)|
 |27 | k8s API Server | Kubernetes API Server   | Access via the kubectl proxy |
 |28 | k8s API Server | Kubernetes API Server   | Curl from within a Pod |
-|29 | k8s API Server | Kubernetes API Server   | Curl and a sidercar Container |
+|29 | k8s API Server | Kubernetes API Server   | Curl and a sidecar Container |
 |30 | k8s API Server | Kubernetes API Server   | Client libraries |
-|31 | Upgrades  | ReplicaSet based - manual    | manual upgrade of a ReplicaSet |
-|32 | Upgrades  | ReplicacationController based - automatic    | automatic, rolling upgrade of a ReplicationController |
-|33 | Upgrades  | Deployments - using the Kubernetes Deployment |  how you should do it ... |
+|31 | Upgrades  | ReplicaSet based - manual    | Manual upgrade of a ReplicaSet |
+|32 | Upgrades  | ReplicacationController based - automatic    | Automatic, rolling upgrade of a ReplicationController |
+|33 | Upgrades  | Deployments - using the Kubernetes Deployment |  How you **should** do it ... |
 |34 | Upgrades  | Deployments - readiness probes block bad rollouts | Bad Bad Developer |
 |35 | StatefulSet  | StatefulSet | Handling stateful applications |

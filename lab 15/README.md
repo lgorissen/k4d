@@ -13,16 +13,16 @@ This lab starts with the situation from the previous lab, so a couple of Service
 2. Inspect the environment variables in a Pod
 
 ```bash
-developer@developer-VirtualBox:~/projects/k4d$ k delete pod --all
+developer@developer-VirtualBox:~/projects/k4d$ kubectl delete pod --all
 pod "terra10-rc-49zr2" deleted
 pod "terra10-rc-dvbqv" deleted
 pod "terra10-rc-wmfcl" deleted
-developer@developer-VirtualBox:~/projects/k4d$ k get pod
+developer@developer-VirtualBox:~/projects/k4d$ kubectl get pod
 NAME               READY     STATUS    RESTARTS   AGE
 terra10-rc-h2svz   1/1       Running   0          42s
 terra10-rc-mgtt2   1/1       Running   0          42s
 terra10-rc-ndfww   1/1       Running   0          42s
-developer@developer-VirtualBox:~/projects/k4d$ k exec terra10-rc-h2svz env | sort
+developer@developer-VirtualBox:~/projects/k4d$ kubectl exec terra10-rc-h2svz env | sort
 HOME=/root
 HOSTNAME=terra10-rc-h2svz
 KUBERNETES_PORT_443_TCP_ADDR=10.96.0.1
@@ -62,7 +62,7 @@ developer@developer-VirtualBox:~/projects/k4d$
 You can examine the output and see that a set of env variables is present for the services TERRA10, TERRA10\_NODEPORT and TERRA10\_LOADBALANCER. That matches with:
 
 ```bash
-developer@developer-VirtualBox:~/projects/k4d$ k get service
+developer@developer-VirtualBox:~/projects/k4d$ kubectl get service
 NAME                   TYPE           CLUSTER-IP      EXTERNAL-IP   PORT(S)        AGE
 kubernetes             ClusterIP      10.96.0.1       <none>        443/TCP        11d
 terra10                ClusterIP      10.102.181.8    <none>        80/TCP         5h
@@ -82,7 +82,7 @@ A Kubernetes platform runs a DNS service. First some discovery stuff...
 Look at the Pods in the `kube-system` namespace:
 
 ```bash
-developer@developer-VirtualBox:~/projects/k4d$ k get pod --namespace=kube-system 
+developer@developer-VirtualBox:~/projects/k4d$ kubectl get pod --namespace=kube-system 
 NAME                                        READY     STATUS    RESTARTS   AGE
 default-http-backend-59868b7dd6-wvjvv       1/1       Running   0          2h
 etcd-minikube                               1/1       Running   20         11d
@@ -102,7 +102,7 @@ Note the `kube-dns-86f4d74b45-gkfkm` Pod in the listing above.
 Look at the services in the `kube-system` namespace:
 
 ```bash
-developer@developer-VirtualBox:~/projects/k4d$ k get service --namespace=kube-system 
+developer@developer-VirtualBox:~/projects/k4d$ kubectl get service --namespace=kube-system 
 NAME                   TYPE        CLUSTER-IP      EXTERNAL-IP   PORT(S)         AGE
 default-http-backend   NodePort    10.96.244.39    <none>        80:30001/TCP    2h
 kube-dns               ClusterIP   10.96.0.10      <none>        53/UDP,53/TCP   11d
@@ -128,11 +128,11 @@ Out 3 services from above have the following FQDN names:
 Let's try it by running a curl command from within a Pod:
 
 ```bash
-developer@developer-VirtualBox:~/projects/k4d$ k exec terra10-rc-h2svz -- curl -s terra10.default.svc.cluster.local
+developer@developer-VirtualBox:~/projects/k4d$ kubectl exec terra10-rc-h2svz -- curl -s terra10.default.svc.cluster.local
 Hello, you landed on Terra10 and host terra10-rc-mgtt2 welcomes you!
-developer@developer-VirtualBox:~/projects/k4d$ k exec terra10-rc-h2svz -- curl -s terra10-loadbalancer.default.svc.cluster.local
+developer@developer-VirtualBox:~/projects/k4d$ kubectl exec terra10-rc-h2svz -- curl -s terra10-loadbalancer.default.svc.cluster.local
 Hello, you landed on Terra10 and host terra10-rc-ndfww welcomes you!
-developer@developer-VirtualBox:~/projects/k4d$ k exec terra10-rc-h2svz -- curl -s terra10-nodeport.default.svc.cluster.local
+developer@developer-VirtualBox:~/projects/k4d$ kubectl exec terra10-rc-h2svz -- curl -s terra10-nodeport.default.svc.cluster.local
 Hello, you landed on Terra10 and host terra10-rc-ndfww welcomes you!
 developer@developer-VirtualBox:~/projects/k4d$ 
 ````

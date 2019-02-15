@@ -67,9 +67,9 @@ Let's get this to work. Create the directory and post the manifest file:
 
 ```bash
 developer@developer-VirtualBox:~/projects/k4d/lab 19$ mkdir /tmp/terra10-transporter
-developer@developer-VirtualBox:~/projects/k4d/lab 19$ k create -f terra10-transporter-hostpath.yaml 
+developer@developer-VirtualBox:~/projects/k4d/lab 19$ kubectl create -f terra10-transporter-hostpath.yaml 
 pod/terra10-transporter-hostpath created
-developer@developer-VirtualBox:~/projects/k4d/lab 19$ k get pod terra10-transporter-hostpath 
+developer@developer-VirtualBox:~/projects/k4d/lab 19$ kubectl get pod terra10-transporter-hostpath 
 NAME                           READY     STATUS    RESTARTS   AGE
 terra10-transporter-hostpath   2/2       Running   0          11s
 developer@developer-VirtualBox:~/projects/k4d/lab 19$
@@ -77,7 +77,7 @@ developer@developer-VirtualBox:~/projects/k4d/lab 19$
 Find the IP address of the Pod:
 
 ```bash
-developer@developer-VirtualBox:~/projects/k4d/lab 19$ k describe pod terra10-transporter-hostpath 
+developer@developer-VirtualBox:~/projects/k4d/lab 19$ kubectl describe pod terra10-transporter-hostpath 
 Name:         terra10-transporter-hostpath
 Namespace:    default
 Node:         minikube/10.0.2.15
@@ -124,14 +124,14 @@ Proof of the pudding:
 
 
 ```bash
-developer@developer-VirtualBox:~/projects/k4d/lab 19$ k delete pod terra10-transporter-hostpath 
+developer@developer-VirtualBox:~/projects/k4d/lab 19$ kubectl delete pod terra10-transporter-hostpath 
 pod "terra10-transporter-hostpath" deleted
 developer@developer-VirtualBox:~/projects/k4d/lab 19$ more /tmp/terra10-transporter/transporter.log 
 Luc is transported from DenBosch to Moon
 Elvis is transported from DenBosch to Moon
-developer@developer-VirtualBox:~/projects/k4d/lab 19$ k create -f terra10-transporter-hostpath.yaml 
+developer@developer-VirtualBox:~/projects/k4d/lab 19$ kubectl create -f terra10-transporter-hostpath.yaml 
 pod/terra10-transporter-hostpath created
-developer@developer-VirtualBox:~/projects/k4d/lab 19$ k describe pod terra10-transporter-hostpath 
+developer@developer-VirtualBox:~/projects/k4d/lab 19$ kubectl describe pod terra10-transporter-hostpath 
 Name:         terra10-transporter-hostpath
 Namespace:    default
 Node:         minikube/10.0.2.15

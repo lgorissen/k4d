@@ -48,9 +48,15 @@ For installation of minikube, goto [the minikube releases page](https://github.c
 
 Run the installation as described in the page above.
 
-E.g., run the Linux intallation:
+E.g., run the Linux installation:
+
 `curl -Lo minikube https://storage.googleapis.com/minikube/releases/v0.28.2/minikube-linux-amd64 && chmod +x minikube && sudo mv minikube /usr/local/bin/`
-and then run the `minikube start` command
+
+and then run the 
+
+`minikube start` 
+
+command
 
 Tip: when running minikube in a VirtualBox virtual machine, the startup command will look like:
 ```bash
@@ -68,14 +74,31 @@ KubeDNS is running at https://10.0.2.15:8443/api/v1/namespaces/kube-system/servi
 To further debug and diagnose cluster problems, use 'kubectl cluster-info dump'.
 developer@developer-VirtualBox:~$
 ```
-Pointing your browser to the Kubernetes master url (here: https://10.0.2.15:8443) should bring you to the Kubernetes console:
+**Kubernetes dashboard**
+
+Kubernetes has a web app dashboard, but you first need to find the url where it is exposed:
+```bash
+developer@developer-VirtualBox:~/projects/k4d$ kubectl get service -n kube-system kubernetes-dashboard 
+NAME                   TYPE        CLUSTER-IP      EXTERNAL-IP   PORT(S)   AGE
+kubernetes-dashboard   ClusterIP   10.104.211.28   <none>        80/TCP    18m
+developer@developer-VirtualBox:~/projects/k4d$
+```
+Pointing your browser to  http://10.104.211.28 should bring you to the Kubernetes console (yes, the shown url in the figure does not match):
 
 ![dashboard](img/lab1-dashboard.png)
 
 **Autocomplete for kubectl**
 
-A lot of exercises will require uasage of the kubectl command and argument. Therefore, it may be very useful to have an alias for kubectl (e.g, 'k') and to use the kubectl autocompletion.
-How to configure this is described [here](https://kubernetes.io/docs/tasks/tools/install-kubectl/#enabling-shell-autocompletion).
+A lot of exercises will require usage of the kubectl command and argument. Therefore, it may be very useful to have an alias for kubectl (e.g, 'k') and to use the kubectl autocompletion.
+How to configure kubectl autocompletion is described [here](https://kubernetes.io/docs/tasks/tools/install-kubectl/#enabling-shell-autocompletion).
+
+If you want to use kubectl autocompletion together with an alias for kubectl, your .bashrc file may look like:
+
+```bash
+source <(kubectl completion bash | sed s/kubectl/k/g)
+alias k=kubectl
+```
+
 
 For windows ... it's a bit more difficult: look [here]( https://medium.com/@sandipchitale/command-completion-for-minikube-and-kubectl-on-windows-10-580710bc464c)
 
@@ -83,4 +106,4 @@ Finally, you will end up with a Kubernetes system that has all the components of
 
 ![kubernetes architecture](img/lab1-overview.png)
 
-For reference: Kubernetes documentation can be found ![here](http://kubernetes.io/docs/reference/). Throughout all labs, you can refer here for more information about all the different Kubernetes objects.
+For reference: Kubernetes documentation can be found [here](http://kubernetes.io/docs/reference/). Throughout all labs, you can refer here for more information about all the different Kubernetes objects.

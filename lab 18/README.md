@@ -75,9 +75,9 @@ spec:
 Now, let's fire up the Pod:
 
 ```bash
-developer@developer-VirtualBox:~/projects/k4d/lab 18$ k create -f terra10-transporter.yaml 
+developer@developer-VirtualBox:~/projects/k4d/lab 18$ kubectl create -f terra10-transporter.yaml 
 pod/terra10-transporter created
-developer@developer-VirtualBox:~/projects/k4d/lab 18$ k describe pod terra10-transporter 
+developer@developer-VirtualBox:~/projects/k4d/lab 18$ kubectl describe pod terra10-transporter 
 Name:         terra10-transporter
 Namespace:    default
 Node:         minikube/10.0.2.15
@@ -121,7 +121,7 @@ Now, the specification says that the emptyDir volume survives the Container re-s
 Get the 2 Docker Container IDs from the Pod description and stop them:
 
 ```bash
-developer@developer-VirtualBox:~/projects/k4d/lab 18$ k describe pod terra10-transporter 
+developer@developer-VirtualBox:~/projects/k4d/lab 18$ kubectl describe pod terra10-transporter 
 Name:         terra10-transporter
 Namespace:    default
 Node:         minikube/10.0.2.15

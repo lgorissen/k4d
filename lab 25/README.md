@@ -200,12 +200,12 @@ spec:                                   # specification of the Volume
 Now, let's create the Persistent Volume:
 
 ```bash
-developer@developer-VirtualBox:~/projects/k4d/lab 25$ k create -f terra10-transporter-pv.yaml 
+developer@developer-VirtualBox:~/projects/k4d/lab 25$ kubectl create -f terra10-transporter-pv.yaml 
 persistentvolume/terra10-transporter-pv created
-developer@developer-VirtualBox:~/projects/k4d/lab 25$ k get pv terra10-transporter-pv 
+developer@developer-VirtualBox:~/projects/k4d/lab 25$ kubectl get pv terra10-transporter-pv 
 NAME                     CAPACITY   ACCESS MODES   RECLAIM POLICY   STATUS      CLAIM     STORAGECLASS   REASON    AGE
 terra10-transporter-pv   1Gi        RWO,ROX        Retain           Available                                      11s
-developer@developer-VirtualBox:~/projects/k4d/lab 25$ k describe pv terra10-transporter-pv 
+developer@developer-VirtualBox:~/projects/k4d/lab 25$ kubectl describe pv terra10-transporter-pv 
 Name:            terra10-transporter-pv
 Labels:          <none>
 Annotations:     <none>
@@ -248,12 +248,12 @@ spec:
 Claim the Volume:
 
 ```bash
-developer@developer-VirtualBox:~/projects/k4d/lab 25$ k create -f terra10-transporter-pvc.yaml 
+developer@developer-VirtualBox:~/projects/k4d/lab 25$ kubectl create -f terra10-transporter-pvc.yaml 
 persistentvolumeclaim/terra10-transporter-pvc created
-developer@developer-VirtualBox:~/projects/k4d/lab 25$ k get pvc terra10-transporter-pvc 
+developer@developer-VirtualBox:~/projects/k4d/lab 25$ kubectl get pvc terra10-transporter-pvc 
 NAME                      STATUS    VOLUME                   CAPACITY   ACCESS MODES   STORAGECLASS   AGE
 terra10-transporter-pvc   Bound     terra10-transporter-pv   1Gi        RWO,ROX                       6s
-developer@developer-VirtualBox:~/projects/k4d/lab 25$ k describe pvc terra10-transporter-pvc 
+developer@developer-VirtualBox:~/projects/k4d/lab 25$ kubectl describe pvc terra10-transporter-pvc 
 Name:          terra10-transporter-pvc
 Namespace:     default
 StorageClass:  
@@ -312,12 +312,12 @@ Note how similar this manifest is to the one for Lab 18: only the Volume specifi
 Go!
 
 ```bash
-developer@developer-VirtualBox:~/projects/k4d/lab 25$ k create -f terra10-transporter.yaml 
+developer@developer-VirtualBox:~/projects/k4d/lab 25$ kubectl create -f terra10-transporter.yaml 
 pod/terra10-transporter created
-developer@developer-VirtualBox:~/projects/k4d/lab 25$ k get pod terra10-transporter
+developer@developer-VirtualBox:~/projects/k4d/lab 25$ kubectl get pod terra10-transporter
 NAME                  READY     STATUS    RESTARTS   AGE
 terra10-transporter   2/2       Running   0          8s
-developer@developer-VirtualBox:~/projects/k4d/lab 25$ k describe pod terra10-transporter
+developer@developer-VirtualBox:~/projects/k4d/lab 25$ kubectl describe pod terra10-transporter
 Name:         terra10-transporter
 Namespace:    default
 Node:         minikube/10.0.2.15
@@ -421,9 +421,9 @@ Just what we expected: the new Containers will use the same Volume.
 Now we delete the Pod and then re-create it again:
 
 ```bash
-developer@developer-VirtualBox:~/projects/k4d/lab 25$ k delete pod terra10-transporter
+developer@developer-VirtualBox:~/projects/k4d/lab 25$ kubectl delete pod terra10-transporter
 pod "terra10-transporter" deleted
-developer@developer-VirtualBox:~/projects/k4d/lab 25$ k create -f terra10-transporter.yaml 
+developer@developer-VirtualBox:~/projects/k4d/lab 25$ kubectl create -f terra10-transporter.yaml 
 pod/terra10-transporter created
 developer@developer-VirtualBox:~/projects/k4d/lab 25$ curl '172.17.0.12:8090/?name=JimmyHoffa&from=DenBosch&to=Moon'
 Hello, JimmyHoffa will be transported from DenBosch to Moon using the Terra10 transporter service
@@ -437,11 +437,11 @@ developer@developer-VirtualBox:~/projects/k4d/lab 25$
 Final tests: when we delete Pod, PVC and PV, the transport.log file should still be present, due to the *persistentVolumeReclaimPolicy* that was set to *Retain*:
 
 ```bash
-developer@developer-VirtualBox:~/projects/k4d/lab 25$ k delete pod terra10-transporter
+developer@developer-VirtualBox:~/projects/k4d/lab 25$ kubectl delete pod terra10-transporter
 pod "terra10-transporter" deleted
-developer@developer-VirtualBox:~/projects/k4d/lab 25$ k delete pvc terra10-transporter-pvc 
+developer@developer-VirtualBox:~/projects/k4d/lab 25$ kubectl delete pvc terra10-transporter-pvc 
 persistentvolumeclaim "terra10-transporter-pvc" deleted
-developer@developer-VirtualBox:~/projects/k4d/lab 25$ k describe pv terra10-transporter-pv 
+developer@developer-VirtualBox:~/projects/k4d/lab 25$ kubectl describe pv terra10-transporter-pv 
 Name:            terra10-transporter-pv
 Labels:          <none>
 Annotations:     pv.kubernetes.io/bound-by-controller=yes
@@ -459,7 +459,7 @@ Source:
     Path:          /tmp/terra10-transporter
     HostPathType:  
 Events:            <none>
-developer@developer-VirtualBox:~/projects/k4d/lab 25$ k delete pv terra10-transporter-pv 
+developer@developer-VirtualBox:~/projects/k4d/lab 25$ kubectl delete pv terra10-transporter-pv 
 persistentvolume "terra10-transporter-pv" deleted
 developer@developer-VirtualBox:~/projects/k4d/lab 25$ more /tmp/terra10-transporter/transporter.log 
 Luc is transported from DenBosch to Moon

@@ -85,12 +85,12 @@ spec:
 Let's put it to work:
 
 ```bash
-developer@developer-VirtualBox:~/projects/k4d/lab 29$ k create -f apiserver-via-sidecar.yaml 
+developer@developer-VirtualBox:~/projects/k4d/lab 29$ kubectl create -f apiserver-via-sidecar.yaml 
 pod/apiserver-via-sidecar created
-developer@developer-VirtualBox:~/projects/k4d/lab 29$ k get pod
+developer@developer-VirtualBox:~/projects/k4d/lab 29$ kubectl get pod
 NAME                    READY     STATUS    RESTARTS   AGE
 apiserver-via-sidecar   2/2       Running   0          11s
-developer@developer-VirtualBox:~/projects/k4d/lab 29$ k exec -it apiserver-via-sidecar -c main /bin/sh
+developer@developer-VirtualBox:~/projects/k4d/lab 29$ kubectl exec -it apiserver-via-sidecar -c main /bin/sh
 / #
 ```
 

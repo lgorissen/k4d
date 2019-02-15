@@ -35,22 +35,22 @@ spec:
 Well, there is hardly any surprise in that. Run it!
 
 ```bash
-developer@developer-VirtualBox:~/projects/k4d/lab 13$ k create -f terra10-cronjob.yaml 
+developer@developer-VirtualBox:~/projects/k4d/lab 13$ kubectl create -f terra10-cronjob.yaml 
 cronjob.batch/terra10-cronjob-10min created
-developer@developer-VirtualBox:~/projects/k4d/lab 13$ k get cronjobs
+developer@developer-VirtualBox:~/projects/k4d/lab 13$ kubectl get cronjobs
 NAME                    SCHEDULE                   SUSPEND   ACTIVE    LAST SCHEDULE   AGE
 terra10-cronjob-10min   0,10,20,30,40,50 * * * *   False     0         <none>          9s
-developer@developer-VirtualBox:~/projects/k4d/lab 13$ k get pod
+developer@developer-VirtualBox:~/projects/k4d/lab 13$ kubectl get pod
 No resources found.
 developer@developer-VirtualBox:~/projects/k4d/lab 13$
 ```
 So, the CronJob is started, but so far no Pods. We have to wait for the first timing moment ... and then a Pod is started:
 
 ```bash
-developer@developer-VirtualBox:~/projects/k4d$ k get cronjobs terra10-cronjob-10min 
+developer@developer-VirtualBox:~/projects/k4d$ kubectl get cronjobs terra10-cronjob-10min 
 NAME                    SCHEDULE                   SUSPEND   ACTIVE    LAST SCHEDULE   AGE
 terra10-cronjob-10min   0,10,20,30,40,50 * * * *   False     1         48s             10m
-developer@developer-VirtualBox:~/projects/k4d$ k get pod
+developer@developer-VirtualBox:~/projects/k4d$ kubectl get pod
 NAME                                     READY     STATUS    RESTARTS   AGE
 terra10-cronjob-10min-1537725600-85bwk   1/1       Running   0          48s
 developer@developer-VirtualBox:~/projects/k4d$
@@ -59,13 +59,13 @@ developer@developer-VirtualBox:~/projects/k4d$
 And when that first Pod has completed...:
 
 ```bash
-developer@developer-VirtualBox:~/projects/k4d$ k get cronjob
+developer@developer-VirtualBox:~/projects/k4d$ kubectl get cronjob
 NAME                    SCHEDULE                   SUSPEND   ACTIVE    LAST SCHEDULE   AGE
 terra10-cronjob-10min   0,10,20,30,40,50 * * * *   False     0         2m              12m
-developer@developer-VirtualBox:~/projects/k4d$ k get pod
+developer@developer-VirtualBox:~/projects/k4d$ kubectl get pod
 NAME                                     READY     STATUS      RESTARTS   AGE
 terra10-cronjob-10min-1537725600-85bwk   0/1       Completed   0          2m
-developer@developer-VirtualBox:~/projects/k4d$ k logs terra10-cronjob-10min-1537725600-85bwk 
+developer@developer-VirtualBox:~/projects/k4d$ kubectl logs terra10-cronjob-10min-1537725600-85bwk 
 Sun Sep 23 18:00:06 UTC 2018 Work started at Terra10
 Sun Sep 23 18:02:06 UTC 2018 Work finished at Terra10 - have a beer!
 developer@developer-VirtualBox:~/projects/k4d$

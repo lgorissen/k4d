@@ -7,7 +7,7 @@ So far, you always saw Services that forward requests to Pods. Well, ahum, we ha
 You may have already seen these endpoints when looking at the description of a service. For example:
 
 ```bash
-developer@developer-VirtualBox:~/projects/k4d/lab 16$ k describe service terra10
+developer@developer-VirtualBox:~/projects/k4d/lab 16$ kubectl describe service terra10
 Name:              terra10
 Namespace:         default
 Labels:            <none>
@@ -25,7 +25,7 @@ developer@developer-VirtualBox:~/projects/k4d/lab 16$
 The above listing shows 3 Endpoints. And as these Endpoints are a Kubernetes resource, we can query them:
 
 ```bash
-developer@developer-VirtualBox:~/projects/k4d/lab 16$ k get endpoints terra10
+developer@developer-VirtualBox:~/projects/k4d/lab 16$ kubectl get endpoints terra10
 NAME      ENDPOINTS                                          AGE
 terra10   172.17.0.11:8080,172.17.0.4:8080,172.17.0.6:8080   6h
 developer@developer-VirtualBox:~/projects/k4d/lab 16$
@@ -49,9 +49,9 @@ spec:
 So, let's create the Service:
 
 ```bash
-developer@developer-VirtualBox:~/projects/k4d/lab 16$ k create -f terra10-service-by-hostname.yaml 
+developer@developer-VirtualBox:~/projects/k4d/lab 16$ kubectl create -f terra10-service-by-hostname.yaml 
 service/terra10-service created
-developer@developer-VirtualBox:~/projects/k4d/lab 16$ k describe service terra10-service 
+developer@developer-VirtualBox:~/projects/k4d/lab 16$ kubectl describe service terra10-service 
 Name:              terra10-service
 Namespace:         default
 Labels:            <none>
@@ -70,12 +70,12 @@ This does not seem too fancy, but it is a very nice and powerfull concept: you c
 Time to verify if the Kubernetes FQDN works (we still have some pods running from lab 4):
 
 ```bash
-developer@developer-VirtualBox:~/projects/k4d/lab 16$ k get pod
+developer@developer-VirtualBox:~/projects/k4d/lab 16$ kubectl get pod
 NAME               READY     STATUS    RESTARTS   AGE
 terra10-rs-f99sq   1/1       Running   3          4d
 terra10-rs-j6d7s   1/1       Running   3          4d
 terra10-rs-p26rc   1/1       Running   3          4d
-developer@developer-VirtualBox:~/projects/k4d/lab 16$ k exec terra10-rs-f99sq -it bash
+developer@developer-VirtualBox:~/projects/k4d/lab 16$ kubectl exec terra10-rs-f99sq -it bash
 root@terra10-rs-f99sq:/# ping terra10-service
 PING terra10.io (52.47.106.157) 56(84) bytes of data.
 ^C
@@ -156,9 +156,9 @@ subsets:
 So the above manifest will create an endpoint to the 'external' service. Create it:
 
 ```bash
-developer@developer-VirtualBox:~/projects/k4d/lab 16$ k create -f dronebuzzers-service-endpoints.yaml 
+developer@developer-VirtualBox:~/projects/k4d/lab 16$ kubectl create -f dronebuzzers-service-endpoints.yaml 
 endpoints/dronebuzzers-service created
-developer@developer-VirtualBox:~/projects/k4d/lab 16$ k describe endpoints dronebuzzers-service 
+developer@developer-VirtualBox:~/projects/k4d/lab 16$ kubectl describe endpoints dronebuzzers-service 
 Name:         dronebuzzers-service
 Namespace:    default
 Labels:       <none>
@@ -195,7 +195,7 @@ spec:
 Create the Service:
 
 ```bash
-developer@developer-VirtualBox:~/projects/k4d/lab 16$ k create -f dronebuzzers-service.yaml 
+developer@developer-VirtualBox:~/projects/k4d/lab 16$ kubectl create -f dronebuzzers-service.yaml 
 service/dronebuzzers-service created
 developer@developer-VirtualBox:~/projects/k4d/lab 16$ 
 ```
@@ -208,12 +208,12 @@ You must have done that blindfolded by now.
 Testing of the Service will be done by logging in into an already running Pod and then invoking the External Service using its Kubernetes FQDN:
 
 ```bash
-developer@developer-VirtualBox:~/projects/k4d/lab 16$ k get pod
+developer@developer-VirtualBox:~/projects/k4d/lab 16$ kubectl get pod
 NAME               READY     STATUS    RESTARTS   AGE
 terra10-rs-f99sq   1/1       Running   6          7d
 terra10-rs-j6d7s   1/1       Running   6          7d
 terra10-rs-p26rc   1/1       Running   6          7d
-developer@developer-VirtualBox:~/projects/k4d/lab 16$ k exec terra10-rs-f99sq -it bash
+developer@developer-VirtualBox:~/projects/k4d/lab 16$ kubectl exec terra10-rs-f99sq -it bash
 root@terra10-rs-f99sq:/# curl dronebuzzers-service.default.svc.cluster.local:8082/parts
 [{"id":"DB-38406","type":"Motor","name":"DroneBuzzer regular","count":1,"price":18.95,"currency":"EUR"},{"id":"DB-38606","type":"Motor","name":"DroneBuzzer racer","count":1,"price":21.95,"currency":"EUR"},{"id":"DB-SC-622-25A","type":"Speedcontroller","name":"DroneBuzzer speedcontoller regular - 25A","count":1,"price":8.95,"currency":"EUR"},{"id":"DB-SC-629-40A","type":"Speedcontroller","name":"DroneBuzzer speedcontoller racer - 40A","count":1,"price":8.95,"currency":"EUR"},{"id":"DB-FC-9773-A","type":"Flightcontroller","name":"DroneBuzzer flightcontoller regular - 4ch","count":1,"price":24.15,"currency":"EUR"},{"id":"DB-FC-9773-R","type":"Speedcontroller","name":"DroneBuzzer speedcontoller racer - 4ch","count":1,"price":43.95,"currency":"EUR"}]root@terra10-rs-f99sq:/# 
 ```

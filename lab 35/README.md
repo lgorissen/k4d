@@ -178,9 +178,9 @@ spec:
 Create the Headless Service:
 
 ```bash
-developer@developer-VirtualBox:~/projects/k4d/lab 35$ k create -f terra10-service-headless.yaml 
+developer@developer-VirtualBox:~/projects/k4d/lab 35$ kubectl create -f terra10-service-headless.yaml 
 service/terra10-hs created
-developer@developer-VirtualBox:~/projects/k4d/lab 35$ k get service terra10-hs 
+developer@developer-VirtualBox:~/projects/k4d/lab 35$ kubectl get service terra10-hs 
 NAME         TYPE        CLUSTER-IP   EXTERNAL-IP   PORT(S)             AGE
 terra10-hs   ClusterIP   None         <none>        8090/TCP,8092/TCP   7s
 developer@developer-VirtualBox:~/projects/k4d/lab 35$ 
@@ -239,20 +239,20 @@ spec:                                     # spec of StatefulSet
 Create the StatefulSet and verify that all expected components are there:
 
 ```bash
-developer@developer-VirtualBox:~/projects/k4d/lab 35$ k create -f terra10-statefulset.yaml 
+developer@developer-VirtualBox:~/projects/k4d/lab 35$ kubectl create -f terra10-statefulset.yaml 
 statefulset.apps/terra10 created
-developer@developer-VirtualBox:~/projects/k4d/lab 35$ k get statefulset
+developer@developer-VirtualBox:~/projects/k4d/lab 35$ kubectl get statefulset
 NAME      DESIRED   CURRENT   AGE
 terra10   2         2         8s
-developer@developer-VirtualBox:~/projects/k4d/lab 35$ k get pod
+developer@developer-VirtualBox:~/projects/k4d/lab 35$ kubectl get pod
 NAME        READY     STATUS    RESTARTS   AGE
 terra10-0   2/2       Running   0          16s
 terra10-1   2/2       Running   0          11s
-developer@developer-VirtualBox:~/projects/k4d/lab 35$ k get pvc
+developer@developer-VirtualBox:~/projects/k4d/lab 35$ kubectl get pvc
 NAME                     STATUS    VOLUME                                     CAPACITY   ACCESS MODES   STORAGECLASS   AGE
 transportlog-terra10-0   Bound     pvc-d5db8547-eb5f-11e8-ada0-0800276251a2   1Mi        RWO            standard       21s
 transportlog-terra10-1   Bound     pvc-d8a36fe1-eb5f-11e8-ada0-0800276251a2   1Mi        RWO            standard       16s
-developer@developer-VirtualBox:~/projects/k4d/lab 35$ k get pv
+developer@developer-VirtualBox:~/projects/k4d/lab 35$ kubectl get pv
 NAME                                       CAPACITY   ACCESS MODES   RECLAIM POLICY   STATUS    CLAIM                            STORAGECLASS   REASON    AGE
 pvc-d5db8547-eb5f-11e8-ada0-0800276251a2   1Mi        RWO            Delete           Bound     default/transportlog-terra10-0   standard                 26s
 pvc-d8a36fe1-eb5f-11e8-ada0-0800276251a2   1Mi        RWO            Delete           Bound     default/transportlog-terra10-1   standard                 21s
@@ -275,7 +275,7 @@ Now it is time to start testing.
 The Pod has 2 Containers. One for transporting someone and one for checking the transporter log. Let's check if Pod *terra10-0* works:
 
 ```bash
-developer@developer-VirtualBox:~/projects/k4d/lab 35$ k describe pod terra10-0 | grep "^IP" 
+developer@developer-VirtualBox:~/projects/k4d/lab 35$ kubectl describe pod terra10-0 | grep "^IP" 
 IP:             172.17.0.5
 developer@developer-VirtualBox:~/projects/k4d/lab 35$ curl 'http://172.17.0.5:8090?name=Luc&from=DenBosch&to=Mars' 
 Hello, on terra10-0, Luc will be transported from DenBosch to Mars using the Terra10 transporter service
@@ -303,7 +303,7 @@ developer@developer-VirtualBox:~/projects/k4d/lab 35$
 So far, nothing has happened in Pod terra10-1. Let's verify that:
 
 ```bash
-developer@developer-VirtualBox:~/projects/k4d/lab 35$ k describe pod terra10-1 | grep "^IP" 
+developer@developer-VirtualBox:~/projects/k4d/lab 35$ kubectl describe pod terra10-1 | grep "^IP" 
 IP:             172.17.0.6
 developer@developer-VirtualBox:~/projects/k4d/lab 35$ curl http://172.17.0.6:8092
 developer@developer-VirtualBox:~/projects/k4d/lab 35$ 
@@ -331,9 +331,9 @@ So, both Pods have their own storage, and they don't mix. That's good!
 We will scale down to delete Pod *terra10-1*. Edit the StatefulSet and change the number for Replicas to **1**:
 
 ```bash
-developer@developer-VirtualBox:~/projects/k4d/lab 35$ k edit statefulset terra10 
+developer@developer-VirtualBox:~/projects/k4d/lab 35$ kubectl edit statefulset terra10 
 statefulset.apps/terra10 edited
-developer@developer-VirtualBox:~/projects/k4d/lab 35$ k get pod
+developer@developer-VirtualBox:~/projects/k4d/lab 35$ kubectl get pod
 NAME        READY     STATUS        RESTARTS   AGE
 terra10-0   2/2       Running       0          11m
 terra10-1   2/2       Terminating   0          11m
@@ -342,7 +342,7 @@ developer@developer-VirtualBox:~/projects/k4d/lab 35$
 Note that the Pod **terra10-1** is being terminated and after some time:
 
 ```bash
-developer@developer-VirtualBox:~/projects/k4d/lab 35$ k get pod
+developer@developer-VirtualBox:~/projects/k4d/lab 35$ kubectl get pod
 NAME        READY     STATUS    RESTARTS   AGE
 terra10-0   2/2       Running   0          12m
 developer@developer-VirtualBox:~/projects/k4d/lab 35$ 
@@ -367,9 +367,9 @@ Makes you wonder what Napoleon did to the transporter ;-)
 We will scale up to add Pod *terra10-1*. Edit the StatefulSet and change the number for Replicas to **2**:
 
 ```bash
-developer@developer-VirtualBox:~/projects/k4d/lab 35$ k edit statefulset terra10 
+developer@developer-VirtualBox:~/projects/k4d/lab 35$ kubectl edit statefulset terra10 
 statefulset.apps/terra10 edited
-developer@developer-VirtualBox:~/projects/k4d/lab 35$ k get pod
+developer@developer-VirtualBox:~/projects/k4d/lab 35$ kubectl get pod
 NAME        READY     STATUS    RESTARTS   AGE
 terra10-0   2/2       Running   0          17m
 terra10-1   2/2       Running   0          5s
@@ -404,9 +404,9 @@ In tabular format, we expect our situation to be:
 Look at the hostname:
 
 ```bash
-developer@developer-VirtualBox:~$ k exec terra10-0 -c terra10-transporter -- /bin/sh -c 'hostname'; 
+developer@developer-VirtualBox:~$ kubectl exec terra10-0 -c terra10-transporter -- /bin/sh -c 'hostname'; 
 terra10-0
-developer@developer-VirtualBox:~$ k exec terra10-1 -c terra10-transporter -- /bin/sh -c 'hostname'; 
+developer@developer-VirtualBox:~$ kubectl exec terra10-1 -c terra10-transporter -- /bin/sh -c 'hostname'; 
 terra10-1
 developer@developer-VirtualBox:~$ 
 
@@ -414,9 +414,9 @@ developer@developer-VirtualBox:~$
 The full hostname:
 
 ```bash
-developer@developer-VirtualBox:~$ k exec terra10-0 -c terra10-transporter -- /bin/sh -c 'hostname -A'; 
+developer@developer-VirtualBox:~$ kubectl exec terra10-0 -c terra10-transporter -- /bin/sh -c 'hostname -A'; 
 terra10-0.terra10.default.svc.cluster.local 
-developer@developer-VirtualBox:~$ k exec terra10-1 -c terra10-transporter -- /bin/sh -c 'hostname -A'; 
+developer@developer-VirtualBox:~$ kubectl exec terra10-1 -c terra10-transporter -- /bin/sh -c 'hostname -A'; 
 terra10-1.terra10.default.svc.cluster.local 
 developer@developer-VirtualBox:~$ 
 ```
@@ -424,13 +424,13 @@ developer@developer-VirtualBox:~$
 From another Pod, nslookup can discover the IP addresses of the Pods behind the Headless Service:
 
 ```bash
-developer@developer-VirtualBox:~$ k run busybox --image=busybox:1.28.4 --command -- sleep 3600 
-developer@developer-VirtualBox:~$ k get pod
+developer@developer-VirtualBox:~$ kubectl run busybox --image=busybox:1.28.4 --command -- sleep 3600 
+developer@developer-VirtualBox:~$ kubectl get pod
 NAME                      READY     STATUS    RESTARTS   AGE
 busybox-c8d74cd49-6wh2s   1/1       Running   0          1m
 terra10-0                 2/2       Running   0          48m
 terra10-1                 2/2       Running   0          47m
-developer@developer-VirtualBox:~$ k exec -it busybox-c8d74cd49-6wh2s /bin/sh
+developer@developer-VirtualBox:~$ kubectl exec -it busybox-c8d74cd49-6wh2s /bin/sh
 / # nslookup terra10-0.terra10-hs.default.svc.cluster.local
 Server:    10.96.0.10
 Address 1: 10.96.0.10 kube-dns.kube-system.svc.cluster.local

@@ -120,9 +120,9 @@ spec:
 Run and test:
 
 ```bash
-developer@developer-VirtualBox:~/projects/k4d/lab 21$ k create -f terra10-transporter-config.yaml 
+developer@developer-VirtualBox:~/projects/k4d/lab 21$ kubectl create -f terra10-transporter-config.yaml 
 pod/terra10-transporter-config created
-developer@developer-VirtualBox:~/projects/k4d/lab 21$ k describe pod terra10-transporter-config | grep "^IP:" 
+developer@developer-VirtualBox:~/projects/k4d/lab 21$ kubectl describe pod terra10-transporter-config | grep "^IP:" 
 IP:           172.17.0.11
 developer@developer-VirtualBox:~/projects/k4d/lab 21$ curl 172.17.0.11:8096
 Hello, transporter local_container will transport you in 12 seconds 
@@ -207,9 +207,9 @@ Running and testing the things is done in 3 steps:
 4. curl to the Pod
 
 ```bash
-developer@developer-VirtualBox:~/projects/k4d/lab 21$ k create -f terra10-transporter-configMap.yaml 
+developer@developer-VirtualBox:~/projects/k4d/lab 21$ kubectl create -f terra10-transporter-configMap.yaml 
 configmap/terra10-transporter-config created
-developer@developer-VirtualBox:~/projects/k4d/lab 21$ k describe configmaps terra10-transporter-config 
+developer@developer-VirtualBox:~/projects/k4d/lab 21$ kubectl describe configmaps terra10-transporter-config 
 Name:         terra10-transporter-config
 Namespace:    default
 Labels:       <none>
@@ -224,9 +224,9 @@ transporter-platform:
 ----
 local_development
 Events:  <none>
-developer@developer-VirtualBox:~/projects/k4d/lab 21$ k create -f terra10-transporter-pod.yaml 
+developer@developer-VirtualBox:~/projects/k4d/lab 21$ kubectl create -f terra10-transporter-pod.yaml 
 pod/terra10-transporter created
-developer@developer-VirtualBox:~/projects/k4d/lab 21$ k describe pod terra10-transporter | grep "^IP:"
+developer@developer-VirtualBox:~/projects/k4d/lab 21$ kubectl describe pod terra10-transporter | grep "^IP:"
 IP:           172.17.0.12
 developer@developer-VirtualBox:~/projects/k4d/lab 21$ curl 172.17.0.12:8096
 Hello, transporter local_development will transport you in 45 seconds 

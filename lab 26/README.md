@@ -41,7 +41,7 @@ Now, lets do a minikube example. First, look at the available StorageClass objec
 developer@developer-VirtualBox:~/projects/k4d/lab 26/img$ kubectl get sc
 NAME                 PROVISIONER                AGE
 standard (default)   k8s.io/minikube-hostpath   29d
-developer@developer-VirtualBox:~/projects/k4d/lab 26/img$ k describe sc standard 
+developer@developer-VirtualBox:~/projects/k4d/lab 26/img$ kubectl describe sc standard 
 Name:            standard
 IsDefaultClass:  Yes
 Annotations:     kubectl.kubernetes.io/last-applied-configuration={"apiVersion":"storage.k8s.io/v1","kind":"StorageClass","metadata":{"annotations":{"storageclass.beta.kubernetes.io/is-default-class":"true"},"labels":{"addonmanager.kubernetes.io/mode":"Reconcile"},"name":"standard","namespace":""},"provisioner":"k8s.io/minikube-hostpath"}
@@ -83,12 +83,12 @@ spec:
 Creating the PVC:
 
 ```bash
-developer@developer-VirtualBox:~/projects/k4d/lab 26$ k create -f terra10-transporter-pvc.yaml 
+developer@developer-VirtualBox:~/projects/k4d/lab 26$ kubectl create -f terra10-transporter-pvc.yaml 
 persistentvolumeclaim/terra10-transporter-pvc created
-developer@developer-VirtualBox:~/projects/k4d/lab 26$ k get pvc
+developer@developer-VirtualBox:~/projects/k4d/lab 26$ kubectl get pvc
 NAME                      STATUS    VOLUME                                     CAPACITY   ACCESS MODES   STORAGECLASS   AGE
 terra10-transporter-pvc   Bound     pvc-6f61878e-e069-11e8-9408-0800276251a2   1Gi        RWO            standard       5s
-developer@developer-VirtualBox:~/projects/k4d/lab 26$ k describe pvc terra10-transporter-pvc 
+developer@developer-VirtualBox:~/projects/k4d/lab 26$ kubectl describe pvc terra10-transporter-pvc 
 Name:          terra10-transporter-pvc
 Namespace:     default
 StorageClass:  standard
@@ -148,9 +148,9 @@ spec:
 Create the Pod:
 
 ```bash
-developer@developer-VirtualBox:~/projects/k4d/lab 26$ k create -f terra10-transporter.yaml 
+developer@developer-VirtualBox:~/projects/k4d/lab 26$ kubectl create -f terra10-transporter.yaml 
 pod/terra10-transporter created
-developer@developer-VirtualBox:~/projects/k4d/lab 26$ k get pod terra10-transporter 
+developer@developer-VirtualBox:~/projects/k4d/lab 26$ kubectl get pod terra10-transporter 
 NAME                  READY     STATUS    RESTARTS   AGE
 terra10-transporter   2/2       Running   0          9s
 developer@developer-VirtualBox:~/projects/k4d/lab 26$ 
@@ -159,7 +159,7 @@ developer@developer-VirtualBox:~/projects/k4d/lab 26$
 Test it:
 
 ```bash
-developer@developer-VirtualBox:~/projects/k4d/lab 26$ k describe pod terra10-transporter | grep "^IP:"
+developer@developer-VirtualBox:~/projects/k4d/lab 26$ kubectl describe pod terra10-transporter | grep "^IP:"
 IP:           172.17.0.6
 developer@developer-VirtualBox:~/projects/k4d/lab 26$ curl '172.17.0.6:8090/?name=Luc&from=DenBosch&to=Moon'
 Hello, Luc will be transported from DenBosch to Moon using the Terra10 transporter service
@@ -171,7 +171,7 @@ developer@developer-VirtualBox:~/projects/k4d/lab 26$
 Check the file system:
 
 ```bash
-developer@developer-VirtualBox:~/projects/k4d/lab 26$ k describe pv pvc-6f61878e-e069-11e8-9408-0800276251a2 
+developer@developer-VirtualBox:~/projects/k4d/lab 26$ kubectl describe pv pvc-6f61878e-e069-11e8-9408-0800276251a2 
 Name:            pvc-6f61878e-e069-11e8-9408-0800276251a2
 Labels:          <none>
 Annotations:     hostPathProvisionerIdentity=af6d55a9-e04f-11e8-88e1-0800276251a2
@@ -200,9 +200,9 @@ developer@developer-VirtualBox:~/projects/k4d/lab 26$
 You can do some additional tests, to check how the Persistent Volume behaves when the Persistent Volume Claim is deleted. It is different as for the StorageClass standard, the Retain Policy is **delete**...:
 
 ```bash
-developer@developer-VirtualBox:~/projects/k4d/lab 26$ k delete pod terra10-transporter 
+developer@developer-VirtualBox:~/projects/k4d/lab 26$ kubectl delete pod terra10-transporter 
 pod "terra10-transporter" deleted
-developer@developer-VirtualBox:~/projects/k4d/lab 26$ k delete pvc terra10-transporter-pvc 
+developer@developer-VirtualBox:~/projects/k4d/lab 26$ kubectl delete pvc terra10-transporter-pvc 
 persistentvolumeclaim "terra10-transporter-pvc" deleted
 developer@developer-VirtualBox:~/projects/k4d/lab 26$ ls -al /tmp/hostpath-provisioner/
 total 28

@@ -8,7 +8,7 @@ However, what is therefore a better option is to describe your Kubernetes resour
 
 Now, let's first look up the YAML manifest for one of the existing Pods:
 ```bash
-developer@developer-VirtualBox:~/projects/k4d/lab 4$ k get pod terra10-gx6sr -o yaml
+developer@developer-VirtualBox:~/projects/k4d/lab 4$ kubectl get pod terra10-gx6sr -o yaml
 apiVersion: v1
 kind: Pod
 metadata:
@@ -98,19 +98,20 @@ status:
 developer@developer-VirtualBox:~/projects/k4d/lab 4$ 
 ```
 Ha, you must feel a little intimidated by now :-S
+
 But, it is quite easy to break down this whole YAML manifest into pieces:
 
 | piece      | value              | description |
 |------------|--------------------|------|
 | apiVersion | v1                 | Kubernetes API version for this manifest file   |
 | kind       | Pod                | Kubernetes resource/object type   |
-| metadata:  | yaml sub structure | Pod metadata like name and labels |
-| spec:      | yaml sub structure | Pod specification of the Pod's contents |
-| status:    | yaml sub structure | Pod's runtime status |
+| metadata   | yaml sub structure | Pod metadata like name and labels |
+| spec       | yaml sub structure | Pod specification of the Pod's contents |
+| status     | yaml sub structure | Pod's runtime status |
 
-Of course, when creating a Pod it is not necessary to submit such a long manifest file. Obviously, the status part is not required, as a lot of other options/pieces are.
+Of course, when creating a Pod it is not necessary to submit such a long manifest file. Obviously, the status part is not required, as well as a lot of other options/pieces.
 
-Let's have a look at a YAML file named `terra10-simple.yaml` that we will use to create a Pod (you will also find that in the `lab 4` directory) (here: with comments):
+Let's have a look at a YAML manifest file named `terra10-simple.yaml` that we will use to create a Pod (you will also find that in the `lab 04` directory) (here: with comments):
 ```
 apiVersion: v1                    # Kubernetes API version for this Pod manifest file
 kind: Pod                         # File describes a Pod
@@ -125,12 +126,13 @@ metadata:
       protocol: TCP
 ```
 
-With such a YAML manifest file, it is really easy to create the Kubernetes resources/objects. The command for running a YAML manifest file is allways of format `kubectl create -f <yaml_file_name>`. In our case:
+With such a YAML manifest file, it is really easy to create the Kubernetes resources/objects. The command for running a YAML manifest file is allways of format `kubectl create -f <yaml_file_name>`. 
+
+In our case:
 ```bash
-developer@developer-VirtualBox:~/projects/k4d/lab 4$ k create -f terra10-simple.yaml 
-[sudo] password for developer: 
+developer@developer-VirtualBox:~/projects/k4d/lab 4$ kubectl create -f terra10-simple.yaml 
 pod/terra10-simple created
-developer@developer-VirtualBox:~/projects/k4d/lab 4$ k get pod
+developer@developer-VirtualBox:~/projects/k4d/lab 4$ kubectl get pod
 NAME             READY     STATUS    RESTARTS   AGE
 terra10-gx6sr    1/1       Running   0          48m
 terra10-qjdqv    1/1       Running   0          47m
@@ -138,11 +140,11 @@ terra10-simple   1/1       Running   0          4s
 terra10-z4lkv    1/1       Running   0          47m
 developer@developer-VirtualBox:~/projects/k4d/lab 4$
 ```
-The `k get pod` command shows that a new Pod has been created, *terra10-simple*.
+The `kubectl get pod` command shows that a new Pod has been created: *terra10-simple*.
 
 You can also query for a manifest in JSON format:
 ```bash
-developer@developer-VirtualBox:~/projects/k4d/lab 4$ k get pod terra10-simple -o json
+developer@developer-VirtualBox:~/projects/k4d/lab 4$ kubectl get pod terra10-simple -o json
 {
     "apiVersion": "v1",
     "kind": "Pod",
@@ -172,7 +174,7 @@ developer@developer-VirtualBox:~/projects/k4d/lab 4$
 # Logs
 Important, yet so simple ... get your container's log file:
 ```bash
-developer@developer-VirtualBox:~/projects/k4d/lab 4$ k logs terra10-simple 
+developer@developer-VirtualBox:~/projects/k4d/lab 4$ kubectl logs terra10-simple 
 Terra10 HelloWorld Server is starting...
 Terra10 HelloWorld Server started
 developer@developer-VirtualBox:~/projects/k4d/lab 4$

@@ -28,7 +28,7 @@ So, let's try to directly access the Kubernetes API Server using curl... in the 
 
 
 ```bash
-developer@developer-VirtualBox:~/projects/k4d/lab 27$ k cluster-info
+developer@developer-VirtualBox:~/projects/k4d/lab 27$ kubectl cluster-info
 Kubernetes master is running at https://10.0.2.15:8443
 CoreDNS is running at https://10.0.2.15:8443/api/v1/namespaces/kube-system/services/kube-dns:dns/proxy
 
@@ -150,7 +150,7 @@ developer@developer-VirtualBox:~/projects/k4d/lab 27$ curl http://localhost:8080
 Get a specific ReplicaSet:
 
 ```bash
-developer@developer-VirtualBox:~/projects/k4d/lab 27$ k get rs
+developer@developer-VirtualBox:~/projects/k4d/lab 27$ kubectl get rs
 NAME         DESIRED   CURRENT   READY     AGE
 terra10-rs   3         3         3         26d
 developer@developer-VirtualBox:~/projects/k4d/lab 27$ curl http://localhost:8080/apis/apps/v1/namespaces/default/replicasets/terra10-rs

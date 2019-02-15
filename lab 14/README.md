@@ -59,9 +59,9 @@ spec:
 First, fire up the Replication Controller:
 
 ```bash
-developer@developer-VirtualBox:~/projects/k4d/lab 14$ k create -f terra10-rc.yaml 
+developer@developer-VirtualBox:~/projects/k4d/lab 14$ kubectl create -f terra10-rc.yaml 
 replicationcontroller/terra10-rc created
-developer@developer-VirtualBox:~/projects/k4d/lab 14$ k get rc
+developer@developer-VirtualBox:~/projects/k4d/lab 14$ kubectl get rc
 NAME         DESIRED   CURRENT   READY     AGE
 terra10-rc   3         3         3         7s
 developer@developer-VirtualBox:~/projects/k4d/lab 14$
@@ -70,9 +70,9 @@ developer@developer-VirtualBox:~/projects/k4d/lab 14$
 Next, create the Service:
 
 ```bash
-developer@developer-VirtualBox:~/projects/k4d/lab 14$ k create -f terra10-service.yaml 
+developer@developer-VirtualBox:~/projects/k4d/lab 14$ kubectl create -f terra10-service.yaml 
 service/terra10 created
-developer@developer-VirtualBox:~/projects/k4d/lab 14$ k get service
+developer@developer-VirtualBox:~/projects/k4d/lab 14$ kubectl get service
 NAME         TYPE        CLUSTER-IP      EXTERNAL-IP   PORT(S)   AGE
 kubernetes   ClusterIP   10.96.0.1       <none>        443/TCP   10d
 terra10      ClusterIP   10.102.181.8    <none>        80/TCP    5s
@@ -99,12 +99,12 @@ developer@developer-VirtualBox:~$
 Another option is to run the `curl` command from one of the Pods:
 
 ```bash
-developer@developer-VirtualBox:~$ k get pod
+developer@developer-VirtualBox:~$ kubectl get pod
 NAME               READY     STATUS    RESTARTS   AGE
 terra10-rc-5tmq6   1/1       Running   2          13h
 terra10-rc-67fmf   1/1       Running   2          13h
 terra10-rc-zkwt5   1/1       Running   2          13h
-developer@developer-VirtualBox:~$ k exec terra10-rc-5tmq6 -- curl -s 10.102.181.8
+developer@developer-VirtualBox:~$ kubectl exec terra10-rc-5tmq6 -- curl -s 10.102.181.8
 Hello, you landed on Terra10 and host terra10-rc-zkwt5 welcomes you!
 ```
 Note that the request is answered by a different Pod than the one that is sending the request: the Service selects a random Pod to send the request to.
@@ -138,9 +138,9 @@ The external load balancer balances traffic over the Worker Nodes. Then, the Nod
 Let's see how this works:
 
 ```bash
-developer@developer-VirtualBox:~/projects/k4d/lab 14$ k create -f terra10-service-nodeport.yaml 
+developer@developer-VirtualBox:~/projects/k4d/lab 14$ kubectl create -f terra10-service-nodeport.yaml 
 service/terra10-nodeport created
-developer@developer-VirtualBox:~/projects/k4d/lab 14$ k describe service terra10-nodeport 
+developer@developer-VirtualBox:~/projects/k4d/lab 14$ kubectl describe service terra10-nodeport 
 Name:                     terra10-nodeport
 Namespace:                default
 Labels:                   <none>
@@ -164,7 +164,7 @@ Note in the above listing:
 So, now we should be able to access our service via the NodePort. First, look up the (internal) IP of the minikube Cluster Node and then hit it with curl:
 
 ```bash
-developer@developer-VirtualBox:~/projects/k4d/lab 14$ k cluster-info
+developer@developer-VirtualBox:~/projects/k4d/lab 14$ kubectl cluster-info
 Kubernetes master is running at https://10.0.2.15:8443
 KubeDNS is running at https://10.0.2.15:8443/api/v1/namespaces/kube-system/services/kube-dns:dns/proxy
 
@@ -190,9 +190,9 @@ In the NodePort solution, you have to arrange the Load Balancer functionality yo
 The accompanying figure is similar to that of the NodePort Service:
 
 ```bash
-developer@developer-VirtualBox:~/projects/k4d/lab 14$ k create -f terra10-service-loadbalancer.yaml 
+developer@developer-VirtualBox:~/projects/k4d/lab 14$ kubectl create -f terra10-service-loadbalancer.yaml 
 service/terra10-loadbalancer created
-developer@developer-VirtualBox:~/projects/k4d/lab 14$ k get service 
+developer@developer-VirtualBox:~/projects/k4d/lab 14$ kubectl get service 
 NAME                   TYPE           CLUSTER-IP      EXTERNAL-IP   PORT(S)        AGE
 kubernetes             ClusterIP      10.96.0.1       <none>        443/TCP        11d
 terra10                ClusterIP      10.102.181.8    <none>        80/TCP         1h
@@ -278,7 +278,7 @@ developer@developer-VirtualBox:~/projects/k4d/lab 14$
 ```
 Verify:
 ```bash
-developer@developer-VirtualBox:~/projects/k4d/lab 14$ k get pod --all-namespaces 
+developer@developer-VirtualBox:~/projects/k4d/lab 14$ kubectl get pod --all-namespaces 
 NAMESPACE     NAME                                        READY     STATUS              RESTARTS   AGE
 default       terra10-rc-5tmq6                            1/1       Running             2          17h
 default       terra10-rc-67fmf                            1/1       Running             2          17h
@@ -323,9 +323,9 @@ spec:
 And run it:
 
 ```bash
-developer@developer-VirtualBox:~/projects/k4d/lab 14$ k create -f terra10-ingress.yaml 
+developer@developer-VirtualBox:~/projects/k4d/lab 14$ kubectl create -f terra10-ingress.yaml 
 ingress.extensions/terra10-ingress created
-developer@developer-VirtualBox:~/projects/k4d/lab 14$ k get ingress
+developer@developer-VirtualBox:~/projects/k4d/lab 14$ kubectl get ingress
 NAME              HOSTS        ADDRESS     PORTS     AGE
 terra10-ingress   terra10.io   10.0.2.15   80        32s
 developer@developer-VirtualBox:~/projects/k4d/lab 14$
@@ -333,7 +333,7 @@ developer@developer-VirtualBox:~/projects/k4d/lab 14$
 Examine the Ingress that was created:
 
 ```bash
-developer@developer-VirtualBox:~/projects/k4d/lab 14$ k describe ingress terra10-ingress 
+developer@developer-VirtualBox:~/projects/k4d/lab 14$ kubectl describe ingress terra10-ingress 
 Name:             terra10-ingress
 Namespace:        default
 Address:          10.0.2.15

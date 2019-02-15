@@ -100,9 +100,9 @@ spec:
 Run and verify:
 
 ```bash
-developer@developer-VirtualBox:~/projects/k4d/lab 24$ k create -f terra10-env-variables.yaml 
+developer@developer-VirtualBox:~/projects/k4d/lab 24$ kubectl create -f terra10-env-variables.yaml 
 pod/terra10-env-variables created
-developer@developer-VirtualBox:~/projects/k4d/lab 24$ k exec terra10-env-variables -it /bin/bash
+developer@developer-VirtualBox:~/projects/k4d/lab 24$ kubectl exec terra10-env-variables -it /bin/bash
 root@terra10-env-variables:/# env | grep MY
 MY_CONTAINER_CPU_LIMITS=3000
 MY_POD_NAMESPACE=default
@@ -188,9 +188,9 @@ spec:
 Run and verify:
 
 ```bash
-developer@developer-VirtualBox:~/projects/k4d/lab 24$ k create -f terra10-volumes.yaml  
+developer@developer-VirtualBox:~/projects/k4d/lab 24$ kubectl create -f terra10-volumes.yaml  
 pod/terra10-volumes created
-developer@developer-VirtualBox:~/projects/k4d/lab 24$ k exec terra10-volumes -it bash
+developer@developer-VirtualBox:~/projects/k4d/lab 24$ kubectl exec terra10-volumes -it bash
 root@terra10-volumes:/# cd /etc/podinfo/
 root@terra10-volumes:/etc/podinfo# ls
 annotations  limits.cpu     name       requests.cpu

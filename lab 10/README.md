@@ -57,9 +57,9 @@ spec:
 Running the manifest file:
 
 ```bash
-developer@developer-VirtualBox:~/projects/k4d/lab 10$ k create -f terra10-replicationset.yaml 
+developer@developer-VirtualBox:~/projects/k4d/lab 10$ kubectl create -f terra10-replicationset.yaml 
 replicaset.apps/terra10-rs created
-developer@developer-VirtualBox:~/projects/k4d/lab 10$ k get pod
+developer@developer-VirtualBox:~/projects/k4d/lab 10$ kubectl get pod
 NAME               READY     STATUS    RESTARTS   AGE
 terra10-rs-g65nx   1/1       Running   0          9s
 terra10-rs-k7vbz   1/1       Running   0          9s
@@ -71,9 +71,9 @@ The Replication Set created 3 Pods - just as expected.
 Now, let's delete the Replication Set without deleting the Pods:
 
 ```bash
-developer@developer-VirtualBox:~/projects/k4d/lab 10$ k delete rs terra10-rs --cascade=false
+developer@developer-VirtualBox:~/projects/k4d/lab 10$ kubectl delete rs terra10-rs --cascade=false
 replicaset.extensions "terra10-rs" deleted
-developer@developer-VirtualBox:~/projects/k4d/lab 10$ k get pod
+developer@developer-VirtualBox:~/projects/k4d/lab 10$ kubectl get pod
 NAME               READY     STATUS    RESTARTS   AGE
 terra10-rs-g65nx   1/1       Running   0          3m
 terra10-rs-k7vbz   1/1       Running   0          3m
@@ -84,7 +84,7 @@ developer@developer-VirtualBox:~/projects/k4d/lab 10$
 You now can delete the Pods manually:
 
 ```bash
-developer@developer-VirtualBox:~/projects/k4d/lab 10$ k delete pod -l app=terra10
+developer@developer-VirtualBox:~/projects/k4d/lab 10$ kubectl delete pod -l app=terra10
 pod "terra10-rs-g65nx" deleted
 pod "terra10-rs-k7vbz" deleted
 pod "terra10-rs-t9rjr" deleted

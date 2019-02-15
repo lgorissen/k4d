@@ -83,9 +83,9 @@ Finally, the big moment is there.
 Create the Pod:
 
 ```bash
-developer@developer-VirtualBox:~/projects/k4d/lab 30$ k create -f terra10-python-client.yaml 
+developer@developer-VirtualBox:~/projects/k4d/lab 30$ kubectl create -f terra10-python-client.yaml 
 pod/terra10-python-client created
-developer@developer-VirtualBox:~/projects/k4d/lab 30$ k get pod
+developer@developer-VirtualBox:~/projects/k4d/lab 30$ kubectl get pod
 NAME                    READY     STATUS    RESTARTS   AGE
 terra10-python-client   1/1       Running   0          4s
 developer@developer-VirtualBox:~/projects/k4d/lab 30$
@@ -94,7 +94,7 @@ developer@developer-VirtualBox:~/projects/k4d/lab 30$
 Exec into the Pod and run the Python scipt:
 
 ```bash
-developer@developer-VirtualBox:~/projects/k4d/lab 30$ k exec -it terra10-python-client /bin/bash
+developer@developer-VirtualBox:~/projects/k4d/lab 30$ kubectl exec -it terra10-python-client /bin/bash
 root@terra10-python-client:/# ls
 bin   dev  home  lib64	mnt  proc	       root  sbin  sys	usr
 boot  etc  lib	 media	opt  python-client.py  run   srv   tmp	var

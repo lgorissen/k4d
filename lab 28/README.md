@@ -45,9 +45,9 @@ spec:
 Starting such a Pod will create a Container with curl in it:
 
 ```bash
-developer@developer-VirtualBox:~/projects/k4d/lab 28$ k create -f terra10-curl.yaml 
+developer@developer-VirtualBox:~/projects/k4d/lab 28$ kubectl create -f terra10-curl.yaml 
 pod/terra10-curl created
-developer@developer-VirtualBox:~/projects/k4d/lab 28$ k get pod terra10-curl 
+developer@developer-VirtualBox:~/projects/k4d/lab 28$ kubectl get pod terra10-curl 
 NAME           READY     STATUS    RESTARTS   AGE
 terra10-curl   1/1       Running   0          13s
 developer@developer-VirtualBox:~/projects/k4d/lab 28$
@@ -57,7 +57,7 @@ From this Pod / Container, we will communicate with the Kubernetes API Server.
 So, start a shell in the Container, look up the Kubernetes API Server IP address and port, and curl to it:
 
 ```bash
-developer@developer-VirtualBox:~/projects/k4d/lab 28$ k exec -it terra10-curl /bin/sh
+developer@developer-VirtualBox:~/projects/k4d/lab 28$ kubectl exec -it terra10-curl /bin/sh
 / # env | grep KUBERNETES_SERVICE
 KUBERNETES_SERVICE_PORT=443
 KUBERNETES_SERVICE_PORT_HTTPS=443
@@ -176,7 +176,7 @@ default
 > This can be quickly *fixed* (mind not to do that in the Pod):
 >
 > ```bash
-> developer@developer-VirtualBox:~/projects/k4d$ k create clusterrolebinding permissive-binding --clusterrole=cluster-admin --group=system:serviceaccounts
+> developer@developer-VirtualBox:~/projects/k4d$ kubectl create clusterrolebinding permissive-binding --clusterrole=cluster-admin --group=system:serviceaccounts
 > clusterrolebinding.rbac.authorization.k8s.io/permissive-binding created
 > developer@developer-VirtualBox:~/projects/k4d$
 > ```

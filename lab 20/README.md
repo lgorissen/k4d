@@ -40,7 +40,7 @@ spec:
 Not much to say here:
 
 ```bash
-developer@developer-VirtualBox:~/projects/k4d/lab 20$ k create -f terra10-gitrepo.yaml 
+developer@developer-VirtualBox:~/projects/k4d/lab 20$ kubectl create -f terra10-gitrepo.yaml 
 pod/terra10-gitrepo created
 developer@developer-VirtualBox:~/projects/k4d/lab 20$
 ```
@@ -48,7 +48,7 @@ developer@developer-VirtualBox:~/projects/k4d/lab 20$
 and 
 
 ```bash
-developer@developer-VirtualBox:~/projects/k4d/lab 20$ k create -f terra10-gitrepo.yaml 
+developer@developer-VirtualBox:~/projects/k4d/lab 20$ kubectl create -f terra10-gitrepo.yaml 
 pod/terra10-gitrepo created
 developer@developer-VirtualBox:~/projects/k4d/lab 20$ curl  172.17.0.10:8094 
 developer@developer-VirtualBox:~/projects/k4d/lab 20$ curl  172.17.0.10:8094 

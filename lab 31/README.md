@@ -69,19 +69,19 @@ The files can be found in the `lab 31` director as `terra10-replicaset.yaml` and
 Start the ReplicaSet and Service:
 
 ```bash
-developer@developer-VirtualBox:~/projects/k4d/lab 31$ k create -f terra10-replicaset.yaml 
+developer@developer-VirtualBox:~/projects/k4d/lab 31$ kubectl create -f terra10-replicaset.yaml 
 replicaset.apps/terra10-rs created
-developer@developer-VirtualBox:~/projects/k4d/lab 31$ k create -f terra10-service-loadbalancer.yaml 
+developer@developer-VirtualBox:~/projects/k4d/lab 31$ kubectl create -f terra10-service-loadbalancer.yaml 
 service/terra10-loadbalancer created
-developer@developer-VirtualBox:~/projects/k4d/lab 31$ k get pod
+developer@developer-VirtualBox:~/projects/k4d/lab 31$ kubectl get pod
 NAME               READY     STATUS    RESTARTS   AGE
 terra10-rs-bz6sf   1/1       Running   0          31s
 terra10-rs-gn57x   1/1       Running   0          31s
 terra10-rs-pdb9s   1/1       Running   0          31s
-developer@developer-VirtualBox:~/projects/k4d/lab 31$ k get rs
+developer@developer-VirtualBox:~/projects/k4d/lab 31$ kubectl get rs
 NAME         DESIRED   CURRENT   READY     AGE
 terra10-rs   3         3         3         37s
-developer@developer-VirtualBox:~/projects/k4d/lab 31$ k get service
+developer@developer-VirtualBox:~/projects/k4d/lab 31$ kubectl get service
 NAME                   TYPE           CLUSTER-IP     EXTERNAL-IP   PORT(S)        AGE
 kubernetes             ClusterIP      10.96.0.1      <none>        443/TCP        35d
 terra10-loadbalancer   LoadBalancer   10.110.47.57   <pending>     80:31647/TCP   32s
@@ -90,7 +90,7 @@ developer@developer-VirtualBox:~/projects/k4d/lab 31$
 Test:
 
 ```bash
-developer@developer-VirtualBox:~/projects/k4d/lab 31$ k describe service terra10-loadbalancer 
+developer@developer-VirtualBox:~/projects/k4d/lab 31$ kubectl describe service terra10-loadbalancer 
 Name:                     terra10-loadbalancer
 Namespace:                default
 Labels:                   <none>
@@ -156,7 +156,7 @@ Just keep it running.
 Now, edit the ReplicaSet definition:
 
 ```bash
-developer@developer-VirtualBox:~/projects/k4d/lab 31$ k edit replicaset terra10-rs
+developer@developer-VirtualBox:~/projects/k4d/lab 31$ kubectl edit replicaset terra10-rs
 ```
 ... and change the image tag to **r2**:
 
@@ -181,7 +181,7 @@ Now it is time to do the 'real' upgrade. Let's delete all running Pods, and watc
 
 Delete all the Pods:
 ```bash
-developer@developer-VirtualBox:~/projects/k4d/lab 31$ k delete pod -l app=terra10
+developer@developer-VirtualBox:~/projects/k4d/lab 31$ kubectl delete pod -l app=terra10
 pod "terra10-rs-bz6sf" deleted
 pod "terra10-rs-gn57x" deleted
 pod "terra10-rs-pdb9s" deleted
@@ -224,7 +224,7 @@ First, verify that in your separate window the *curl test loop* still runs.
 Now, edit the ReplicaSet definition:
 
 ```bash
-developer@developer-VirtualBox:~/projects/k4d/lab 31$ k edit replicaset terra10-rs
+developer@developer-VirtualBox:~/projects/k4d/lab 31$ kubectl edit replicaset terra10-rs
 ```
 ... and change the image tag to **r1**:
 
@@ -245,7 +245,7 @@ Save the file.
 
 Instead of deleting all Pods at once, just delete one Pod:
 ```bash
-developer@developer-VirtualBox:~/projects/k4d/lab 31$ k delete pod -l app=terra10
+developer@developer-VirtualBox:~/projects/k4d/lab 31$ kubectl delete pod -l app=terra10
 pod "terra10-rs-bz6sf" deleted
 pod "terra10-rs-gn57x" deleted
 pod "terra10-rs-pdb9s" deleted
@@ -275,14 +275,14 @@ Note that this happens without service interrupt!
 Looking at the age of the Pods (or looking at the Pod ids in the test window) you can distinguish the old and new Pods. Just delete the remaining 2 Pods:
 
 ```bash
-developer@developer-VirtualBox:~/projects/k4d/lab 31$ k get pod
+developer@developer-VirtualBox:~/projects/k4d/lab 31$ kubectl get pod
 NAME               READY     STATUS    RESTARTS   AGE
 terra10-rs-42m4n   1/1       Running   0          1m
 terra10-rs-z8r4p   1/1       Running   0          23m
 terra10-rs-zmzz8   1/1       Running   0          23m
-developer@developer-VirtualBox:~/projects/k4d/lab 31$ k delete pod terra10-rs-z8r4p 
+developer@developer-VirtualBox:~/projects/k4d/lab 31$ kubectl delete pod terra10-rs-z8r4p 
 pod "terra10-rs-z8r4p" deleted
-developer@developer-VirtualBox:~/projects/k4d/lab 31$ k delete pod terra10-rs-zmzz8 
+developer@developer-VirtualBox:~/projects/k4d/lab 31$ kubectl delete pod terra10-rs-zmzz8 
 pod "terra10-rs-zmzz8" deleted
 developer@developer-VirtualBox:~/projects/k4d/lab 31$
 ```
@@ -353,16 +353,16 @@ spec:
 Start it:
 
 ```bash
-developer@developer-VirtualBox:~/projects/k4d/lab 31$ k get pod --show-labels 
+developer@developer-VirtualBox:~/projects/k4d/lab 31$ kubectl get pod --show-labels 
 NAME               READY     STATUS    RESTARTS   AGE       LABELS
 terra10-rs-2jtmc   1/1       Running   0          10m       app=terra10
 terra10-rs-42m4n   1/1       Running   0          15m       app=terra10
 terra10-rs-gdqnh   1/1       Running   0          11m       app=terra10
-developer@developer-VirtualBox:~/projects/k4d/lab 31$ k create -f terra10-replicaset
+developer@developer-VirtualBox:~/projects/k4d/lab 31$ kubectl create -f terra10-replicaset
 terra10-replicaset-r2.yaml  terra10-replicaset.yaml     
-developer@developer-VirtualBox:~/projects/k4d/lab 31$ k create -f terra10-replicaset-r2.yaml 
+developer@developer-VirtualBox:~/projects/k4d/lab 31$ kubectl create -f terra10-replicaset-r2.yaml 
 replicaset.apps/terra10-rs-r2 created
-developer@developer-VirtualBox:~/projects/k4d/lab 31$ k get pod --show-labels 
+developer@developer-VirtualBox:~/projects/k4d/lab 31$ kubectl get pod --show-labels 
 NAME                  READY     STATUS    RESTARTS   AGE       LABELS
 terra10-rs-2jtmc      1/1       Running   0          10m       app=terra10
 terra10-rs-42m4n      1/1       Running   0          15m       app=terra10
@@ -379,7 +379,7 @@ Verify that the test window still has only r1 entries.
 The Service `terra10-loadbalancer` has a Selector that is now set to `app=terra10`:
 
 ```bash
-developer@developer-VirtualBox:~/projects/k4d/lab 31$ k describe service terra10-loadbalancer 
+developer@developer-VirtualBox:~/projects/k4d/lab 31$ kubectl describe service terra10-loadbalancer 
 Name:                     terra10-loadbalancer
 Namespace:                default
 Labels:                   <none>
@@ -400,9 +400,9 @@ developer@developer-VirtualBox:~/projects/k4d/lab 31
 We will now switch that to `app=terra10-r2`:
 
 ```bash
-developer@developer-VirtualBox:~/projects/k4d/lab 31$ k get service terra10-loadbalancer -o yaml | kubectl set selector -f - 'app=terra10-r2'
+developer@developer-VirtualBox:~/projects/k4d/lab 31$ kubectl get service terra10-loadbalancer -o yaml | kubectl set selector -f - 'app=terra10-r2'
 service/terra10-loadbalancer selector updated
-developer@developer-VirtualBox:~/projects/k4d/lab 31$ k describe service terra10-loadbalancer 
+developer@developer-VirtualBox:~/projects/k4d/lab 31$ kubectl describe service terra10-loadbalancer 
 Name:                     terra10-loadbalancer
 Namespace:                default
 Labels:                   <none>
@@ -438,11 +438,11 @@ Hello, you landed on Terra10 (version r2) and host terra10-rs-r2-5gkxk welcomes 
 The only thing now left to do is to clean up the old ReplicaSet:
 
 ```bash
-developer@developer-VirtualBox:~/projects/k4d/lab 31$ k get replicaset --show-labels 
+developer@developer-VirtualBox:~/projects/k4d/lab 31$ kubectl get replicaset --show-labels 
 NAME            DESIRED   CURRENT   READY     AGE       LABELS
 terra10-rs      3         3         3         1h        app=terra10
 terra10-rs-r2   3         3         3         23m       app=terra10-r2
-developer@developer-VirtualBox:~/projects/k4d/lab 31$ k delete replicaset terra10-rs
+developer@developer-VirtualBox:~/projects/k4d/lab 31$ kubectl delete replicaset terra10-rs
 replicaset.extensions "terra10-rs" deleted
 developer@developer-VirtualBox:~/projects/k4d/lab 31$
 ```

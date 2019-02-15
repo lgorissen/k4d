@@ -25,14 +25,14 @@ spec:
 Now, first let's create some Pods with a ReplicationSet and then create the Headless Service:
 
 ```bash
-developer@developer-VirtualBox:~/projects/k4d/lab 17$ k create -f terra10-replicationset.yaml 
+developer@developer-VirtualBox:~/projects/k4d/lab 17$ kubectl create -f terra10-replicationset.yaml 
 replicaset.apps/terra10-rs created
-developer@developer-VirtualBox:~/projects/k4d/lab 17$ k get rs
+developer@developer-VirtualBox:~/projects/k4d/lab 17$ kubectl get rs
 NAME         DESIRED   CURRENT   READY     AGE
 terra10-rs   3         3         1         4s
-developer@developer-VirtualBox:~/projects/k4d/lab 17$ k create -f terra10-service-headless.yaml 
+developer@developer-VirtualBox:~/projects/k4d/lab 17$ kubectl create -f terra10-service-headless.yaml 
 service/terra10-headless created
-developer@developer-VirtualBox:~/projects/k4d/lab 17$ k get service terra10-headless 
+developer@developer-VirtualBox:~/projects/k4d/lab 17$ kubectl get service terra10-headless 
 NAME               TYPE        CLUSTER-IP   EXTERNAL-IP   PORT(S)   AGE
 terra10-headless   ClusterIP   None         <none>        80/TCP    7s
 developer@developer-VirtualBox:~/projects/k4d/lab 17$ 
@@ -41,7 +41,7 @@ developer@developer-VirtualBox:~/projects/k4d/lab 17$
 Looking at the Headless service will reveal the Endpoints:
 
 ```bash
-developer@developer-VirtualBox:~/projects/k4d/lab 17$ k describe service terra10-headless 
+developer@developer-VirtualBox:~/projects/k4d/lab 17$ kubectl describe service terra10-headless 
 Name:              terra10-headless
 Namespace:         default
 Labels:            <none>
@@ -66,7 +66,7 @@ In order to test the DNS lookup, we will (1) start a Pod with dnsutils on board 
 ```bash
 developer@developer-VirtualBox:~/projects/k4d/lab 17$ kubectl run dnsutils --image=tutum/dnsutils --generator=run-pod/v1 --command -- sleep infinity
 pod/dnsutils created
-developer@developer-VirtualBox:~/projects/k4d/lab 17$ k get pod dnsutils 
+developer@developer-VirtualBox:~/projects/k4d/lab 17$ kubectl get pod dnsutils 
 NAME       READY     STATUS    RESTARTS   AGE
 dnsutils   1/1       Running   0          5s
 developer@developer-VirtualBox:~/projects/k4d/lab 17$ 
@@ -74,7 +74,7 @@ developer@developer-VirtualBox:~/projects/k4d/lab 17$
 and then @2:
 
 ```bash
-developer@developer-VirtualBox:~/projects/k4d/lab 17$ k exec dnsutils nslookup terra10-headless
+developer@developer-VirtualBox:~/projects/k4d/lab 17$ kubectl exec dnsutils nslookup terra10-headless
 Server:		10.96.0.10
 Address:	10.96.0.10#53
 

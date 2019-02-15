@@ -61,7 +61,7 @@ spec:
       containers:
       - name: terra10
         image: lgorissen/terra10:r1
-        readinessProbe:              # readyness probe
+        readinessProbe:              # readiness probe
           periodSeconds: 1           # polls every second
           httpGet:                   # ... with an http get
             path: /                  # ... on path /
@@ -73,15 +73,15 @@ For a more detailed explanation of the RollingUpdate strategy parameters, please
 **Start this deployment:**
 
 ```bash
-developer@developer-VirtualBox:~/projects/k4d/lab 34$ k create -f terra10-deployment.yaml 
+developer@developer-VirtualBox:~/projects/k4d/lab 34$ kubectl create -f terra10-deployment.yaml 
 deployment.apps/terra10-dpl created
-developer@developer-VirtualBox:~/projects/k4d/lab 34$ k get deployment terra10-dpl 
+developer@developer-VirtualBox:~/projects/k4d/lab 34$ kubectl get deployment terra10-dpl 
 NAME          DESIRED   CURRENT   UP-TO-DATE   AVAILABLE   AGE
 terra10-dpl   3         3         3            0           7s
-developer@developer-VirtualBox:~/projects/k4d/lab 34$ k get replicaset terra10-dpl-85fdc7bcb9 
+developer@developer-VirtualBox:~/projects/k4d/lab 34$ kubectl get replicaset terra10-dpl-85fdc7bcb9 
 NAME                     DESIRED   CURRENT   READY     AGE
 terra10-dpl-85fdc7bcb9   3         3         3         17s
-developer@developer-VirtualBox:~/projects/k4d/lab 34$ k get pod --show-labels 
+developer@developer-VirtualBox:~/projects/k4d/lab 34$ kubectl get pod --show-labels 
 NAME                           READY     STATUS    RESTARTS   AGE       LABELS
 terra10-dpl-85fdc7bcb9-k5n8f   1/1       Running   0          34s       app=terra10,pod-template-hash=4198736765
 terra10-dpl-85fdc7bcb9-vtvn9   1/1       Running   0          34s       app=terra10,pod-template-hash=4198736765
@@ -108,9 +108,9 @@ spec:
     targetPort: 8080
   selector:
     app: terra10
-developer@developer-VirtualBox:~/projects/k4d/lab 34$ k create -f terra10-service-loadbalancer.yaml 
+developer@developer-VirtualBox:~/projects/k4d/lab 34$ kubectl create -f terra10-service-loadbalancer.yaml 
 service/terra10-loadbalancer created
-developer@developer-VirtualBox:~/projects/k4d/lab 34$ k get service terra10-loadbalancer 
+developer@developer-VirtualBox:~/projects/k4d/lab 34$ kubectl get service terra10-loadbalancer 
 NAME                   TYPE           CLUSTER-IP     EXTERNAL-IP   PORT(S)        AGE
 terra10-loadbalancer   LoadBalancer   10.97.240.56   <pending>     80:32421/TCP   17s
 developer@developer-VirtualBox:~/projects/k4d/lab 34$ 
@@ -154,7 +154,7 @@ In a diagram:
 Let's get going:
 
 ```bash
-developer@developer-VirtualBox:~/projects/k4d/lab 34$ k set image deployment terra10-dpl terra10=lgorissen/terra10:r2-max-4
+developer@developer-VirtualBox:~/projects/k4d/lab 34$ kubectl set image deployment terra10-dpl terra10=lgorissen/terra10:r2-max-4
 deployment.extensions/terra10-dpl image updated
 developer@developer-VirtualBox:~/projects/k4d/lab 34$
 ```
@@ -189,14 +189,14 @@ That matches with what was expected: see the list a bit higher.
 Checking the configuration:
 
 ```bash
-developer@developer-VirtualBox:~/projects/k4d/lab 34$ k get deployment terra10-dpl 
+developer@developer-VirtualBox:~/projects/k4d/lab 34$ kubectl get deployment terra10-dpl 
 NAME          DESIRED   CURRENT   UP-TO-DATE   AVAILABLE   AGE
 terra10-dpl   3         4         1            3           37m
-developer@developer-VirtualBox:~/projects/k4d/lab 34$ k get replicaset
+developer@developer-VirtualBox:~/projects/k4d/lab 34$ kubectl get replicaset
 NAME                     DESIRED   CURRENT   READY     AGE
 terra10-dpl-7cfc7fc548   1         1         0         4m
 terra10-dpl-85fdc7bcb9   3         3         3         37m
-developer@developer-VirtualBox:~/projects/k4d/lab 34$ k get pods --show-labels 
+developer@developer-VirtualBox:~/projects/k4d/lab 34$ kubectl get pods --show-labels 
 NAME                           READY     STATUS    RESTARTS   AGE       LABELS
 terra10-dpl-7cfc7fc548-9qrft   0/1       Running   0          5m        app=terra10,pod-template-hash=3797397104
 terra10-dpl-85fdc7bcb9-k5n8f   1/1       Running   0          37m       app=terra10,pod-template-hash=4198736765
@@ -213,7 +213,7 @@ Note how:
 Looking at the status of the upgrade process:
 
 ```bash
-developer@developer-VirtualBox:~/projects/k4d/lab 34$ k rollout status deployment terra10-dpl 
+developer@developer-VirtualBox:~/projects/k4d/lab 34$ kubectl rollout status deployment terra10-dpl 
 Waiting for deployment "terra10-dpl" rollout to finish: 1 out of 3 new replicas have been updated...
 ^Cdeveloper@developer-VirtualBox:~/projects/k4d/lab 34$ 
 ```
@@ -226,13 +226,13 @@ The rollout process is indeed stopped ... all due to the faulty Container!
 And now you will undo the rollout. Give the `rollout undo` command:
 
 ```bash
-developer@developer-VirtualBox:~/projects/k4d/lab 34$ k rollout history deployment terra10-dpl 
+developer@developer-VirtualBox:~/projects/k4d/lab 34$ kubectl rollout history deployment terra10-dpl 
 deployments "terra10-dpl"
 REVISION  CHANGE-CAUSE
 1         <none>
 2         <none>
 
-developer@developer-VirtualBox:~/projects/k4d/lab 34$ k rollout undo deployment terra10-dpl --to-revision=1
+developer@developer-VirtualBox:~/projects/k4d/lab 34$ kubectl rollout undo deployment terra10-dpl --to-revision=1
 deployment.extensions/terra10-dpl
 developer@developer-VirtualBox:~/projects/k4d/lab 34$
 ```

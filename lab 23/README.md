@@ -46,10 +46,10 @@ So, as long as you secure access to kubectl and the Master Node, your Secrets ar
 Let's have a look at this 'default token' Secret that is automatically mounted into every Container.
 
 ```bash
-developer@developer-VirtualBox:~/projects/k4d$ k get secrets 
+developer@developer-VirtualBox:~/projects/k4d$ kubectl get secrets 
 NAME                  TYPE                                  DATA      AGE
 default-token-7sddz   kubernetes.io/service-account-token   3         21d
-developer@developer-VirtualBox:~/projects/k4d$ k describe secrets default-token-7sddz 
+developer@developer-VirtualBox:~/projects/k4d$ kubectl describe secrets default-token-7sddz 
 Name:         default-token-7sddz
 Namespace:    default
 Labels:       <none>
@@ -70,7 +70,7 @@ So, this Secret has the `ca.crt`, `namespace` and `token` that are needed to com
 Now, let's check if that token is mounted as a Volume into a Pod. We assume that you haven't cleaned up everything on your K8S Cluster, so there is a Pod still active. Ours is Pod 'terra10-rs-2zttd'. Looking at the Pod description, you will find a mounted Volume with the default token:
 
 ```bash
-developer@developer-VirtualBox:~/projects/k4d$ k describe pod terra10-rs-2zttd
+developer@developer-VirtualBox:~/projects/k4d$ kubectl describe pod terra10-rs-2zttd
 Name:           terra10-rs-2zttd
 Namespace:      default
 Node:           minikube/10.0.2.15
@@ -96,7 +96,7 @@ developer@developer-VirtualBox:~/projects/k4d$
 So yes, the Volume is mounted into the Pod. And, looking in the same description, it is also clear that the Volume is mounted into the Container:
 
 ```bash
-developer@developer-VirtualBox:~/projects/k4d$ k describe pod terra10-rs-2zttd 
+developer@developer-VirtualBox:~/projects/k4d$ kubectl describe pod terra10-rs-2zttd 
 Name:           terra10-rs-2zttd
 Namespace:      default
 Node:           minikube/10.0.2.15
@@ -124,7 +124,7 @@ developer@developer-VirtualBox:~/projects/k4d$
 So, the Volume is mounted in the Container 'terra10' in location `/var/run/secrets/kubernetes.io/serviceaccount`. Check that:
 
 ```bash
-developer@developer-VirtualBox:~/projects/k4d/lab 23$ k exec terra10-rs-2zttd -- ls /var/run/secrets/kubernetes.io/serviceaccount
+developer@developer-VirtualBox:~/projects/k4d/lab 23$ kubectl exec terra10-rs-2zttd -- ls /var/run/secrets/kubernetes.io/serviceaccount
 ca.crt
 namespace
 token
@@ -166,7 +166,7 @@ developer@developer-VirtualBox:~/projects/k4d/lab 23$
 Now, create the Secret from the 2 input files:
 
 ```bash
-developer@developer-VirtualBox:~/projects/k4d/lab 23$ k create secret generic terra10-from-file --from-file=terra10-user --from-file=terra10-password 
+developer@developer-VirtualBox:~/projects/k4d/lab 23$ kubectl create secret generic terra10-from-file --from-file=terra10-user --from-file=terra10-password 
 secret/terra10-from-file created
 developer@developer-VirtualBox:~/projects/k4d/lab 23$
 ```
@@ -174,7 +174,7 @@ developer@developer-VirtualBox:~/projects/k4d/lab 23$
 Examine the secret:
 
 ```bash
-developer@developer-VirtualBox:~/projects/k4d/lab 23$ k describe secrets terra10-from-file 
+developer@developer-VirtualBox:~/projects/k4d/lab 23$ kubectl describe secrets terra10-from-file 
 Name:         terra10-from-file
 Namespace:    default
 Labels:       <none>
@@ -193,7 +193,7 @@ terra10-user:      13 bytes
 The same Secret could have also been created directly from command-line:
 
 ```bash
-developer@developer-VirtualBox:~/projects/k4d/lab 23$ k create secret generic terra10-literal --from-literal=terra10-user=terra10-admin --from-literal=terra10-password=welcome01 
+developer@developer-VirtualBox:~/projects/k4d/lab 23$ kubectl create secret generic terra10-literal --from-literal=terra10-user=terra10-admin --from-literal=terra10-password=welcome01 
 secret/terra10-literal created
 developer@developer-VirtualBox:~/projects/k4d/lab 23$
 ```
@@ -201,7 +201,7 @@ developer@developer-VirtualBox:~/projects/k4d/lab 23$
 Examine the secret:
 
 ```bash
-developer@developer-VirtualBox:~/projects/k4d/lab 23$ k describe secrets terra10-literal 
+developer@developer-VirtualBox:~/projects/k4d/lab 23$ kubectl describe secrets terra10-literal 
 Name:         terra10-literal
 Namespace:    default
 Labels:       <none>
@@ -235,9 +235,9 @@ data:
 Run it, examine it:
 
 ```bash
-developer@developer-VirtualBox:~/projects/k4d/lab 23$ k create -f terra10-secret.yaml 
+developer@developer-VirtualBox:~/projects/k4d/lab 23$ kubectl create -f terra10-secret.yaml 
 secret/terra10-manifest created
-developer@developer-VirtualBox:~/projects/k4d/lab 23$ k describe secrets terra10-manifest 
+developer@developer-VirtualBox:~/projects/k4d/lab 23$ kubectl describe secrets terra10-manifest 
 Name:         terra10-manifest
 Namespace:    default
 Labels:       <none>
@@ -262,13 +262,13 @@ Nope, I'm not a shrink.
 In your Secrets, the data can be retrieved:
 
 ```bash
-developer@developer-VirtualBox:~/projects/k4d/lab 23$ k get secrets 
+developer@developer-VirtualBox:~/projects/k4d/lab 23$ kubectl get secrets 
 NAME                  TYPE                                  DATA      AGE
 default-token-7sddz   kubernetes.io/service-account-token   3         21d
 terra10-from-file     Opaque                                2         24m
 terra10-literal       Opaque                                2         12m
 terra10-manifest      Opaque                                2         3m
-developer@developer-VirtualBox:~/projects/k4d/lab 23$ k get secrets terra10-literal -o yaml
+developer@developer-VirtualBox:~/projects/k4d/lab 23$ kubectl get secrets terra10-literal -o yaml
 apiVersion: v1
 data:
   terra10-password: d2VsY29tZTAx
@@ -328,9 +328,9 @@ This defines the following set-up:
 Now, create the Pod and verify that the data is available:
 
 ```bash
-developer@developer-VirtualBox:~/projects/k4d/lab 23$ k create -f terra10-simple-secret.yaml 
+developer@developer-VirtualBox:~/projects/k4d/lab 23$ kubectl create -f terra10-simple-secret.yaml 
 pod/terra10-simple-secret created
-developer@developer-VirtualBox:~/projects/k4d/lab 23$ k describe pod terra10-simple-secret 
+developer@developer-VirtualBox:~/projects/k4d/lab 23$ kubectl describe pod terra10-simple-secret 
 Name:         terra10-simple-secret
 Namespace:    default
 Node:         minikube/10.0.2.15
@@ -361,9 +361,9 @@ Volumes:
     Optional:    false
   ...
   
-developer@developer-VirtualBox:~/projects/k4d/lab 23$ k exec terra10-simple-secret cat /etc/terra10/terra10-user
+developer@developer-VirtualBox:~/projects/k4d/lab 23$ kubectl exec terra10-simple-secret cat /etc/terra10/terra10-user
 terra10-admindeveloper@developer-VirtualBox:~/projects/k4d/lab 23$ 
-developer@developer-VirtualBox:~/projects/k4d/lab 23$ k exec terra10-simple-secret cat /etc/terra10/terra10-password
+developer@developer-VirtualBox:~/projects/k4d/lab 23$ kubectl exec terra10-simple-secret cat /etc/terra10/terra10-password
 welcome01developer@developer-VirtualBox:~/projects/k4d/lab 23$ 
 ```
 

@@ -37,21 +37,21 @@ The container `lgorissen/gpu-monitor` that is defined writes a message 'GPU OK' 
 Now, create the DaemonSet (manifest file 'daemonset-gpu.yaml' in the lab 11 directory):
 
 ```bash
-developer@developer-VirtualBox:~/projects/k4d/lab 11$ k create -f daemonset-gpu.yaml 
+developer@developer-VirtualBox:~/projects/k4d/lab 11$ kubectl create -f daemonset-gpu.yaml 
 daemonset.apps/gpu-monitor-ds created
 developer@developer-VirtualBox:~/projects/k4d/lab 11$ 
 ```
 .. and check for the Pod:
 
 ```bash
-developer@developer-VirtualBox:~/projects/k4d/lab 11$ k get pod
+developer@developer-VirtualBox:~/projects/k4d/lab 11$ kubectl get pod
 No resources found.
 developer@developer-VirtualBox:~/projects/k4d/lab 11$
 ```
 The Pod is not there because the minikube node does not have the label `gpu=high`:
 
 ```bash
-developer@developer-VirtualBox:~/projects/k4d/lab 11$ k get node minikube --show-labels 
+developer@developer-VirtualBox:~/projects/k4d/lab 11$ kubectl get node minikube --show-labels 
 NAME       STATUS    ROLES     AGE       VERSION   LABELS
 minikube   Ready     master    6d        v1.10.0   beta.kubernetes.io/arch=amd64,beta.kubernetes.io/os=linux,kubernetes.io/hostname=minikube,node-role.kubernetes.io/master=
 developer@developer-VirtualBox:~/projects/k4d/lab 11$
@@ -60,17 +60,17 @@ developer@developer-VirtualBox:~/projects/k4d/lab 11$
 Now we know that the NodeSelector does its job. Let's add the `gpu=high` label to the minikube node and then check if the DaemonSet started the Pod:
 
 ```bash
-developer@developer-VirtualBox:~/projects/k4d/lab 11$ k get pod
+developer@developer-VirtualBox:~/projects/k4d/lab 11$ kubectl get pod
 No resources found.
-developer@developer-VirtualBox:~/projects/k4d/lab 11$ k label node minikube gpu=high
+developer@developer-VirtualBox:~/projects/k4d/lab 11$ kubectl label node minikube gpu=high
 node/minikube labeled
-developer@developer-VirtualBox:~/projects/k4d/lab 11$ k get node minikube --show-labels 
+developer@developer-VirtualBox:~/projects/k4d/lab 11$ kubectl get node minikube --show-labels 
 NAME       STATUS    ROLES     AGE       VERSION   LABELS
 minikube   Ready     master    6d        v1.10.0   beta.kubernetes.io/arch=amd64,beta.kubernetes.io/os=linux,gpu=high,kubernetes.io/hostname=minikube,node-role.kubernetes.io/master=
-developer@developer-VirtualBox:~/projects/k4d/lab 11$ k get pod
+developer@developer-VirtualBox:~/projects/k4d/lab 11$ kubectl get pod
 NAME                   READY     STATUS    RESTARTS   AGE
 gpu-monitor-ds-j6h59   1/1       Running   0          9s
-developer@developer-VirtualBox:~/projects/k4d/lab 11$ k logs gpu-monitor-ds-j6h59 
+developer@developer-VirtualBox:~/projects/k4d/lab 11$ kubectl logs gpu-monitor-ds-j6h59 
 GPU OK
 GPU OK
 GPU OK
