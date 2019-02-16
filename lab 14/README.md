@@ -16,7 +16,7 @@ Time for hands-on.
 
 ## A simple Service
 
-In this lab, we'll make a simple service that accesses some containers - just like we did in lab 2. However, there we used `kubectl` commands to achieve the configuration. Here, we will use manifest files (all in the `lab 14` directory)for the ReplicationController and the Service.
+In this lab, we'll make a simple service that accesses some containers - just like we did in lab 2. However, there we used `kubectl` commands to achieve the configuration. Here, we will use manifest files (all in the `lab 14` directory) for the ReplicationController and the Service.
 
 The ReplicationController is the one from lab 9, so it doesn't need much introduction:
 
@@ -96,7 +96,7 @@ Hello, you landed on Terra10 and host terra10-rc-5tmq6 welcomes you!
 developer@developer-VirtualBox:~$ 
 ```
 
-Another option is to run the `curl` command from one of the Pods:
+Another option is to run the `curl` command from one of the Pods, using `kubectl exec`:
 
 ```bash
 developer@developer-VirtualBox:~$ kubectl get pod
@@ -158,7 +158,8 @@ Events:                   <none>
 developer@developer-VirtualBox:~/projects/k4d/lab 14$ 
 ```
 Note in the above listing:
-- the NodePort and TargetPot
+- the NodePort and TargetPort
+- the NodePort Service also has an IP that can be used: 10.98.157.230:80 
 - the Pods are listed under the Endpoints
 
 So, now we should be able to access our service via the NodePort. First, look up the (internal) IP of the minikube Cluster Node and then hit it with curl:
@@ -187,8 +188,6 @@ In the NodePort solution, you have to arrange the Load Balancer functionality yo
 
 ***Now, your local minikube installation does not have a LoadBalancer. So, just for training purpose we'll make the LoadBalancer Service and access it.***
  
-The accompanying figure is similar to that of the NodePort Service:
-
 ```bash
 developer@developer-VirtualBox:~/projects/k4d/lab 14$ kubectl create -f terra10-service-loadbalancer.yaml 
 service/terra10-loadbalancer created
@@ -200,7 +199,7 @@ terra10-loadbalancer   LoadBalancer   10.107.96.23    <pending>     80:30643/TCP
 terra10-nodeport       NodePort       10.98.157.230   <none>        80:30123/TCP   1h
 developer@developer-VirtualBox:~/projects/k4d/lab 14$
 ```
-What was created is shown below:
+The accompanying figure is similar to that of the NodePort Service:
 
 ![LoadBalancer service](img/lab14-loadbalancer-service.png)
 
@@ -297,9 +296,10 @@ kube-system   storage-provisioner                         1/1       Running     
 developer@developer-VirtualBox:~/projects/k4d/lab 14$ 
 ```
 
-And after a while it will show STATUS Running.
+And after a while, it will show STATUS Running.
 
 **Create an Ingress Service**
+
 Now, we're ready to create an Ingress Service.
 
 Have a look at the manifest file:

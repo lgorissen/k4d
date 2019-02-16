@@ -8,7 +8,7 @@ However, what is therefore a better option is to describe your Kubernetes resour
 
 Now, let's first look up the YAML manifest for one of the existing Pods:
 ```bash
-developer@developer-VirtualBox:~/projects/k4d/lab 4$ kubectl get pod terra10-gx6sr -o yaml
+developer@developer-VirtualBox:~/projects/k4d/lab 04$ kubectl get pod terra10-gx6sr -o yaml
 apiVersion: v1
 kind: Pod
 metadata:
@@ -95,7 +95,7 @@ status:
   podIP: 172.17.0.4
   qosClass: BestEffort
   startTime: 2018-09-17T19:10:01Z
-developer@developer-VirtualBox:~/projects/k4d/lab 4$ 
+developer@developer-VirtualBox:~/projects/k4d/lab 04$ 
 ```
 Ha, you must feel a little intimidated by now :-S
 
@@ -130,21 +130,21 @@ With such a YAML manifest file, it is really easy to create the Kubernetes resou
 
 In our case:
 ```bash
-developer@developer-VirtualBox:~/projects/k4d/lab 4$ kubectl create -f terra10-simple.yaml 
+developer@developer-VirtualBox:~/projects/k4d/lab 04$ kubectl create -f terra10-simple.yaml 
 pod/terra10-simple created
-developer@developer-VirtualBox:~/projects/k4d/lab 4$ kubectl get pod
+developer@developer-VirtualBox:~/projects/k4d/lab 04$ kubectl get pod
 NAME             READY     STATUS    RESTARTS   AGE
 terra10-gx6sr    1/1       Running   0          48m
 terra10-qjdqv    1/1       Running   0          47m
 terra10-simple   1/1       Running   0          4s
 terra10-z4lkv    1/1       Running   0          47m
-developer@developer-VirtualBox:~/projects/k4d/lab 4$
+developer@developer-VirtualBox:~/projects/k4d/lab 04$
 ```
 The `kubectl get pod` command shows that a new Pod has been created: *terra10-simple*.
 
 You can also query for a manifest in JSON format:
 ```bash
-developer@developer-VirtualBox:~/projects/k4d/lab 4$ kubectl get pod terra10-simple -o json
+developer@developer-VirtualBox:~/projects/k4d/lab 04$ kubectl get pod terra10-simple -o json
 {
     "apiVersion": "v1",
     "kind": "Pod",
@@ -161,21 +161,21 @@ developer@developer-VirtualBox:~/projects/k4d/lab 4$ kubectl get pod terra10-sim
         "startTime": "2018-09-17T19:58:37Z"
     }
 }
-developer@developer-VirtualBox:~/projects/k4d/lab 4$
+developer@developer-VirtualBox:~/projects/k4d/lab 04$
 ```
 
 The last part of the JSON shows that the Pod IP addres is 172.17.0.7. Let's use that to directly access the Pod:
 ```bash
-developer@developer-VirtualBox:~/projects/k4d/lab 4$ curl 172.17.0.7:8080
+developer@developer-VirtualBox:~/projects/k4d/lab 04$ curl 172.17.0.7:8080
 Hello, you landed on Terra10 and host terra10-simple welcomes you!
-developer@developer-VirtualBox:~/projects/k4d/lab 4$ 
+developer@developer-VirtualBox:~/projects/k4d/lab 04$ 
 ```
 
 # Logs
 Important, yet so simple ... get your container's log file:
 ```bash
-developer@developer-VirtualBox:~/projects/k4d/lab 4$ kubectl logs terra10-simple 
+developer@developer-VirtualBox:~/projects/k4d/lab 04$ kubectl logs terra10-simple 
 Terra10 HelloWorld Server is starting...
 Terra10 HelloWorld Server started
-developer@developer-VirtualBox:~/projects/k4d/lab 4$
+developer@developer-VirtualBox:~/projects/k4d/lab 04$
 ```

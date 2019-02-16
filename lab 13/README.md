@@ -4,7 +4,21 @@ The official definition is that ***a Cron Job creates Jobs on a time-based sched
 
 Well, there isn't much more to it. It is pretty similar to running cron(tab) jobs on your Linux machine. Nevertheless, a fair warning should be given: please look up the Kubernetes specification of the CronJob. It lists some limitations, mainly arround the accuracy of the whole Kubernetes timing mechanism.
 
+The CronJob needs to be scheduled, which is defined in the spec part of the template. For the spec.schedule, the Kubernetes specs refer to the wiki definition: https://en.wikipedia.org/wiki/Cron
 
+Most important is to understan the schedule string (copied from the above wiki page):
+
+```
+# ┌───────────── minute (0 - 59)
+# │ ┌───────────── hour (0 - 23)
+# │ │ ┌───────────── day of the month (1 - 31)
+# │ │ │ ┌───────────── month (1 - 12)
+# │ │ │ │ ┌───────────── day of the week (0 - 6) (Sunday to Saturday;
+# │ │ │ │ │                                   7 is also Sunday on some systems)
+# │ │ │ │ │
+# │ │ │ │ │
+# * * * * * command to execute
+```
 
 ## CronJob example
 

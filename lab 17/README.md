@@ -1,6 +1,6 @@
 # 17. Headless service: point-to-multipoint
 
-The use case for a Headless Service the discovery of ALL Pods that are backing up a Service. That could be done using the Kubernetes API server, but that would make the Pod-internal application code sensitive to being run on a Kubernetes platform. That's something you don't want!
+The use case for a Headless Service is *the discovery of ALL Pods that are backing up a Service*. That could be done using the Kubernetes API server, but that would make the Pod-internal application code sensitive to being run on a Kubernetes platform. That's something you don't want!
 
 Instead, you can use a Headless service and then look up the Pods IP addresses through a DNS lookup.
 
@@ -61,7 +61,7 @@ developer@developer-VirtualBox:~/projects/k4d/lab 17$
 
 In order to test the DNS lookup, we will (1) start a Pod with dnsutils on board and (2) do a DNSlookup for the FQDN for the Headless Service `terra10-headless`. 
 
-@1:
+@1: start dnsutils Pod
 
 ```bash
 developer@developer-VirtualBox:~/projects/k4d/lab 17$ kubectl run dnsutils --image=tutum/dnsutils --generator=run-pod/v1 --command -- sleep infinity
@@ -71,7 +71,7 @@ NAME       READY     STATUS    RESTARTS   AGE
 dnsutils   1/1       Running   0          5s
 developer@developer-VirtualBox:~/projects/k4d/lab 17$ 
 ```
-and then @2:
+and then @2: do a DNSlookup in dnslutils Pod
 
 ```bash
 developer@developer-VirtualBox:~/projects/k4d/lab 17$ kubectl exec dnsutils nslookup terra10-headless

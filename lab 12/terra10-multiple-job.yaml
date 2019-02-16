@@ -1,7 +1,7 @@
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: terra10-mulitple-job
+  name: terra10-multiple-job
 spec:
   completions: 5
   parallelism: 2

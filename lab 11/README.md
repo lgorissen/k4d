@@ -1,13 +1,14 @@
 # 11. DaemonSet - one Pod on each Node
 
-A DaemonSet ensures that on each cluster Node runs a copy of a Pod - also when nodes are added/removed from the Cluster.
+A DaemonSet ensures that a copy of a Pod runs on each cluster Node - also when nodes are added/removed from the Cluster.
+
 This functionality is mostly used for Pods that perform infrastructure related tasks on a Node level, e.g. log file collection.
-As an additional feature, nodes can also be selected using the ***nodeSelector*** feature. Thus, a DaemonSet can run Pods on a subset of Nodes in the Cluster.
+As an additional feature, Nodes can also be selected using the ***nodeSelector*** feature. Thus, a DaemonSet can run Pods on a subset of Nodes in the Cluster.
 
 
 ## DaemonSet example
 
-Our example will run a Pod on all nodes with node label **gpu** set to **high**. Think of the Pod as a 'monitor of the Node's GPU capability'.
+Our example will run a Pod on all Nodes with Node label **gpu** set to **high**. Think of the Pod as a 'monitor of the Node's GPU capability'.
 
 The DaemonSet manifest file (in the lab 11 directory, name `daemonset-gpu.yaml`):
 
@@ -34,7 +35,7 @@ spec:
 
 The container `lgorissen/gpu-monitor` that is defined writes a message 'GPU OK' to the log, every 5 seconds.
 
-Now, create the DaemonSet (manifest file 'daemonset-gpu.yaml' in the lab 11 directory):
+Now, create the DaemonSet:
 
 ```bash
 developer@developer-VirtualBox:~/projects/k4d/lab 11$ kubectl create -f daemonset-gpu.yaml 
@@ -48,7 +49,7 @@ developer@developer-VirtualBox:~/projects/k4d/lab 11$ kubectl get pod
 No resources found.
 developer@developer-VirtualBox:~/projects/k4d/lab 11$
 ```
-The Pod is not there because the minikube node does not have the label `gpu=high`:
+The Pod is not there because the minikube Node does not have the label `gpu=high`:
 
 ```bash
 developer@developer-VirtualBox:~/projects/k4d/lab 11$ kubectl get node minikube --show-labels 

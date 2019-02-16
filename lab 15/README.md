@@ -12,6 +12,10 @@ This lab starts with the situation from the previous lab, so a couple of Service
 1. Re-create all our Pods by deleting them and letting the ReplicationController start new Pods. That ensures that all Pods have an up-to-date set of environment variables.
 2. Inspect the environment variables in a Pod
 
+Let's go.
+
+**Step 1:** recreate Pods:
+
 ```bash
 developer@developer-VirtualBox:~/projects/k4d$ kubectl delete pod --all
 pod "terra10-rc-49zr2" deleted
@@ -22,6 +26,14 @@ NAME               READY     STATUS    RESTARTS   AGE
 terra10-rc-h2svz   1/1       Running   0          42s
 terra10-rc-mgtt2   1/1       Running   0          42s
 terra10-rc-ndfww   1/1       Running   0          42s
+developer@developer-VirtualBox:~/projects/k4d$
+```
+
+**Step 2:** inspect environment variables in a Pod
+
+We will use `kubectl exec` to run the `env` command in one of the Pods:
+
+```bash
 developer@developer-VirtualBox:~/projects/k4d$ kubectl exec terra10-rc-h2svz env | sort
 HOME=/root
 HOSTNAME=terra10-rc-h2svz
@@ -59,7 +71,7 @@ TERRA10_SERVICE_PORT=80
 YARN_VERSION=1.9.4
 developer@developer-VirtualBox:~/projects/k4d$
 ```
-You can examine the output and see that a set of env variables is present for the services TERRA10, TERRA10\_NODEPORT and TERRA10\_LOADBALANCER. That matches with:
+You can examine the output and see that a set of env variables is present for the services KUBERNETES, TERRA10, TERRA10\_NODEPORT and TERRA10\_LOADBALANCER. That matches with:
 
 ```bash
 developer@developer-VirtualBox:~/projects/k4d$ kubectl get service
@@ -82,22 +94,24 @@ A Kubernetes platform runs a DNS service. First some discovery stuff...
 Look at the Pods in the `kube-system` namespace:
 
 ```bash
-developer@developer-VirtualBox:~/projects/k4d$ kubectl get pod --namespace=kube-system 
-NAME                                        READY     STATUS    RESTARTS   AGE
-default-http-backend-59868b7dd6-wvjvv       1/1       Running   0          2h
-etcd-minikube                               1/1       Running   20         11d
-kube-addon-manager-minikube                 1/1       Running   73         11d
-kube-apiserver-minikube                     1/1       Running   20         11d
-kube-controller-manager-minikube            1/1       Running   20         11d
-kube-dns-86f4d74b45-gkfkm                   3/3       Running   66         11d
-kube-proxy-gj2lj                            1/1       Running   20         11d
-kube-scheduler-minikube                     1/1       Running   20         11d
-kubernetes-dashboard-5498ccf677-cvrpk       1/1       Running   41         11d
-nginx-ingress-controller-5984b97644-msxjt   1/1       Running   0          2h
-storage-provisioner                         1/1       Running   42         11d
-developer@developer-VirtualBox:~/projects/k4d$
+developer@developer-VirtualBox:~/projects/k4d/lab 14$ kubectl get pod -n kube-system 
+NAME                                       READY   STATUS    RESTARTS   AGE
+coredns-86c58d9df4-fprc7                   1/1     Running   4          45h
+coredns-86c58d9df4-s4wxw                   1/1     Running   4          45h
+default-http-backend-5ff9d456ff-nftdb      1/1     Running   0          18m
+etcd-minikube                              1/1     Running   37         45h
+kube-addon-manager-minikube                1/1     Running   37         45h
+kube-apiserver-minikube                    1/1     Running   37         45h
+kube-controller-manager-minikube           1/1     Running   10         45h
+kube-proxy-s9ms7                           1/1     Running   4          45h
+kube-scheduler-minikube                    1/1     Running   38         45h
+kubernetes-dashboard-ccc79bfc9-2x4pp       1/1     Running   8          45h
+metrics-server-6fc4b7bcff-zcgfs            1/1     Running   7          45h
+nginx-ingress-controller-7c66d668b-vvsxz   1/1     Running   0          18m
+storage-provisioner                        1/1     Running   8          45h
+developer@developer-VirtualBox:~/projects/k4d/lab 14$
 ```
-Note the `kube-dns-86f4d74b45-gkfkm` Pod in the listing above. 
+Note the `core-dns-...` Pods in the listing above. 
 
 Look at the services in the `kube-system` namespace:
 
@@ -110,7 +124,9 @@ kubernetes-dashboard   NodePort    10.106.226.98   <none>        80:30000/TCP   
 developer@developer-VirtualBox:~/projects/k4d$
 ```
 
-Yes, there is a Kubernetes DNS! Now - and this is important - ALL dns calls by all Pods in the Kubernetes Cluster are handled by this Kubernetes DNS. And the Kubernetes DNS knows exactly what Services are running!
+Yes, there is a Kubernetes DNS! The kube-dns Service routes the calls to the `core-dns-...` Pods.
+
+Now - and this is important - ALL dns calls by all Pods in the Kubernetes Cluster are handled by this Kubernetes DNS. And the Kubernetes DNS knows exactly what Services are running!
 
 **FQDN: Fully Qualified Domain Name**
 

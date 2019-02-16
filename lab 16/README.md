@@ -32,7 +32,7 @@ developer@developer-VirtualBox:~/projects/k4d/lab 16$
 ```
 In this lab we will show how external Services, i.e. outside the Kubernetes Cluster, can be accessed using end-points.
 
-## External Service: by hostname
+## 16.1 External Service: by hostname
 
 An external service can be referenced by hostname. The accompanying manifest file is `terra10-service-by-hostname.yaml` (in the lab 16 directory):
 
@@ -65,9 +65,9 @@ Events:            <none>
 developer@developer-VirtualBox:~/projects/k4d/lab 16$
 ```
 
-This does not seem too fancy, but it is a very nice and powerfull concept: you can now access the `terra10.io` host from all pods by using the Kubernetes FQDN ` terra10-service.default.service.cluster.local`. So this mechanism centralizes the connection from your pods to a service in the external world in one single point!
+This does not seem too fancy, but it is a very nice and powerfull concept: you can now access the `terra10.io` host from all pods by using the Kubernetes FQDN ` terra10-service.default.service.cluster.local`. So this mechanism centralizes the connection from your Pods to a service in the external world in one single point!
 
-Time to verify if the Kubernetes FQDN works (we still have some pods running from lab 4):
+Time to verify if the Kubernetes FQDN works (we still have some Pods running from previous labs):
 
 ```bash
 developer@developer-VirtualBox:~/projects/k4d/lab 16$ kubectl get pod
@@ -76,12 +76,6 @@ terra10-rs-f99sq   1/1       Running   3          4d
 terra10-rs-j6d7s   1/1       Running   3          4d
 terra10-rs-p26rc   1/1       Running   3          4d
 developer@developer-VirtualBox:~/projects/k4d/lab 16$ kubectl exec terra10-rs-f99sq -it bash
-root@terra10-rs-f99sq:/# ping terra10-service
-PING terra10.io (52.47.106.157) 56(84) bytes of data.
-^C
---- terra10.io ping statistics ---
-12 packets transmitted, 0 received, 100% packet loss, time 11249ms
-
 root@terra10-rs-f99sq:/# curl terra10-service.default.svc.cluster.local
 <!DOCTYPE html>
 <html lang="en">
@@ -99,7 +93,7 @@ Of course ... this mechanisme can also be use to access REST services ;-)
 
 
 
-## External Service: by IP address
+## 16.2 External Service: by IP address
 
 It is also possible to separate the creation of the Service and Endpoints. As a benefit of this approach, it is possible to change the Endpoints only, when a service is re-located or perhaps even put inside a Pod in the Cluster.
 
@@ -112,14 +106,21 @@ We will do the following steps:
 
 Go!
 
-### 1 create an 'external' service
+### 16.2.1 create an 'external' service
 
 To make this a bit more realistic, we first start a service on the machine that's also running the minikube. Let's pretend that that is the External Service. The service returns drone parts:
 
 ```bash
 developer@developer-VirtualBox:~$ docker run -d -p 8082:8080 lgorissen/dronebuzzers-parts
-83b716b8e82e1c10d51e9b77c436b5f081bb83a7a69996a272f601d7a64e1089
-developer@developer-VirtualBox:~$ curl 10.0.2.15:8082/parts
+Unable to find image 'lgorissen/dronebuzzers-parts:latest' locally
+latest: Pulling from lgorissen/dronebuzzers-parts
+88286f41530e: Pull complete 
+009f6e766a1b: Pull complete 
+86ed68184682: Pull complete 
+c0ef85ed94c4: Pull complete 
+Digest: sha256:50053ce7a6dc2f849f8a100c9cb3e83192a0ff436b02e73d141a695d8d446c0d
+Status: Downloaded newer image for lgorissen/dronebuzzers-parts:latest
+5009eedc468685278974c885f3577331bd01574942276f2fd89cbfc498493cfadeveloper@developer-VirtualBox:~$ curl 10.0.2.15:8082/parts
 [{"id":"DB-38406","type":"Motor","name":"DroneBuzzer regular","count":1,"price":
 18.95,"currency":"EUR"},{"id":"DB-38606","type":"Motor","name":"DroneBuzzer racer",
 "count":1,"price":21.95,"currency":"EUR"},{"id":"DB-SC-622-25A","type":"Speedcontroller",
@@ -134,11 +135,11 @@ developer@developer-VirtualBox:~$ curl 10.0.2.15:8082/parts
 
 Don't order any drone parts there: they're too expensive ;-)
 
-Note that this 'external' service runs on the cluster IP, which is sufficient for our purposes.
+Note that this 'external' service runs on the minikube node IP in our minikube set-up. It is sufficient for our purposes.
 
-### 2 create the Endpoints
+### 16.2.2 create the Endpoints
 
-The Endpoints (only one) for this service are described in the manifest below (file `dronebuzzers-service-endpoints.yaml`in the `lab 16` directory):
+The Endpoints (only one) for this service are described in the manifest below (file `dronebuzzers-service-endpoints.yaml` in the `lab 16` directory):
 
 ```bash
 apiVersion: v1
@@ -178,7 +179,7 @@ developer@developer-VirtualBox:~/projects/k4d/lab 16$
 Go go go.
 
 
-### 3 create the Service
+### 16.2.3 create the Service
 
 Next step is to create the Service that will use the above created endpoints. The manifest file is `dronebuzzers-service.yaml`: 
 
@@ -191,6 +192,7 @@ spec:
   ports:
   - port: 8082                  # open the right port
 ```
+Note - also remarked in the above manifest - that the Service and the Endpoints are linked because the name of the Service matches the name of the Endpoints: `dronebuzzers-service`!
 
 Create the Service:
 
@@ -203,7 +205,7 @@ developer@developer-VirtualBox:~/projects/k4d/lab 16$
 You must have done that blindfolded by now.
 
 
-### 4 test
+### 16.2.4 test
 
 Testing of the Service will be done by logging in into an already running Pod and then invoking the External Service using its Kubernetes FQDN:
 
@@ -221,6 +223,10 @@ root@terra10-rs-f99sq:/# curl dronebuzzers-service.default.svc.cluster.local:808
 Nifty!
 
 
-## Summary 
+## 16.3 Summary 
 
-This lab shows 2 ways to access external services via a Kubernetes Service: via hostname and via IP address. Both ways make it easier to absorb (specific) changes in external services, as they will be limited to a single point.
+This lab shows 2 ways to access external services via a Kubernetes Service: via hostname and via IP address. Both ways make it easier to manage and absorb (specific) changes in external services, as they will be limited to a single point.
+
+## 16.3 Finally ...
+
+Clean up!
