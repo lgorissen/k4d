@@ -31,7 +31,7 @@ A configMap that takes entries from the files in a directory:
 
 The configuration options that are shown above illustrate that the configMap mechanism is very flexible: it will most likely also cover your application's configuration requirements.
 
-## Mount configMap into a Pod
+## 22.1 Mount configMap into a Pod
 
 The only part that is missing now in your toolkit is 'how to mount *only* the right file of the configMap in the right directory/file'.
 
@@ -41,7 +41,7 @@ The image below shows what we want to achieve:
 
 We want to map the transporter.json file contants onto a file in the Container in the Pod.
 
-The Pod's manifest file looks like below:
+(Part of) the Pod's manifest file looks like below:
 
 ```bash
 spec:
@@ -63,6 +63,10 @@ So, in the container, the *contents of the transporter.json key in myconfigmap* 
 
 
 
-## Exercises
+## 22.2 Exercises
 
-Well, the commands are in the above figures, and the sample files are in the `lab 22` directory. Try and clean up!
+Well, the commands are in the above figures, and the sample files are in the `lab 22` directory. 
+
+Just create a Pod with an `lgorissen/terra10` Container that has the config data as described above mounted. 
+
+And ... clean up!

@@ -2,11 +2,11 @@
 
 The *gitRepo* Volume clones a Git repository into your Pod. Next, that Volume can be mounted into your Docker Container. Just like with the emptyDir Volume, its contents is deleted when the Pod is deleted. Note that the gitRepo Volume does not support private Git repos.
 
-The *gitRepo* Volume is deprecated: the recommended alternative is to 'mount an EmptyDir into an InitContainer that clones the repo using git, then mount the EmptyDir into the Pod’s container' (from the Kubernetes documentation).
+The *gitRepo* Volume is ***deprecated***: the recommended alternative is to 'mount an EmptyDir into an InitContainer that clones the repo using git, then mount the EmptyDir into the Pod’s container' (from the Kubernetes documentation).
 
 Nevertheless, we will cover it here briefly as you may run into it in older installations.
 
-## gitRepo example
+## 20.1 gitRepo example
 
  
 The target situation is that of a Pod that can be queried and then returns the directory listing of the attached gitRepo volume.
@@ -35,7 +35,7 @@ spec:
       revision: "42ee9a72a82e35aa017a132c9b553ad79c05421e" # commit number for Git repo
 ```
 
-## Run and Test
+## 20.2 Run and Test
 
 Not much to say here:
 
@@ -50,7 +50,8 @@ and
 ```bash
 developer@developer-VirtualBox:~/projects/k4d/lab 20$ kubectl create -f terra10-gitrepo.yaml 
 pod/terra10-gitrepo created
-developer@developer-VirtualBox:~/projects/k4d/lab 20$ curl  172.17.0.10:8094 
+developer@developer-VirtualBox:~/projects/k4d/lab 20/terra10-gitrepo$ kubectl describe pod terra10-gitrepo | grep "^IP:" 
+IP:                 172.17.0.10
 developer@developer-VirtualBox:~/projects/k4d/lab 20$ curl  172.17.0.10:8094 
 Directory listing of gitRepo :
 /tmp/gitRepo/k4d/.git/HEAD

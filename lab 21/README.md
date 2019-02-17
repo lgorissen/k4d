@@ -2,29 +2,28 @@
 
 Your Pod consists of a number of Containers, and each of them requires configuration data - well, except for the most simple cases. 
 
-## Containers and Pod specification
+## 21.1 Containers and Pod specification
 
-For Containers, configuration information can be passed in as:
+For Docker Containers, configuration information can be passed in as:
 1. Command-line arguments 
 2. Environment variables
 
-#### 1. Pod specification and Command-line arguments
+### 21.1.1. Pod specification and Command-line arguments
 How a Docker Container is started is defined in the Dockerfile. The Dockerfile uses the ENTRYPOINT and CMD instructions to start the image. The preferred way to do this is to:
 
 - Use ENTRYPOINT in the exec format: `ENTRYPOINT ["<executable>" , "<par 1>", "<par 2>", ...]`
-- Use CMD to define the default parameters to ENTRYPOINT: `CMD [ "<par 1>", "<par 2>", ...]`
+- Use CMD to define additional default parameters to ENTRYPOINT: `CMD [ "<par a>", "<par b>", ...]`
 
-For example:
+With this approach:
+- ENTRYPOINT ensures that the Container can start without additional parameters
+- CMD ensures that the optional parameters hava sensible default values
+
+Example:
 
 ```bash
 ENTRYPOINT ["/bin/myterra.sh"]
 CMD ["60"]
 ```
-
-Note:
-
-- using ENTRYPOINT in the exec format avoids running the executable in a shell;
-- having default values for the parameters ensures that you can start your Container with default values
 
 In Kubernetes, the Container specification in a Pod can overrride the ENTRYPOINT and CMD entries. This is how they map/match:
 
@@ -33,18 +32,18 @@ In Kubernetes, the Container specification in a Pod can overrride the ENTRYPOINT
 | ENTRYPOINT | command |
 | CMD     | args |
 
-For example, a Pod manifest file's container specification could look like:
+For example, the Container specification in a Pod manifest file could look like:
 
 ```bash
 kind: Pod
 spec: 
   containers:
   - image: lgorissen/terra10
-    command: ["/bin/my-terra-command"]
-    args: ["10"]
+    command: ["/bin/my-terra-command"]  # override ENTRYPOINT
+    args: ["10"]                        # override CMD
 ```
 
-#### 2. Pod specification and Environment variables
+### 21.1.2. Pod specification and Environment variables
 
 Many Containers rely on environment variables for their configuration. Therefore, Kubernetes allows you to define environment variables. Those environment variables are specified in the Pod specification, but on the Container level. That makes sense, as this keeps the Containers independent. In the Pod manifest file, the configuration of environment variables is done like shown below:
 
@@ -58,11 +57,11 @@ spec:
       value: "12"
 
 ```
-For the Terra10 transporter Container, the environment variable 'TRANSPORTER_PLATFORM' defines what platform is used for transporting ;-)
+For the Terra10 transporter Container, the environment variable 'TRANSPORTER_PLATFORM' defines ... what platform is used for transporting ;-)
 
-#### Pod specification and configuration - a small exercise
+### 21.1.3 Pod specification and configuration - a small exercise
 
-**- Docker Container lgorissen/terra10-transporter:config**
+**Docker Container lgorissen/terra10-transporter:config**
 
 We have a Container named `lgorissen/terra10-transporter:config`, that has two configuration options:
 
@@ -95,7 +94,7 @@ developer@developer-VirtualBox:~/projects/k4d/lab 21$ curl localhost:8096
 Hello, transporter local_13 will transport you in 30 seconds 
 developer@developer-VirtualBox:~/projects/k4d/lab 21$ 
 ```
-**- Pod specification using Docker Container lgorissen/terra10-transporter:config**
+**Pod specification using Docker Container lgorissen/terra10-transporter:config**
 
 The same Container can be used in a Pod. The manifest file `terra10-transporter-config` can be found in the `lab 21` directory:
 
@@ -130,11 +129,11 @@ developer@developer-VirtualBox:~/projects/k4d/lab 21$
 ```
 
 
-#### Pod specification and configuration - not a happy marriage
+### 21.1.4 Pod specification and configuration - not a happy marriage
 
 It does not take a Kubernetes wizzard to understand that hard-coding configuration information in a Pod specification is not a desirable situation. You will end up with different Pod specifications for different environments. As the Pod is basically your application specification, it does not feel good to have a different specification for each environment. The configuration data has to go: please welcome the ConfigMap.
 
-## ConfigMap to the rescue...
+## 21.2 ConfigMap to the rescue...
 
 The ConfigMap is a Kubernetes object which contains key-value pairs. The values are passed on the the Containers as environment variables or as files in a Volume.
 
@@ -147,7 +146,7 @@ The Pod refers to a configMap by name. In that way, the *different configuration
 Note that configuration of different environments in this requires those different environments to be handled in different Kubernetes namespaces! Which is a sensible thing to do anyway...
 
 
-## configMap example
+## 21.3 configMap example
 
 Now it's time to start putting the configMap to use. Our goal is to use the configMap for the above example. So we need a configMap and a Pod manifest that refers to it. 
 
@@ -168,7 +167,7 @@ data:
 
 **Pod manifest**
 
-Now that the configMap is defined, the Pod manifest can put it to use (`terra10-transporter-pod.yaml`). In this example we see how a Container argument and an environment variable get their values from the `terra10-transporter-config` ConfigMap that was defined above.
+Now that the configMap is defined, the Pod manifest use it (`terra10-transporter-pod.yaml`). In this example we see how a Container argument and an environment variable get their values from the `terra10-transporter-config` ConfigMap that was defined above.
 
 ```bash
 apiVersion: v1
@@ -199,7 +198,7 @@ spec:
 Note in the above manifest file how the Container argument is set using the environment variable.
 
 
-Running and testing the things is done in 3 steps:
+Running and testing the things is done in 4 steps:
 
 1. Create the ConfigMap and look at its contents
 2. Create the Pod

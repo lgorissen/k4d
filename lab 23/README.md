@@ -1,6 +1,6 @@
 # 23. Volume secret: passing sensitive information to Pods
 
-Now, having all of this configuration information in a configMap is great ... but there is that typical headache-configuration-use-case: how to handle sensitive information like passwords? You waint to decrease the risk of accidental exposure of this type of information.
+Now, having all of this configuration information in a configMap is great ... but there is that typical headache-configuration-use-case: how to handle sensitive information like passwords? You want to decrease the risk of accidental exposure of this type of information.
 
 The Kubernetes solution is: Secrets!
 
@@ -10,7 +10,7 @@ Kubernetes documentation describes Secrets as *an object that contains a small a
 ![](img/lab23-secret-volume-pod.png)
 
 
-## Secrets 
+## 23.1 Secrets 
 
 **Secrets creation**
 
@@ -40,8 +40,9 @@ Kubernetes helps in keeping your Secrets safe:
 - On the Worker nodes, Secrets are only stored in memory
 
 So, as long as you secure access to kubectl and the Master Node, your Secrets are safe.
+Note that the Pod application builder also has a responsibility here: e.g. logging a secret is not a good idea :-S
 
-## Default token Secret
+## 23.2 Default token Secret
 
 Let's have a look at this 'default token' Secret that is automatically mounted into every Container.
 
@@ -133,7 +134,7 @@ developer@developer-VirtualBox:~/projects/k4d/lab 23$
 
 So, should you want to communicate with the Kubernetes API from within your Container, you now know that you have the required credentials available!
 
-## Example
+## 23.3 Example
 
 In the remainder, we want to create a Secret that (in the end) is visible in our Container in the two files `/etc/terra10/terra10-user` and `/etc/terra10/terra10-password`. 
 
@@ -144,7 +145,7 @@ We will do this in a couple of steps:
 3. Use the Secret in Pod & Container
 
 
-### Create your own Secret
+### 23.3.1 Create your own Secret
 
 There are 3 ways to create the Secret:
 
@@ -252,10 +253,10 @@ terra10-username:  13 bytes
 developer@developer-VirtualBox:~/projects/k4d/lab 23$
 ```
 
-So, not you've seen 3 ways to create the same Secret.
+So, now you've seen 3 ways to create the same Secret.
 
 
-### Examine your Secrets
+### 23.3.2 Examine your Secrets
 
 Nope, I'm not a shrink.
 
@@ -293,7 +294,7 @@ terra10-admindeveloper@developer-VirtualBox:~/projects/k4d/lab 23$ echo 'd2VsY29
 welcome01developer@developer-VirtualBox:~/projects/k4d/lab 23$
 ```
 
-### Mount your Secret as a Volume in the Pod and Container
+### 23.3.3 Mount your Secret as a Volume in the Pod and Container
 
 Now it is time to create a Pod with the previously created Secret visible in our Container in the two files `/etc/terra10/terra10-user` and `/etc/terra10/terra10-password`.
 

@@ -16,13 +16,13 @@ A process in a Container sees a filesystem view composed from their Docker image
 We will start with a simple Volume type: emptyDir. The emptyDir Volume type:
 
 - is initially empty
-- Containers in the Pod can all read and write the same files in the emptyDir volume
-- the Volume can be mounted at the same or different paths in each Container
-- when the Pod is removed, the data in the emptyDir Volume is lost forever
+- has files that can be read and written by all Containers in the Pod
+- can be mounted at the same or different paths in each Container in the Pod
+- data is lost forever when the Pod is removed
 
-That last bullet implies that the emptyDir Volume can't be used to store data with a lifetime longer than a Pod. On the other hand, the emptyDir Volume is very useful for exchanging data between Containers in the same Pod.
+That last bullet implies that the emptyDir Volume can't be used to store data with a lifetime longer than a Pod. Hence, a typical use case for the emptyDir Volume is the exchange of data between Containers in the same Pod.
 
-## Example: Terra10 transporter
+## 18.1 Example: Terra10 transporter
 
 In this lab, we will establish the following set-up:
 
@@ -31,14 +31,16 @@ In this lab, we will establish the following set-up:
 We will specify a Pod that consists of:
 
 - Container terra10-transporter: the functionality to 'transport someone from one location to another'
-- Container terra10-monitor: returns a log file of the activity of your transporter
-- Volume transportlog (of type emptyDir) that holds the log file for the transporter
+- Container terra10-monitor: returns a log file of the activity of the transporter
+- Volume transportlog: holds the log file for the transporter
 
 You probably have already guessed that terra10-transporter writes logging data to the transportlog Volume. The terrra10-monitor retrieves the data from the transportlog Volume
 
-## Pod specification
+## 18.2 Pod specification
 
-The manifest file for the Pod, as well as the 2 Docker Containers is in the `lab 18` folder. The anifest `terra10-transporter.yaml`:
+The manifest file for the Pod, as well as the code for the 2 Docker Containers is in the `lab 18` folder.
+
+The Pod manifest `terra10-transporter.yaml`:
 
 ```bash
 apiVersion: v1
@@ -66,11 +68,11 @@ spec:
       protocol: TCP
   volumes:                                 # Volume specification section
   - name: transportlog                     # 1st mounted volume name
-    emptyDir: {}                           # volume type
+    emptyDir: {}                           # volume type: emptyDir
 
 ```
 
-## Test with the Pod
+## 18.3 Test with the Pod
 
 Now, let's fire up the Pod:
 
@@ -99,7 +101,7 @@ Containers:
 
 Study the description of the Pod and have a look at the Volume description.
 
-No, test the Pod (use the Pod IP address from the description)(for you sceptical people out there: use your own names):
+Now, test the Pod (use the Pod IP address from the description)(for you sceptical people out there: use your own names):
 
 ```bash
 developer@developer-VirtualBox:~/projects/k4d/lab 18$ curl 'http://172.17.0.9:8090?name=Luc&from=DenBosch&to=Moon'
@@ -115,9 +117,9 @@ developer@developer-VirtualBox:~/projects/k4d/lab 18$
 OK, so the emptyDir volume does exchange the data between the 2 Containers.
 
 
-## Container re-start
+## 18.4 Container re-start
 
-Now, the specification says that the emptyDir volume survives the Container re-starts. So, let's stop the 2 Container in the Pod and see what happens.
+Now, the specification says that the emptyDir volume survives the Container re-starts. So, let's stop the 2 Containers in the Pod and see what happens.
 Get the 2 Docker Container IDs from the Pod description and stop them:
 
 ```bash
@@ -149,3 +151,5 @@ developer@developer-VirtualBox:~/projects/k4d/lab 18$
 ```
 
 We see that the Kubernetes Pod has re-started the Containers and that the data is pre-served in the emptyDir Volume!
+
+Clean up!

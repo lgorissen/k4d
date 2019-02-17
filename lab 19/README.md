@@ -1,6 +1,6 @@
 # 19. Volume hostPath: Worker Node file system
 
-The previous lab has the *emptyDir* Volume type. Kubernetes knows a lot of different (types of) Volumes. They can be clustered in some categories:
+The previous lab covered the *emptyDir* Volume type. Kubernetes knows a lot of different Volume types. They can be clustered in some categories:
 
 | Volume type  | Description                                                     | Lab   |
 |--------------|-----------------------------------------------------------------|-------|
@@ -18,7 +18,7 @@ The previous lab has the *emptyDir* Volume type. Kubernetes knows a lot of diffe
 Note:
 
 - which of the above volume types are supported in your Kubernetes set-up may depend on your provider
-- we will not shown examples of the network and Cloud storage providers as those may not be readily availabel in your set-up. However, when your have completed the other labs on Volumes, you should be able to figure out the details on any specific Volume type by yourself ;-)
+- we will not shown examples of the network and Cloud storage providers as those may not be readily available in your set-up. However, when your have completed the other labs on Volumes, you should be able to figure out the details on any specific Volume type by yourself ;-)
 
 Depending on your Kubernetes provider, some volume types may not be supported: when you set up your Kubernetes platform, slecting the Storage is one of the big topics!
 
@@ -31,7 +31,7 @@ In this lab, we will replace the *emptyDir* volume of lab 18 with a *hostPath* v
 
 ![](img/lab19-terra10-transporter-hostpath.png)
 
-The manifest file `terra10-transporter-hostpath.yaml` is pretty much the same as in the previous lab. Only the volume definition had to be changed! (well, i also changed the name of the volumeMount for clarity - but that wasn't necessary!):
+The manifest file `terra10-transporter-hostpath.yaml` is pretty much the same as in the previous lab. Only the volume definition had to be changed! (well, I also changed the name of the volumeMount for clarity - but that wasn't necessary!):
 
 ```bash
 apiVersion: v1
@@ -43,7 +43,7 @@ spec:
   - image: lgorissen/terra10-transporter
     name: terra10-transporter
     volumeMounts:
-    - name: transportlog-hostpath
+    - name: transportlog-hostpath      # volume name
       mountPath: /tmp
     ports:
     - containerPort: 8092
@@ -51,14 +51,14 @@ spec:
   - image: lgorissen/terra10-monitor
     name: terra10-monitor
     volumeMounts:
-    - name: transportlog-hostpath
+    - name: transportlog-hostpath      # volume name
       mountPath: /var/log
       readOnly: true
     ports:
     - containerPort: 8090
       protocol: TCP
   volumes:
-  - name: transportlog-hostpath
+  - name: transportlog-hostpath        # volume name
     hostPath:                          # hostPath Volume
       path: /tmp/terra10-transporter   # path on the Worker Node where the Volume is mounted
 ```
