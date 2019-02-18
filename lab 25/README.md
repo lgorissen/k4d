@@ -16,11 +16,10 @@ spec:
     volumeMounts:                       # A Volume is mounted in the container
     - mountPath: /test-pd               # ... mountpoint is /test-pd
       name: test-volume                 # ... name of Volume is test-volume
-  volumes:
-  - name: test-volume                   # Start of specification of Volume test-volume
-    # This GCE PD must already exist.
+  volumes:                              # Volume specification
+  - name: test-volume                   # ... Volume test-volume
     gcePersistentDisk:                  # ... of type gcePersistentDisk
-      pdName: my-data-disk              # ... name of the (existing) GCE PD 
+      pdName: my-data-disk              # ... name of the (already existing!) GCE PD 
       fsType: ext4                      # ... and its file type
 ```
 
@@ -31,7 +30,7 @@ However, there are 2 things about this approach that we don't like:
 1. The Volume specification has technical details that you normally don't want to bother the application developer with. Knowing technical details about storage is more a Kubernetes admin thingie...
 2. The Pod specification is often considered to define the application. Now, if you want to run this application (Pod) on a different Kubernetes cluster that has different storage types, you need to change the Pod specification. Bwah.
 
-As it turns out, the Kubernetes folks not only agreed on this, but they also helped us with a solution: Persistent Volumes! 
+As it turns out, the Kubernetes folks also did not like this, so they helped us with a solution: Persistent Volumes! 
 
 ![persistent volumes](img/lab25-persistent-volumes.png)
 
@@ -41,21 +40,23 @@ In the figure above:
 
 - Creates the Pod specification
 - Defines a Volume in the Pod specification that refers to a Persistent Volume claim
-- The Persistent Volume Claim object describes the storage that is requested
-- As a result, the Pod specification has no Volume/storage implementation details
+- Defines the Persistent Volume Claim object describes the storage that is requested
+
+As a result, the Pod specification has no Volume/storage implementation details
 
 **Kubernetes admin**
  
- - Ensures that physical storage is available - in our case Cloud storage in the Google Cloud: GCE PD
- - Creates a Persistent Volume Kubernetes object that represents this storage
- - Note that a Persistent Volume is a resource on Cluster level, i.e. it does not belong to any Namespace
+ - Ensures that physical storage is available - in our example Cloud storage in the Google Cloud: GCE PD
+ - Creates a Persistent Volume object that represents this storage
+ 
+ Note that a Persistent Volume is a resource on Cluster level, i.e. it does not belong to any Namespace
  
 **Kubernetes**
 
 - Kubernetes itself matches the Persistent Volume Claim with a corresponding Persistent Volume
 
 
-## Manifest files for the GCE PD case
+## 25.1 Manifest files for the GCE PD case
 
 The Pod manifest that was used above, would transform to:
 
@@ -73,7 +74,7 @@ spec:
       name: test-volume                 # ... name of Volume is test-volume
   volumes:
   - name: test-volume                   # Start of specification of Volume test-volume
-    persistenVolumeClaim:               # this is the only change: refer to a 
+    persistentVolumeClaim:              # this is the only change: refer to a 
       claimName: terra10-pvc            # ... persistentVolumeClaim
 ```
 
@@ -127,21 +128,21 @@ spec:
 
 
 
-## Kubernetes & matching PVC and PV
+## 25.2 Kubernetes & matching PVC and PV
 
 The example in the previous section describes a PVC and PV. When Kubernetes gets the PVC, it will have to select a matching PV. In our case, the selection would 'look for an 8GB file system with RWO access mode'. 
 
 To guide this matching process, it is possible to add a label selector to the Persistent Volume Claim. This label selector will the specific a label query that will by used to determine what Persistent Volumes are considered for binding. For example:
 
 ```bash
-  selector:                            # label selector helps with selecting the right Volume
+  selector:               # label selector helps with selecting the right Persistent Volume
     matchLabels:
       release: "stable"
     matchExpressions:
       - {key: environment, operator: In, values: [dev]}
 ```
 
-## Lifespan of PVC and PV
+## 25.3 Lifespan of PVC and PV
 
 It is important to understand the lifespan of PVC, PV and Pod. In general:
 
@@ -151,19 +152,19 @@ It is important to understand the lifespan of PVC, PV and Pod. In general:
 
 However, also other possibilities exist: it is possible to define a *reclaim policy* for a PV that defines different behaviour. Please consult the Kubernetes reference documentation.
 
-## Storage is difficult!
+## 25.4 Storage is difficult!
 
 There is a good reason why Persistent Volumes are introduced in Kubernetes: storage is difficult and in general requires knowledge that the average developer (no ... not you ... the others!) does not have. This lab only scratches the surface of Persistent Volumes. Sound advice: when designing the Storage for your application, get someone involved who has the right knowledge!
 
 
-## Finally, a Lab exercise 
+## 25.5 Finally, a Lab exercise 
 ...Albeit a simple one...
 
 Like earlier, we will not do a lab exercise with network or Cloud storage involved.
 
-Instead, we will use the hostPath storage: it accesses the local file system on the Cluster Node. So, for production situations where you want to access local files (mostly system related) that could be OK. And for testing purposes. BuUT ... NOT for production purposes if you want to share data across Pods.
+Instead, we will use the hostPath storage: it accesses the local file system on the Cluster Node. So, for production situations where you want to access local files (mostly system related) that could be OK. And for testing purposes. BUT ... NOT for production purposes.
 
-Anyway, what we want to make looks like:
+Anyway, what we want to make a configuration that looks like:
 
 ![](img/lab25-persistent-volumes-hostPath.png)
 
@@ -229,7 +230,7 @@ developer@developer-VirtualBox:~/projects/k4d/lab 25$
 
 **Persistent Volume Claim: terra10-transporter-pvc.yaml**
 
-The Persistent Volume Claim has the manifest file:
+The Persistent Volume Claim manifest file:
 
 ```bash
 apiVersion: v1
@@ -237,11 +238,11 @@ kind: PersistentVolumeClaim      # definition of PersistentVolumeClaim
 metadata:
   name: terra10-transporter-pvc  # name...
 spec:
-  resources:                     # definition of minimum resources for this Volume
-    requests:                    # definition of compute resources
+  resources:                     # definition of compute resources for this Volume
+    requests:                    # definition of minimum requested resources
       storage: 1Gi               # how much storage is requird
   accessModes:
-  - ReadWriteOnce                # Required acces mode: read-write by a single node
+  - ReadWriteOnce                # required acces mode: read-write by a single node
   storageClassName: ""           # you will learn about this in the next lab
 ```
 
@@ -378,7 +379,7 @@ Note above:
 
 If you have come this far, you should have a working Pod, so... test!
 
-## Test
+## 25.6 Test
 
 First, test the functionality of the Pod:
 

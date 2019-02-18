@@ -1,20 +1,20 @@
 # 24. Volume downwardAPI: accessing downward API data 
 
-The Downward API can be used to expose Pod and Container fields to a running Container. These fields can be exposed as an environmen variable, or as a DownwardAPIVolumeFile. The Downward API supports the following information (this pretty much depends on the Kubernetes version: check for your version the ref documentation):
+The Downward API can be used to expose Pod and Container fields to a running Container. These fields can be exposed as an environment variable, or as a *DownwardAPIVolumeFile*. The Downward API supports the following information (this pretty much depends on the Kubernetes version: check for your version the ref documentation):
 
-| Selector    |  Description    |  Env variables  | Volumes    |
-|-------------|-----------------|-----------------|------------|
+| Selector      |  Description    |  Env variables  | Volumes    |
+|---------------|-----------------|-----------------|------------|
 | metadata.name | The Pod's name | yes            | yes        |
 | metadata.namespace | The Pod's namespace | yes  | yes        |
 | metadata.labels | The Pod's labels |  -         | yes        |
 | metadata.annotations | The Pod's annotations | - | yes       |
-| status.podIP | The Pod's IP address | yes       | -          |
+| status.podIP  | The Pod's IP address | yes       | -          |
 | spec.nodeName | The Name of the Node the Pod runs on | yes | - |
 | spec.serviceAccountName | The name of the Service Account the Pod is running under | yes | - |
-| limits.cpu    | CPU limits for each Container | yes | yes | 
 | requests.cpu  | CPU requests for each Container | yes | yes | 
-| limits.memory | Memory limits for each Container | yes | yes | 
+| limits.cpu    | CPU limits for each Container | yes | yes | 
 | requests.memory | Memory requests for each Container | yes | yes | 
+| limits.memory | Memory limits for each Container | yes | yes | 
 
 Most of them you should already know by now. The new ones are:
 
@@ -22,7 +22,7 @@ Most of them you should already know by now. The new ones are:
 - *requests.cpu*: amount of cpu that is guaranteed to a Container
 - *limits.cpu*: the maximum amount of cpu that a Container can get
 - *requests.memory*: the amount of memory that is guaranteed to a Container
-- *requests.limit*: the maximum amount of memory that a Container can get
+- *limits.memory*: the maximum amount of memory that a Container can get
 
 In the above:
 
@@ -30,7 +30,7 @@ In the above:
 - *memory* is measured with an integer, or using the suffixes like G, M, K, ...
 
 
-## Downward API and environment variables
+## 24.1 Downward API and environment variables
 
 In this part, we will create a Pod and environment variables for the Downward API supported fields:
 
@@ -117,7 +117,7 @@ root@terra10-env-variables:/#
 ```
 
 
-## Downward API and Volumes
+## 24.2 Downward API and Volumes
 
 In this part, we will create a Pod and a Volume for the Downward API supported fields:
 
