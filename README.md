@@ -41,7 +41,7 @@ The labs in this archive cover the following topics:
 |29 | k8s API Server | Kubernetes API Server   | Curl and a sidecar Container |
 |30 | k8s API Server | Kubernetes API Server   | Client libraries |
 |31 | Upgrades  | ReplicaSet based - manual    | Manual upgrade of a ReplicaSet |
-|32 | Upgrades  | ReplicacationController based - automatic    | Automatic, rolling upgrade of a ReplicationController |
+|32 | Upgrades  | ReplicationController based - automatic    | Automatic, rolling upgrade of a ReplicationController |
 |33 | Upgrades  | Deployments - using the Kubernetes Deployment |  How you **should** do it ... |
 |34 | Upgrades  | Deployments - readiness probes block bad rollouts | Bad Bad Developer |
 |35 | StatefulSet  | StatefulSet | Handling stateful applications |

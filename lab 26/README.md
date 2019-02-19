@@ -1,8 +1,10 @@
 # 26. Dynamic Volume Provisioning: hiding the developer from the admin
 
-In the previous lab, we learned how Persistent Volumes and Persistent Volume Claims split the work of the developer and the admin. The admin deals with the Storage specifics and prepares are Persistent Volume. The developer does not need to know the Storage specifics, but only has to make a Persistent Volume Claim to use the Persistent Volume. 
+In the previous lab, we learned how Persistent Volumes and Persistent Volume Claims split the work of the developer and the admin:
+- the admin deals with the Storage specifics and prepares the Persistent Volumes
+- the developer makes a Persistent Volume Claim to use the Persistent Volume - without having to know the Storage specifics  
 
-Dynamic Volume Provisioning takes the developer-admin de-coupling even one step further. In the above scenario, the admin still has to provision a volume up front. However, with Dynamic Volume Provisioning, the user can create Storage Volumes on demand. 
+Dynamic Volume Provisioning takes the developer-admin de-coupling even one step further. In the above scenario, the admin still has to provision a Volume up front. However, with Dynamic Volume Provisioning, the user can create Storage Volumes on demand. 
 
 Dynamic Provisioning centers around the so-called StorageClass objects. A **StorageClass** object specifies:
 
@@ -18,7 +20,7 @@ In a figure:
 The admin can define different StorageClass objects and is therefore still in control of the storage. However, the user can create a StorageClass based Volume whenever he wants.
 
 
-## StorageClass example
+## 26.1 StorageClass example
 
 As we restrict our labs to using minikube, the labs do not use Cloud or network storage. Nevertheless, we want to show you a StorageClass example for the Google Cloud:
 
@@ -33,7 +35,7 @@ parameters:
   replication-type: regional-pd      # regional persistent disk
 ```
 
-## StorageClass - hostPath
+## 26.2 StorageClass - hostPath
 
 Now, lets do a minikube example. First, look at the available StorageClass objects:
 
@@ -113,7 +115,7 @@ developer@developer-VirtualBox:~/projects/k4d/lab 26$
 
 **Create the Pod**
 
-The Pod that uses the PVC is the same as in the previous lab:
+The Pod that uses the PVC is **the same** as in the previous lab:
 
 ```bash
 apiVersion: v1
@@ -143,6 +145,7 @@ spec:
   - name: transportlog                     # ... for the transportlog Volume
     persistentVolumeClaim:                 # ... is a PersistentVolumeClaim
       claimName: terra10-transporter-pvc   # ... with name terra10-transporter-pvc
+                                           # ... yes ... same like before!
 ```
 
 Create the Pod:
@@ -195,9 +198,9 @@ Luc is transported from DenBosch to Moon
 developer@developer-VirtualBox:~/projects/k4d/lab 26$ 
 ```
 
-**Clean up?!**
+## 26.3 Clean up?!
 
-You can do some additional tests, to check how the Persistent Volume behaves when the Persistent Volume Claim is deleted. It is different as for the StorageClass standard, the Retain Policy is **delete**...:
+You can do some additional tests, to check how the Persistent Volume behaves when the Persistent Volume Claim is deleted. It is different from the StorageClass standard, as the Retain Policy is **delete**...:
 
 ```bash
 developer@developer-VirtualBox:~/projects/k4d/lab 26$ kubectl delete pod terra10-transporter 

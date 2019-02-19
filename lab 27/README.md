@@ -1,26 +1,26 @@
 # 27. Kubernetes API Server: access via kubectl proxy
 
-The DownwardAPI volume provides access to some metadata of a Pod and its Containers. You will want to talk directly to the Kubernetes API Server!
+The DownwardAPI volume provides access to some metadata of a Pod and its Containers. But sometimes you will want to more. Then, you have talk directly to the Kubernetes API Server!
 
-We will show several ways to access the Kubernetes API Server:
+In this and the next couple of labs, we will show several ways to access the Kubernetes API Server:
 
-- Use *curl and the kubectl proxy*
-- Use *curl - from within a Pod*
-- Use *curl - and a sidecar Container*
-- Use *client libraries*
+- **lab 26:** Use *curl and the kubectl proxy*
+- **lab 27:** Use *curl - from within a Pod*
+- **lab 28:** Use *curl - and a sidecar Container*
+- **lab 29:** Use *client libraries*
 
 All-in-all, that should give you enough tools to handle your requirements.
 
 This lab will explore the Kubernetes API, using curl and the kubectl proxy.
 
-## Curl and the kubectl proxy
+## 27.1 Curl and the kubectl proxy
 
 The Kubernetes API Server is running on the Master Node. From there, the Kubernetes API Server handles the communication with the Kubelets on the Worker Nodes:
 
 ![Kubernetes API Server](img/lab27-kubernetes-api-server-overview.png)
 
 
-## Curl to the Kubernetes API Server
+## 27.2 Curl to the Kubernetes API Server
 
 So, let's try to directly access the Kubernetes API Server using curl... in the minikube set-up. Here, you run the curl command on the Master Node itself:
 
@@ -40,6 +40,13 @@ More details here: https://curl.haxx.se/docs/sslcerts.html
 curl failed to verify the legitimacy of the server and therefore could not
 establish a secure connection to it. To learn more about this situation and
 how to fix it, please visit the web page mentioned above.
+developer@developer-VirtualBox:~/projects/k4d/lab 27$
+```
+
+Now, that didn't work: the clients certificate was missing, and therefore curl can't establish a safe connection. We're lazy and use the unsafe -k option (= insecure):
+
+```bash
+
 developer@developer-VirtualBox:~/projects/k4d/lab 27$ curl -k https://10.0.2.15:8443/api/
 {
   "kind": "APIVersions",
@@ -69,7 +76,7 @@ user@another-machine:~$
 ```
 So, you have to deal with the authentication yourself, or ...
 
-## Curl to the Kubernetes API Server - via a proxy server
+## 27.3 Curl to the Kubernetes API Server - via a proxy server
 
 An easy alternative is to run a proxy server on your machine using kubectl. Note that kubectl must be configured to communicate with your cluster: https://kubernetes.io/docs/tasks/tools/install-kubectl/#configure-kubectl
 
@@ -82,25 +89,17 @@ developer@developer-VirtualBox:~/projects/k4d/lab 27$ kubectl proxy --port=8080 
 [1] 30460
 developer@developer-VirtualBox:~/projects/k4d/lab 27$ Starting to serve on 127.0.0.1:8080
 
-developer@developer-VirtualBox:~/projects/k4d/lab 27$ curl http://localhost:8080/
+developer@developer-VirtualBox:~/projects/k4d/lab 27$ curl localhost:8080/api
 {
-  "paths": [
-    "/api",
-    "/api/v1",
-    "/apis",
-    "/apis/",
-    "/apis/admissionregistration.k8s.io",
-    "/apis/admissionregistration.k8s.io/v1beta1",
-...
-    "/logs",
-    "/metrics",
-    "/openapi/v2",
-    "/swagger-2.0.0.json",
-    "/swagger-2.0.0.pb-v1",
-    "/swagger-2.0.0.pb-v1.gz",
-    "/swagger.json",
-    "/swaggerapi",
-    "/version"
+  "kind": "APIVersions",
+  "versions": [
+    "v1"
+  ],
+  "serverAddressByClientCIDRs": [
+    {
+      "clientCIDR": "0.0.0.0/0",
+      "serverAddress": "10.0.2.15:8443"
+    }
   ]
 }developer@developer-VirtualBox:~/projects/k4d/lab 27$
 ```
