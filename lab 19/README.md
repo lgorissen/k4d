@@ -22,7 +22,7 @@ Note:
 
 Depending on your Kubernetes provider, some volume types may not be supported: when you set up your Kubernetes platform, slecting the Storage is one of the big topics!
 
-## hostPath volumes
+## 19.1 hostPath volumes
 
 The *hostPath* volume mounts a file or directory from the Worker (host) Node’s filesystem into your Pod. This is a solution that you have to think through carefully: is will make the data for your Pod dependending on the Worker Node that the Pod is running on. That is something that for most Pods your don't want!
 However, it may be a viable use case in some situations, e.g. with DaemonSets.
@@ -108,7 +108,7 @@ Elvis is transported from DenBosch to Moon
 developer@developer-VirtualBox:~/projects/k4d/lab 19$
 ```
 
-## Is it persistent?
+## 19.2 Is it persistent?
 
 The claim is that the hostVolume - as opposed to the emptyDir Volume - will not be delete when the Pod is deleted / re-started.
 

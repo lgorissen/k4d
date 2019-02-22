@@ -3,7 +3,7 @@
 In the previous lab, we saw how various Service types can be used for exposing Pods. This lab is about how to discover Services in a Cluster, with the goal to access a Service from within a Pod.
 
 
-## Environment variables
+## 15.1 Environment variables
 
 A way to discover what Services are available on your cluster is via environment variables. When a Pod is started, Kubernetes provides a set of environment variables for each Service that is present - at the moment of Pod creation. The Pod can then find out the Service address by inspecting the environment variables.
 
@@ -86,7 +86,7 @@ Note how the Service names are translated into env variable names.
 
 The big drawback with this approach is that the Services have to be known before the Pod is started. Wouldn't it be nice to have something like Kubernetes DNS?
 
-## Kubernetes DNS
+## 15.2 Kubernetes DNS
 
 
 A Kubernetes platform runs a DNS service. First some discovery stuff...

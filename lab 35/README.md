@@ -1,9 +1,9 @@
-# 35. StatefulSet: handling stateful applications
+# 35. StatefulSet: handling stateful applications (Pods)
 
 
 So far, our Pods didn't have state: they were stateless. So the ReplicationController or ReplicaSet starts several Pods of the same type, and the incoming requests can be processed by any one of them. Quite convenient. As much as we don't like it, your application may require a request to be processed by a specific Pod. The Pod has become stateful. 
 
-## Stateful Pods 
+## 35.1 Stateful Pods 
 
 A stateful Pod requires that:
 
@@ -17,12 +17,11 @@ Both requirements can't be met with the Kubernetes objects we have covered so fa
 
 There are work arounds to handle this, think along the lines of layering multiple Services, and let Pods share a PVC, but use 'a free' directory within that PV. But these work arounds are complicated and therefore error-prone.
 
-We need a different solution for statefull Pods ...
+We need a different solution for stateful Pods ...
 
+## 35.2 StatefulSets
 
-## StatefulSets
-
-Kubernetes offers the StatefullSet object to manage stateful applications. The StatefulSet, unlike the Deployment, gives the Pods a persistent identifier. That identifier is maintained, also across re-scheduling for e.g. failures, upgrades and up/down scaling. 
+Kubernetes offers the StatefulSet object to manage stateful applications. The StatefulSet, unlike the Deployment, gives the Pods a persistent identifier. That identifier is maintained, also across re-scheduling for e.g. failures, upgrades and up/down scaling. 
 
 StatefulSets have the following properties - as per Kubernetes reference documentation:
 
@@ -35,15 +34,17 @@ This should be enough to handle your stateless applications.
 
 The next sections will describe StatefulSets, step-by-step. The above mentioned properties will then become clear.
 
-### Stable, unique network identifiers
+### 35.2.1 Stable, unique network identifiers
 
-A StatefulSet, just like a ReplicaSet, creates a number of Pods from the Pod template that is part of its definition. With a ReplicaSet, the Pod get rondom names. With the StatefulSet on the other hand, the Pod names are assigned as *<StatefulSet-name> + '-' + <index>*.
+A StatefulSet, just like a ReplicaSet, creates a number of Pods from the Pod template that is part of its definition. With a ReplicaSet, the Pod get rondom names. With the StatefulSet on the other hand, the Pod names are assigned as
+
+ *\<StatefulSet-name\>-\<index>*.
 
 In the figure below, there is a StatefulSet named *S*, and 3 Pods that have names *S-0*, *S-1* and *S-2*:
 
 ![lab35-predictable-host-names](img/lab35-predictable-host-names.png)
 
-This results in Pods having a predictable hostname, in our case *S-0*, *S-1* and *S-2*. However, that is not enough! It must be possible for clients to address a specific Pod. Unlike the stateless Pods, where a LoadBalancer Service distrubutes requests over all available Pods, the statefull application has different requirements: the client must be able to address a specific Pod.
+This results in Pods having a predictable hostname, in our case *S-0*, *S-1* and *S-2*. However, that is not enough! It must be possible for clients to address a specific Pod. Unlike the stateless Pods, where a LoadBalancer Service distrubutes requests over all available Pods, the state application has different requirements: the client must be able to address a *specific* Pod.
 
 For these requirements the Headless Service can be used. This Service controls the domain of the Pods, and is also known as the *governing service*:
 
@@ -62,15 +63,15 @@ All Pods will then have their own DNS entry. Our example is illustrated with the
 
 With all these Pod DNS records available, a client can address Pods directly.
 
-### Stable, persistent storage
+### 35.2.2 Stable, persistent storage
 
 Next step is to add storage to the Pods. The StatefulSet definition can also have Volume Claim Templates that define how/what Persistent Volume Claims the Pods will do:
 
 ![added-storage](img/lab35-added-storage.png)
 
-For each VolumeClaimTemplate, Kubernetes creates for each Pods a Persistent Volume Claim and the corresponding Persistent Volume.
+For each VolumeClaimTemplate, Kubernetes creates for each Pod a Persistent Volume Claim and the corresponding Persistent Volume.
 
-### Ordered, graceful deployment and scaling
+### 35.2.3 Ordered, graceful deployment and scaling
 
 **Deployment**
 
@@ -106,7 +107,7 @@ The above behavior also applies in case of recovery from Pod failures. When e.g.
 
 
 
-### Ordered, automated rolling updates
+### 35.2.4 Ordered, automated rolling updates
 
 StatefulSets support 2 update strategies
 
@@ -128,7 +129,7 @@ The (default) RollingUpdate update strategy implements automated, rolling Pods u
 For further details on updates, like e.g. Partitions, please refer to the Kubernetes reference documentation: https://kubernetes.io/docs/concepts/workloads/controllers/statefulset/#update-strategies
 
 
-## StatefulSets - example set-up
+## 35.3 StatefulSets - example set-up
 
 
 So far, a lot of theory. Now it's time to get to work. We will create an example based on the set-up in Lab 19:
@@ -151,7 +152,7 @@ The above set-up will be created in 2 steps:
 We will first only create the set-up. Some tests will be done in a separate section.
 
 
-## StatefulSets - create Headless Service *terra10-hs*
+## 35.4 StatefulSets - create Headless Service *terra10-hs*
 
 Note that Kubernetes requires the Service that governs the StatefulSet to be present before the StatefulSet itself is created!
 
@@ -189,7 +190,7 @@ developer@developer-VirtualBox:~/projects/k4d/lab 35$
 OK.
 
 
-## StatefulSets - create StatefulSet *terra10*
+## 35.5 StatefulSets - create StatefulSet *terra10*
 
 The manifest file `terra10-statefulset.yaml` looks like:
 
@@ -266,7 +267,7 @@ By now, we have created our example set-up:
 
 
 
-## StatefulSets - tests!
+## 35.6 StatefulSets - tests!
 
 Now it is time to start testing.
 
@@ -348,7 +349,7 @@ terra10-0   2/2       Running   0          12m
 developer@developer-VirtualBox:~/projects/k4d/lab 35$ 
 ```
 
-Pod *terra10-0* should still be there, and Pod *terra10-1* should not respond:
+Pod *terra10-0* should still be there, and Pod *terra10-1* should not respond (it will time out after some time):
 
 ```bash
 developer@developer-VirtualBox:~/projects/k4d/lab 35$ curl http://172.17.0.5:8092
@@ -383,8 +384,9 @@ developer@developer-VirtualBox:~/projects/k4d/lab 35$ curl http://172.17.0.6:809
 transporter terra10-1 has transporteed Napoleon is transported from Elba to Mars
 developer@developer-VirtualBox:~/projects/k4d/lab 35$ 
 ```
+Note that the Pod will start under the same name, using the same DNS entry. However, it is not guaranteed that the Pod will have the same IP address!
 
-## Headless Service - tests!
+## 35.7 Headless Service - tests!
 
 The Headless Service promised to deliver DNS records for all Pods.
 
@@ -414,10 +416,10 @@ developer@developer-VirtualBox:~$
 The full hostname:
 
 ```bash
-developer@developer-VirtualBox:~$ kubectl exec terra10-0 -c terra10-transporter -- /bin/sh -c 'hostname -A'; 
-terra10-0.terra10.default.svc.cluster.local 
-developer@developer-VirtualBox:~$ kubectl exec terra10-1 -c terra10-transporter -- /bin/sh -c 'hostname -A'; 
-terra10-1.terra10.default.svc.cluster.local 
+developer@developer-VirtualBox:~$ kubectl exec terra10-0 -c terra10-transporter -- /bin/sh -c 'hostname -f'; 
+terra10-0.terra10-hs.default.svc.cluster.local 
+developer@developer-VirtualBox:~$ kubectl exec terra10-1 -c terra10-transporter -- /bin/sh -c 'hostname -f'; 
+terra10-1.terra10-hs.default.svc.cluster.local 
 developer@developer-VirtualBox:~$ 
 ```
 

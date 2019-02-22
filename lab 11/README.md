@@ -6,7 +6,7 @@ This functionality is mostly used for Pods that perform infrastructure related t
 As an additional feature, Nodes can also be selected using the ***nodeSelector*** feature. Thus, a DaemonSet can run Pods on a subset of Nodes in the Cluster.
 
 
-## DaemonSet example
+## 11.1 DaemonSet example
 
 Our example will run a Pod on all Nodes with Node label **gpu** set to **high**. Think of the Pod as a 'monitor of the Node's GPU capability'.
 

@@ -2,40 +2,40 @@
 
 Lab 33 has shown how the Deployment supports an easy upgrade. Also, it was shown how to do a rollback.
 
-This Lab will show how the readiness probe can be used to automatically block the rollout of ' bad' Pods.
+This Lab will show how the readiness probe can be used to automatically block the rollout of 'bad' Pods.
 
 
-## Theory
+## 34.1 Theory
 
 
 During a rollout, the Deployment gradually replaces the old Pods by new Pods, using the ReplicaSet. This is illustrated in the figure below, where there are 2 'old' Pods on the left side, and 1 new Pods in the right side:
 
-![](img/lab34-deployment-during-upgrade.png)
+![during upgrade](img/lab34-deployment-during-upgrade.png)
 
 When the Deployment rollout process creates a new Pod:
 
-- The Deployment increases the Replicas property in the ReplicaSet,
-- The ReplicaSet creates a new Pod
+- The Deployment increases the Replicas property in the new ReplicaSet,
+- The new ReplicaSet creates a new Pod
 - Waits for the new Pods to be ready, and ...
 - Wait another *minReadySeconds* to verify that the new Pod stays ready
 - ... before continuing with the rollout process
 
-This *minReadySeconds* is a Deployment property and can be set as part of the Deployment manifest. Kubernetes determines if a Pod is *ready* using readiness probe. If no readiness probe is available, the Pod is *ready* by default.
+This *minReadySeconds* is a Deployment property and can be set as part of the Deployment manifest. Kubernetes determines if a Pod is *ready* using readiness probe (see Lab 08). If no readiness probe is available, the Pod is *ready* by default.
 
 When, during the rollout, a Pod is marked as *not Ready* because its readiness probe reports failure, then the Pod is removed from the Service.
 
-![](img/lab34-deployment-faulted-pod.png)
+![faulty Pod](img/lab34-deployment-faulted-pod.png)
 
 When the new Pod does not become available, the rollout process is stopped. You can then roll back the deployment.
 
 
-## Upgrade - prepare the set-up
+## 34.2 Upgrade - prepare the set-up
 
-All of that sounds great in theory, let's see if there is a match with reality.
+All of that sounds great in theory, let's see how it works in reality.
 
 We will start with creating a Deployment that will result in the situation below:
 
-![](img/lab34-deployment-start-faulted.png)
+![start situation](img/lab34-deployment-start-faulted.png)
 
 The Deployment manifest file is named `terra10-deployment.yaml` and can - like all other files - be found in the `lab 34`  directory:
 
@@ -135,7 +135,7 @@ Hello, you landed on Terra10 (version r1) and host terra10-dpl-85fdc7bcb9-z9pt7 
 
 So far, all is OK. Ready for upgrade.
 
-## Upgrade with a faulted Container
+## 34.3 Upgrade with a faulted Container
 
 We have create a Container named `lgorissen/terra10:r2-max-4` that returns 4 times a `200 OK` response and after that, only `500 Internal Server Error` responses. The code can be found in the `terra10-max-4` folder. You don't have to build the Container yourself: it is already available in Docker Hub.
 
@@ -180,11 +180,11 @@ Hello, you landed on Terra10 (version r1) and host terra10-dpl-85fdc7bcb9-vtvn9 
 
 Above, we see:
 
-- a single entry that hits the new Pod with Container `lgorissen/terra10:r2-max-4`
-- an entry that shows that the new Pod is returning errors
+- an entry that hits the new Pod with Container `lgorissen/terra10:r2-max-4`
+- an entry that hits the new Pod and gets an error
 - ... and then only responses coming from the old Pods
 
-That matches with what was expected: see the list a bit higher.
+That matches with what was expected.
 
 Checking the configuration:
 
@@ -221,7 +221,7 @@ Waiting for deployment "terra10-dpl" rollout to finish: 1 out of 3 new replicas 
 The rollout process is indeed stopped ... all due to the faulty Container!
 
 
-## Rollback
+## 34.4 Rollback
 
 And now you will undo the rollout. Give the `rollout undo` command:
 

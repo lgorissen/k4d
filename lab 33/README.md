@@ -11,7 +11,7 @@ The Deployment uses a ReplicaSet which in turn controls the Pods:
 
 To be more precise: the Deployment creates the ReplicaSet that in turn controls the Pods.
  
-## The Deployment
+## 33.1 The Deployment
 
 This lab will demonstrate a Deployment upgrade with the same Container images as the previous upgrade labs, i.e. `lgorissen/terra10:r1` and `lgorissen/terra10:r2`. The files can - of course - be found in the `lab 33` directory, as well as all the other stuff. Don't build the Containers - they are in Docker Hub.
 
@@ -100,7 +100,7 @@ developer@developer-VirtualBox:~$
 
 So far, all is OK. Ready for upgrade.
 
-## Upgrade - the theory
+## 33.2 Upgrade - the theory
 
 The start situation for the upgrade is:
 
@@ -108,16 +108,16 @@ The start situation for the upgrade is:
 
 After giving the upgrade command,the Deployment adds a new ReplicationSet and gradually adds/removes Pods:
 
-![start](img/lab33-deployment-during-upgrade.png)
+![during](img/lab33-deployment-during-upgrade.png)
 
 Until the final situation is reached:
 
-![start](img/lab33-deployment-final.png)
+![final](img/lab33-deployment-final.png)
 
-Note that the ReplicaSet remains present i.e. it is not deleted. That will make a rollback easier.
+Note that the ReplicaSet remains present i.e. it is not deleted. That will make a rollback easier - as we will see later on.
  
 
-## Upgrade - for real ;-)
+## 33.3 Upgrade - for real ;-)
 
 So, ready to do the upgrade for real?
 
@@ -130,8 +130,6 @@ There's only one thing you need to do before upgrading, and that is to slow down
 ```bash
 developer@developer-VirtualBox:~/projects/k4d/lab 33$ kubectl patch deployment terra10-dpl -p '{"spec": {"minReadySeconds":20}}'
 deployment.extensions/terra10-dpl patched
-developer@developer-VirtualBox:~/projects/k4d/lab 33$ kubectl describe terra10-dpl 
-error: the server doesn't have a resource type "terra10-dpl"
 developer@developer-VirtualBox:~/projects/k4d/lab 33$ kubectl describe deployment terra10-dpl 
 Name:                   terra10-dpl
 Namespace:              default
@@ -202,6 +200,7 @@ The upgrade:
 
 The new situation is:
 
+![new situation](img/lab33-deployment-final.png)
 
 
 **verify new situation**
@@ -326,7 +325,7 @@ developer@developer-VirtualBox:~/projects/k4d/lab 33$
 
 Well, this upgrade was simple!
 
-## Rollback
+## 33.4 Rollback
 
 And now you will undo the rollout. Give the `rollout undo` command:
 
@@ -342,7 +341,7 @@ deployment.extensions/terra10-dpl
 developer@developer-VirtualBox:~/projects/k4d/lab 33$ 
 ```
 
-Note that the Revision numbers correspond to the ReplicaSets that are created bu the Deployment!
+Note that the Revision numbers correspond to the ReplicaSets that are created by the Deployment!
 
 
 By now, you should be able to:
@@ -352,7 +351,7 @@ By now, you should be able to:
 
 
 
-## Additionally...
+## 33.5 Additionally...
 
 **Upgrade strategies**
 
@@ -362,7 +361,7 @@ The Deployment knows 2 upgrade strategies:
 2. Recreate: all existing Pods are killed before new ones are created
 
 
-**how to change the Deployment**
+**How to change the Deployment**
 
 There are several *kubectl* commands that can be used to change the Deployment manifest:
 
@@ -377,7 +376,7 @@ There are several *kubectl* commands that can be used to change the Deployment m
 
 
 
-## Summary
+## 33.6 Summary
 
 This lab has shown how to upgrade using the Kubernetes Deployment. This is a lot easier, server based, and therefore less error prone.
 

@@ -9,7 +9,7 @@ For running the exercises, a Kubernetes environment is required. The exercises a
 You may choose to run the exercises on a different Kubernetes environment: the differences with the material presented in the labs should only be very small ;-)
 
 
-## Docker
+## 1.1 Docker
 Go to the page [Docker installation](https://docs.docker.com/install/) 
 
 Pick your server set-up and install the community edition.
@@ -42,7 +42,7 @@ For more examples and ideas, visit:
 developer@developer-VirtualBox:~$
 ```
 
-## Minikube
+## 1.2 Minikube
 
 For installation of minikube, goto [the minikube releases page](https://github.com/kubernetes/minikube/releases)
 

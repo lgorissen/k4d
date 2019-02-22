@@ -1,19 +1,19 @@
 # 28. Kubernetes API Server: curl from within a Pod 
 
-The DownwardAPI volume provides access to some metadata of a Pod and its Containers. You will want to talk directly to the Kubernetes API Server!
+The DownwardAPI volume provides access to some metadata of a Pod and its Containers. But sometimes you will want to more. Then, you have talk directly to the Kubernetes API Server!
 
-We will show several ways to access the Kubernetes API Server:
+In this and the next couple of labs, we will show several ways to access the Kubernetes API Server:
 
-- Use *curl and the kubectl proxy*
-- Use *curl - from within a Pod*
-- Use *curl - and a sidecar Container*
-- Use *client libraries*
+- **lab 27:** Use *curl and the kubectl proxy*
+- **lab 28:** Use *curl - from within a Pod*
+- **lab 29:** Use *curl - and a sidecar Container*
+- **lab 30:** Use *client libraries*
 
 All-in-all, that should give you enough tools to handle your requirements.
 
-This lab will show how to access the Kubernetes API from within a Pod, using curl:
+This lab will show how to access the Kubernetes API from within a Pod, using curl.
 
-## Curl from within a Pod 
+## 28.1 Curl from within a Pod 
 
 The set-up for this lab will be:
 
@@ -26,7 +26,7 @@ FROM alpine
 RUN apk update && apk add curl
 ```
 
-Don't build the container image yourself: it is already available in the Docker registry `lgorissen/terra10-curl`.
+Don't build the container image yourself: it is already available in the DockerHub registry: `lgorissen/terra10-curl`.
 
 The Pod that we will use for accessing the Kubernetes API Server has manifest file `terra10-curl.yaml`:
 
@@ -106,8 +106,7 @@ If you don't remember, look at the Secrets lab 23.
 So, let *curl* check the certificate:
 
 ```bash
-/ # curl --cacert /var/run/secrets/kubernetes.io/serviceaccount/ca.crt https://k
-ubernetes/api
+/ # curl --cacert /var/run/secrets/kubernetes.io/serviceaccount/ca.crt https://kubernetes/api
 {
   "kind": "APIVersions",
   "versions": [
@@ -131,7 +130,7 @@ Note above, that we used `https://kubernetes/api` for addressing the Kubernetes 
 
 Above, the Kubernetes API Server responded. However, that's only because of the minikube set-up. Normally, you would also need to authenticate with the Kubernetes API Server.
 
-Authentication has to be done with a bearer token in an http Header. The token can be found in the same folder where also the signing certificate was located. Let's put it in an environment variable TOKEN:
+Authentication has to be done with a bearer token in an http Header. The token can be found in the same folder where also the signing certificate was located. Let's put it in an environment variable named TOKEN:
 
 ```bash
 / # TOKEN=$(cat /var/run/secrets/kubernetes.io/serviceaccount/token)
@@ -143,8 +142,7 @@ eyJhbGciOiJSUzI1NiIsImtpZCI6IiJ9.eyJpc3MiOiJrdWJlcm5ldGVzL3NlcnZpY2VhY2NvdW50Iiw
 Now, use the token in the *curl* invoke:
 
 ```bash
-/ # curl -H "Authorization: Bearer $TOKEN" --cacert /var/run/secrets/kubernetes.
-io/serviceaccount/ca.crt https://kubernetes/api
+/ # curl -H "Authorization: Bearer $TOKEN" --cacert /var/run/secrets/kubernetes.io/serviceaccount/ca.crt https://kubernetes/api
 {
   "kind": "APIVersions",
   "versions": [
@@ -172,7 +170,7 @@ default
 
 > **READ CAREFULLY**
 >
-> Now, in minikube, your service account does NOT have access the all parts of the API Server.
+> In minikube, your service account does NOT have access the all parts of the API Server.
 > This can be quickly *fixed* (mind not to do that in the Pod):
 >
 > ```bash
@@ -188,8 +186,7 @@ default
 So, now query the Kubernetes API Server for the Pods in your own namespace:
 
 ```bash
-/ # curl -H "Authorization: Bearer $TOKEN" --cacert /var/run/secrets/kubernetes.
-io/serviceaccount/ca.crt https://kubernetes/api/v1/namespaces/$NAMESPACE/pods
+/ # curl -H "Authorization: Bearer $TOKEN" --cacert /var/run/secrets/kubernetes.io/serviceaccount/ca.crt https://kubernetes/api/v1/namespaces/$NAMESPACE/pods
 {
   "kind": "PodList",
   "apiVersion": "v1",

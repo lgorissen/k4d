@@ -5,7 +5,7 @@ A Job creates one or more Pod(s) that will perform their task(s) and then termin
 The Job will start a new Pod if the first Pod fails or is deleted. Similar to a Replication Controller, upon Node failure a non-terminated Job Pod will be started on another Node.
 
 
-## Job example - simple
+## 12.1 Job example - simple
 
 Our example uses a container named `lgorissen/terra10-job`. Upon start, it prints a message to the console and then sleeps for 120 seconds. Then it prints another message to the console and terminates.
 
@@ -71,7 +71,7 @@ developer@developer-VirtualBox:~/projects/k4d/lab 12$
 Note that deleting the Job also deletes the corresponding Pods.
 
 
-## Job example - multiple Pods in a Job
+## 12.2 Job example - multiple Pods in a Job
 
 The Job manifest definition allows you to specify that you want to run multiple Pods in one single Job. It even allows you to specify how many Pods are allowed to run in parallel.
 

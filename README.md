@@ -44,4 +44,5 @@ The labs in this archive cover the following topics:
 |32 | Upgrades  | ReplicationController based - automatic    | Automatic, rolling upgrade of a ReplicationController |
 |33 | Upgrades  | Deployments - using the Kubernetes Deployment |  How you **should** do it ... |
 |34 | Upgrades  | Deployments - readiness probes block bad rollouts | Bad Bad Developer |
-|35 | StatefulSet  | StatefulSet | Handling stateful applications |
+|35 | StatefulSet  | StatefulSet | Handling stateful applications (Pods) |
+

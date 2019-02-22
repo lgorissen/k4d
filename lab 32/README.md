@@ -2,10 +2,10 @@
 
 This lab shows how a ReplicationController can do an automatic upgrade.
 
-The lab is using the same container images: `lgorissen/terra10:r1` and `lgorissen/terra10:r2`. They are also put in the `lab 32` directory, as well as all the other files. You don't have to build the Containers - they are already available on Docker Hub.
+The lab is using the same container images: `lgorissen/terra10:r1` and `lgorissen/terra10:r2`. Their definitions are also put in the `lab 32` directory, as well as all the other files. You don't have to build the Containers - they are already available on Docker Hub.
 
  
-## Start set-up
+## 32.1 Start set-up
 
 The lab's start set-up is the configuration below:
 
@@ -90,7 +90,7 @@ Hello, you landed on Terra10 (version r1) and host terra10-rc-7sxhr welcomes you
 developer@developer-VirtualBox:~/projects/k4d/lab 32$ 
 ```
 
-## Do the upgrade - theory
+## 32.2 Do the upgrade - theory
 
 
 Our upgrade goal is to upgrade to the new version of the Container image. i.e. `lgorissen/terra10:r2`. In the process, ReplicationController `terra10-rc` will be upgraded to ReplicationController `terra10-rc-r2`. Only 1 *kubectl* command is enough to do that:
@@ -131,7 +131,7 @@ When all Pods are replaced, the final situation is:
 That's the theory ...
 
 
-## Do the upgrade - for real ;-)
+## 32.3 Do the upgrade - for real ;-)
 
 So, ready to do the upgrade for real?
 
@@ -174,7 +174,7 @@ Notes:
 - the rolling-update can be further tailored: please refer to the Kubernetes reference documentation: https://kubernetes.io/docs/reference/generated/kubectl/kubectl-commands#rolling-update
 
  
-## Check the final situation
+## 32.4 Check the final situation
 
 Spend some time examining the final upgraded situation.
 
@@ -251,7 +251,7 @@ developer@developer-VirtualBox:~/projects/k4d/lab 32$
 ```
 
 
-## Summary
+## 32.5 Summary
 
 In the previous lab, we agreed that a manual upgrade was complex and error prone. Well ... there may be people that claim otherwise, but just don't believe them.
 

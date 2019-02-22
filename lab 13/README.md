@@ -20,7 +20,7 @@ Most important is to understan the schedule string (copied from the above wiki p
 # * * * * * command to execute
 ```
 
-## CronJob example
+## 13.1 CronJob example
 
 Our example uses our container `lgorissen/terra10-job` that was specified in the `lab 12` directory. Upon start, it prints a message to the console and then sleeps for 120 seconds. Then it prints another message to the console and terminates.
 

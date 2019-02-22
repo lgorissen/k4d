@@ -14,7 +14,7 @@ The Service will hide all this Pod and ReplicationController behavior and provid
 
 Time for hands-on.
 
-## A simple Service
+## 14.1 A simple Service
 
 In this lab, we'll make a simple service that accesses some containers - just like we did in lab 2. However, there we used `kubectl` commands to achieve the configuration. Here, we will use manifest files (all in the `lab 14` directory) for the ReplicationController and the Service.
 
@@ -111,7 +111,7 @@ Note that the request is answered by a different Pod than the one that is sendin
 
 Hmmmm .... now we only need to make our Pod externally accessible...
 
-## A simple solution - a NodePort Service
+## 14.2 A simple solution - a NodePort Service
 
 
 ```bash
@@ -182,7 +182,7 @@ developer@developer-VirtualBox:~/projects/k4d/lab 14$
 Works like a charm.
 
 
-## Another solution - a LoadBalancer Service
+## 14.3 Another solution - a LoadBalancer Service
 
 In the NodePort solution, you have to arrange the Load Balancer functionality yourself - outside of the Kubernetes Cluster. However, most commercial Kubernetes cloud offerings include a Load Balancer infra component as part of the Kubernetes Cluster. In other words, the Load Balancer configuration is under control of Kubernetes. Then, a Service of type LoadBalancer can be used.
 
@@ -215,7 +215,7 @@ developer@developer-VirtualBox:~/projects/k4d/lab 14$
 Nice.
 
 
-## Yet another solution - an Ingress Service
+## 14.4 Yet another solution - an Ingress Service
 
 By now you should have the feeling that the options that are presented in this lab are getting better and better. You are right. 
 Kubernetes also offers the so-called Ingress Service, which is not an actual Service but is sits in front of the Service. The Ingress Service can do Layer 7 HTTP(S) load balancing: it routes based on host and path:
@@ -372,7 +372,7 @@ developer@developer-VirtualBox:~/projects/k4d/lab 14$
 
 Don't clean up - if you want to do lab 15
 
-## Summary
+## 14.5 Summary
 
 The various solutions for accessing Pods via clients are summarized below:
 

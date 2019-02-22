@@ -1,19 +1,21 @@
 # 29. Kubernetes API Server: curl and a sidecar Container
 
-The DownwardAPI volume provides access to some metadata of a Pod and its Containers. You will want to talk directly to the Kubernetes API Server!
+The DownwardAPI volume provides access to some metadata of a Pod and its Containers. But sometimes you will want to more. Then, you have talk directly to the Kubernetes API Server!
 
-We will show several ways to access the Kubernetes API Server:
+In this and the next couple of labs, we will show several ways to access the Kubernetes API Server:
 
-- Use *curl and the kubectl proxy*
-- Use *curl - from within a Pod*
-- Use *curl - and a sidecar Container*
-- Use *client libraries*
+- **lab 27:** Use *curl and the kubectl proxy*
+- **lab 28:** Use *curl - from within a Pod*
+- **lab 29:** Use *curl - and a sidecar Container*
+- **lab 30:** Use *client libraries*
 
 All-in-all, that should give you enough tools to handle your requirements.
 
-## Curl and a sidecar Container - why?
+This lab will show how to use a sidecar Container.
 
-This lab will show how to access the Kubernetes API from within a Pod, using curl and a sidecar Container. The sidecar Container `terra10-kubectl-proxy` will act as a proxy server that can be used to access the Kubernetes API Server. It contains all the details for accessing the Kubernetes API Server, thus hiding these details from the other Container(s) in the Pod.
+## 29.1 Curl and a sidecar Container - why?
+
+This lab will show how to access the Kubernetes API from within a Pod, using curl and a sidecar Container. The sidecar Container `terra10-kubectl-proxy` will act as a proxy that can be used to access the Kubernetes API Server. It contains all the authentication and addressing details for accessing the Kubernetes API Server, thus hiding these details from the other Container(s) in the Pod.
 
 The set-up for this lab will be:
 
@@ -22,9 +24,9 @@ The set-up for this lab will be:
 The set-up shows a Pod with a 'sidecar Container'.
 
 
-## The sidecar Container - how?
+## 29.2 The sidecar Container - how?
 
-The sidecar Container that we will use will have to run a proxy for accessing the Kubernetes API Server. The Dockerfile can be found in the location `lab 29/terra10-kubectl-proxy`:
+The sidecar Container that we will use will have to run a kubectl-proxy for accessing the Kubernetes API Server. The Dockerfile can be found in the location `lab 29/terra10-kubectl-proxy`:
 
 ```bash
 FROM alpine
@@ -57,7 +59,7 @@ It starts the proxy, using the signing certificate, the API Server addressing an
 You don't have to build the Container image yourself, it is available as `lgorissen/terra10-kubectl-proxy`.
 
 
-## The sidecar Container in action
+## 29.3 The sidecar Container in action
 
 Now it's time to use the sidecar Container in a Pod, like the set-up shown at the start of the Lab.
 
@@ -94,7 +96,7 @@ developer@developer-VirtualBox:~/projects/k4d/lab 29$ kubectl exec -it apiserver
 / #
 ```
 
-Now, we are in the main container, we can use the sidecar container for querying the Kubernetes API Server. To make our life even more easy, remember that all the Containers in a Pod share the same network interfaces. So, you can use *localhost* to access the proxy in its default port *8001*. Continue in Container *main*:
+Now, we are in the main container, we can use the sidecar container for querying the Kubernetes API Server. To make our life even more easy, remember that all the Containers in a Pod share the same network interfaces. So, you can use *localhost* to access the proxy on its default port *8001*. Continue in Container *main*:
 
 ```bash
 / # curl localhost:8001/api

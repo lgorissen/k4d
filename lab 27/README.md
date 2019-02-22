@@ -4,10 +4,10 @@ The DownwardAPI volume provides access to some metadata of a Pod and its Contain
 
 In this and the next couple of labs, we will show several ways to access the Kubernetes API Server:
 
-- **lab 26:** Use *curl and the kubectl proxy*
-- **lab 27:** Use *curl - from within a Pod*
-- **lab 28:** Use *curl - and a sidecar Container*
-- **lab 29:** Use *client libraries*
+- **lab 27:** Use *curl and the kubectl proxy*
+- **lab 28:** Use *curl - from within a Pod*
+- **lab 29:** Use *curl - and a sidecar Container*
+- **lab 30:** Use *client libraries*
 
 All-in-all, that should give you enough tools to handle your requirements.
 

@@ -1,25 +1,25 @@
 # 30. Kubernetes API Server: client libraries
 
-The DownwardAPI volume provides access to some metadata of a Pod and its Containers. You will want to talk directly to the Kubernetes API Server!
+The DownwardAPI volume provides access to some metadata of a Pod and its Containers. But sometimes you will want to more. Then, you have talk directly to the Kubernetes API Server!
 
-We will show several ways to access the Kubernetes API Server:
+In this and the next couple of labs, we will show several ways to access the Kubernetes API Server:
 
-- Use *curl and the kubectl proxy*
-- Use *curl - from within a Pod*
-- Use *curl - and a sidecar Container*
-- Use *client libraries*
+- **lab 27:** Use *curl and the kubectl proxy*
+- **lab 28:** Use *curl - from within a Pod*
+- **lab 29:** Use *curl - and a sidecar Container*
+- **lab 30:** Use *client libraries*
 
 All-in-all, that should give you enough tools to handle your requirements.
 
 This lab will cover an example for the *client libraries*.
 
-## Client libraries - what and when?
+## 30.1 Client libraries - what and when?
 
-For programmatic access t the Kubernetes API Server, there are quite some libraries available, for lots of languages. The offically Kubernetes supported languages are *Go* and *Python*. However, many more libraries can be found here: https://kubernetes.io/docs/reference/using-api/client-libraries/
+For programmatic access to the Kubernetes API Server, there are quite some libraries available, for lots of languages. The offically Kubernetes supported languages are *Go* and *Python*. However, many more libraries can be found here: https://kubernetes.io/docs/reference/using-api/client-libraries/
 
-The previous labs centered around using *curl* to access the Kubernetes API Server. That will cover a lot of simple use cases. However, when things get more complicated, you will want to consider to switch to a client libary!
+The previous labs centered around using *curl* to access the Kubernetes API Server. That will cover a lot of simple use cases. However, when things get more complicated, you will want/need to switch to a client libary!
 
-## Client libraries - a Python example
+## 30.2 Client libraries - a Python example
 
 The example in this lab wil run a Python script in a Pod/Container. So, we need:
 
@@ -33,7 +33,7 @@ Let's get to it.
 
 The Python example is using a slightly modified Python script from the Kubernetes reference:
 
-```bash
+```python
 from kubernetes import client, config
 
 config.load_incluster_config()   # this ensures that the script can run in a Pod
@@ -76,7 +76,7 @@ spec:
 ```
 
 
-## Client libraries example - run it!
+## 30.3 Client libraries example - run it!
 
 Finally, the big moment is there. 
 
@@ -94,7 +94,7 @@ developer@developer-VirtualBox:~/projects/k4d/lab 30$
 Exec into the Pod and run the Python scipt:
 
 ```bash
-developer@developer-VirtualBox:~/projects/k4d/lab 30$ kubectl exec -it terra10-python-client /bin/bash
+developer@developer-VirtualBox:~/projects/k4d/lab 30$ kubectl exec -it terra10-python-client -- /bin/bash
 root@terra10-python-client:/# ls
 bin   dev  home  lib64	mnt  proc	       root  sbin  sys	usr
 boot  etc  lib	 media	opt  python-client.py  run   srv   tmp	var
