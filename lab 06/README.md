@@ -17,6 +17,7 @@ You can use Kubernetes Namespaces e.g. to split a large, complex cluster into sm
 **What we will do**
 
 In this lab we will:
+
 - create a new namespace named `terra10`. 
 - start in the new namespace a copy of a Pod that already runs in the namespace `default` (under the same name). 
 
@@ -28,6 +29,7 @@ The configuration that we will establish is:
 ## 6.1 Other Namespaces and being curious
 
 Before getting on with the exercises, we first examine what namespaces are already present on your Kubernetes cluster:
+
 ```bash
 developer@developer-VirtualBox:~/projects/k4d/lab 06$ kubectl get namespaces 
 NAME          STATUS    AGE
@@ -36,7 +38,9 @@ kube-public   Active    2d
 kube-system   Active    2d
 developer@developer-VirtualBox:~/projects/k4d/lab 06$ 
 ```
+
 These namespaces are (from the Kubernetes reference documentation):
+
 - **default** - the default namespace for objects with no other namespace
 - **kube-system** - the namespace for objects created by the Kubernetes system
 - **kube-public** - this namespace is created automatically and is readable by all users (including those not authenticated). This namespace is mostly reserved for cluster usage, in case that some resources should be visible and readable publicly throughout the whole cluster. The public aspect of this namespace is only a convention, not a requirement default.
@@ -69,19 +73,24 @@ And the `kube-public` namespace has no Pods as ... we didn't put anything in it.
 ## 6.2 Creating namespace `terra10`
 
 The `lab 06` directory has a file named `terra10-namespace.yaml` that can be used to create the `terra10` namespace. The file is:
+
 ```bash
 apiVersion: v1
 kind: Namespace                # Type of object is namespace
 metadata:
   name: terra10-namespace      # Name of object is terra10-namespace
 ```
+
 Running the command should be familiar by now:
+
 ```bash
 developer@developer-VirtualBox:~/projects/k4d/lab 06$ kubectl create -f terra10-namespace.yaml 
 namespace/terra10-namespace created
 developer@developer-VirtualBox:~/projects/k4d/lab 06$ 
 ```
+
 Verifying that the namespace is created:
+
 ```bash
 developer@developer-VirtualBox:~/projects/k4d/lab 06$ kubectl get namespaces 
 NAME                STATUS    AGE
@@ -91,7 +100,9 @@ kube-system         Active    2d
 terra10-namespace   Active    42s
 developer@developer-VirtualBox:~/projects/k4d/lab 06$
 ```
+
 Great. Now, check that there is already a Pod running in namespace `default` with name terra10-simple:
+
 ```bash
 developer@developer-VirtualBox:~/projects/k4d/lab 06$ kubectl get pod
 NAME                    READY     STATUS    RESTARTS   AGE
