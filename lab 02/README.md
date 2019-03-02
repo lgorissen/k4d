@@ -143,7 +143,7 @@ The other options are good to know for (networking) troubleshooting purposes. No
 The Cluster node in a minikube set-up is named 'minikube':
 
 ```bash
-developer@developer-VirtualBox:~$ k get nodes
+developer@developer-VirtualBox:~$ kubectl get nodes
 NAME       STATUS   ROLES    AGE   VERSION
 minikube   Ready    master   16h   v1.13.2
 developer@developer-VirtualBox:~$
@@ -156,7 +156,7 @@ developer@developer-VirtualBox:~$
 ```
 The port where our service can be accessed:
 ```bash
-developer@developer-VirtualBox:~$ k get service terra10-http 
+developer@developer-VirtualBox:~$ kubectl get service terra10-http 
 NAME           TYPE           CLUSTER-IP      EXTERNAL-IP   PORT(S)          AGE
 terra10-http   LoadBalancer   10.107.86.130   <pending>     8080:30370/TCP   3h38m
 developer@developer-VirtualBox:~$ 
@@ -193,7 +193,7 @@ developer@developer-VirtualBox:~$
 
 The Pod can also be accessed directly. First, determine the IP address:
 ```bash
-developer@developer-VirtualBox:~$ k describe pod terra10-p6vmd | grep  IP
+developer@developer-VirtualBox:~$ kubectl describe pod terra10-p6vmd | grep  IP
 IP:                 172.17.0.6
 developer@developer-VirtualBox:~$
 ```

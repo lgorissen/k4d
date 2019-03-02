@@ -1,0 +1,4 @@
+{
+  transporter-delay: 45
+  transporter-platform: local-dev
+}

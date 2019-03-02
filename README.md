@@ -45,4 +45,5 @@ The labs in this archive cover the following topics:
 |33 | Upgrades  | Deployments - using the Kubernetes Deployment |  How you **should** do it ... |
 |34 | Upgrades  | Deployments - readiness probes block bad rollouts | Bad Bad Developer |
 |35 | StatefulSet  | StatefulSet | Handling stateful applications (Pods) |
+|36 | kubectl   | kubectl as a time saver      | Racing through the labs with kubectl ... |
 

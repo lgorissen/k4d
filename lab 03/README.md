@@ -77,7 +77,7 @@ The dashboard should pop up in your default browser. Now spend some time browsin
 
 The `minikube dashboard` command opens the dashboard in your browser - always on a different port number. That's not very bookmarkeable. Alternative approach is to look up the Cluster IP:
 ```bash
-developer@developer-VirtualBox:~$ k get service kubernetes-dashboard -n kube-system 
+developer@developer-VirtualBox:~$ kubectl get service kubernetes-dashboard -n kube-system 
 NAME                   TYPE        CLUSTER-IP       EXTERNAL-IP   PORT(S)   AGE
 kubernetes-dashboard   ClusterIP   10.106.167.142   <none>        80/TCP    18h
 developer@developer-VirtualBox:~$ 
