@@ -56,7 +56,7 @@ terra10-dpl-54bb4dbdcc-q2r4b   1/1       Running   0          13s
 developer@developer-VirtualBox:~/projects/k4d/lab 33$ 
 ```
 
-Note how the naming of ReplicationSet and Pods is derived from the Deployment name.
+Note how the naming of ReplicaSet and Pods is derived from the Deployment name.
 
 Create the Loadbalancer Service:
 
@@ -106,7 +106,7 @@ The start situation for the upgrade is:
 
 ![start](img/lab33-deployment-start.png)
 
-After giving the upgrade command,the Deployment adds a new ReplicationSet and gradually adds/removes Pods:
+After giving the upgrade command,the Deployment adds a new ReplicaSet and gradually adds/removes Pods:
 
 ![during](img/lab33-deployment-during-upgrade.png)
 

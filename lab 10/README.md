@@ -1,22 +1,22 @@
-# 10. Replication Sets
+# 10. ReplicaSets
 
-ReplicationControllers are deprecated. It is good to know them, as you will encounter them in 'older' Kubernetes systems. However, whenever you have the choice, you should use Replication Sets or Deployments.
+ReplicationControllers are deprecated. It is good to know them, as you will encounter them in 'older' Kubernetes systems. However, whenever you have the choice, you should use ReplicaSets or Deployments.
 
-**Replication Sets vs Replication Controllers**
+**ReplicaSets vs Replication Controllers**
 
-Replication Sets and Replication Controllers are different in 2 areas:
+ReplicaSets and Replication Controllers are different in 2 areas:
 
 1. **Label selectors:** the Kubernetes documentation learns us that 'ReplicaSet supports the new set-based selector requirements as described in the labels user guide whereas a Replication Controller only supports equality-based selector requirements'
-2. **Deployments:** the Replication Controller supports the kubectl 'rolling-update' command for updating to new Pod version. In case of the Replication Set however, updates are done using the combination of the Kubernetes Deployment and the Replication Set 
+2. **Deployments:** the Replication Controller supports the kubectl 'rolling-update' command for updating to new Pod version. In case of the ReplicaSet however, updates are done using the combination of the Kubernetes Deployment and the ReplicaSet 
 
-For deployment and updates, there will be separate labs. In this lab, we'll focus on the Replication Set. There, you will also learn that ' Deployments are the way to go'!
+For deployment and updates, there will be separate labs. In this lab, we'll focus on the ReplicaSet. There, you will also learn that ' Deployments are the way to go'!
 
 
-**Replication Sets and set-based Label Selectors**
+**ReplicaSets and set-based Label Selectors**
 
 The Replication Controller supports Label Selectors with requirements of the type 'equality-based'. With these 'equality-based' requirements, matching is done based on Label keys and values, and matching objects must satify ALL of the specified Label constraints. Three operators are supported: '=', '==' and '!='. Ahum, well ... that's only 2 different operators!
 
-The Replication Set on the other hand supports Label Selectors with requirements of the type 'set-based'. With these 'set-based' requirements, matching is done by 'filtering keys according to a set of values'. Three operators are supported: 'in', 'notin' and 'exists'. For example:
+The ReplicaSet on the other hand supports Label Selectors with requirements of the type 'set-based'. With these 'set-based' requirements, matching is done by 'filtering keys according to a set of values'. Three operators are supported: 'in', 'notin' and 'exists'. For example:
 
 | selector                        | selects resources with |
 |---------------------------------|--------------------------|
@@ -27,12 +27,12 @@ The Replication Set on the other hand supports Label Selectors with requirements
 
 The ***set-based*** requirements can be mixed with ***equality-based*** requirements.
 
-## 10.1 Replication Set example
+## 10.1 ReplicaSet example
 
-A Replication Set manifest file example:
+A ReplicaSet manifest file example:
 
 ```bash
-apiVersion: apps/v1beta2   # Replication Set is part of a newer API version
+apiVersion: apps/v1beta2   # ReplicaSet is part of a newer API version
 kind: ReplicaSet           # type ReplicaSet
 metadata:
   name: terra10-rs
@@ -57,7 +57,7 @@ spec:
 Running the manifest file:
 
 ```bash
-developer@developer-VirtualBox:~/projects/k4d/lab 10$ kubectl create -f terra10-replicationset.yaml 
+developer@developer-VirtualBox:~/projects/k4d/lab 10$ kubectl create -f terra10-replicaset.yaml 
 replicaset.apps/terra10-rs created
 developer@developer-VirtualBox:~/projects/k4d/lab 10$ kubectl get pod
 NAME               READY     STATUS    RESTARTS   AGE
@@ -67,8 +67,8 @@ terra10-rs-t9rjr   1/1       Running   0          9s
 developer@developer-VirtualBox:~/projects/k4d/lab 10$ 
 ```
 
-The Replication Set created 3 Pods - just as expected.
-Now, let's delete the Replication Set without deleting the Pods:
+The ReplicaSet created 3 Pods - just as expected.
+Now, let's delete the ReplicaSet without deleting the Pods:
 
 ```bash
 developer@developer-VirtualBox:~/projects/k4d/lab 10$ kubectl delete rs terra10-rs --cascade=false
@@ -90,7 +90,7 @@ pod "terra10-rs-k7vbz" deleted
 pod "terra10-rs-t9rjr" deleted
 developer@developer-VirtualBox:~/projects/k4d/lab 10$ 
 ```
-and you will see that the Replication Set creates new Pods:
+and you will see that the ReplicaSet creates new Pods:
 ```bash
 developer@developer-VirtualBox:~/projects/k4d/lab 10$ kubectl get pod
 NAME               READY   STATUS    RESTARTS   AGE
@@ -102,7 +102,7 @@ developer@developer-VirtualBox:~/projects/k4d/lab 10$
 
 ## 10.2 Scaling up and down
 
-Scaling a Replication Set is similar to a Replication Controller:
+Scaling a ReplicaSet is similar to a Replication Controller:
 
 ```bash
 developer@developer-VirtualBox:~/projects/k4d/lab 10$ kubectl get rs

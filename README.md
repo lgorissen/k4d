@@ -19,7 +19,7 @@ The labs in this archive cover the following topics:
 |7  | Kubectl   | Cleaning up                  | Avoid a mess on your minikube ;-)             |
 |8  | Probes    | Docter, docter! My Pod is ill... (Probes) | Readiness and Liveness Probes    |
 |9  | Controller| Replication Controllers      | Ensuring that your Pods are always there      |
-|10 | Controller| Replication Sets             | A ... modern Replication Controller           |
+|10 | Controller| ReplicaSets                  | A ... modern Replication Controller           |
 |11 | Controller| DaemonSet - one Pod on each Node | great title                               |
 |12 | Controller| Job - a Pod that terminates  | Let a Pod do a single task                    |
 |13 | Controller| CronJob - a periodically running Job | Timing when the Pod is executed       |

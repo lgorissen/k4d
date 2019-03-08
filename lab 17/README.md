@@ -22,10 +22,10 @@ spec:
     app: terra10           # Pod selector
 ```
 
-Now, first let's create some Pods with a ReplicationSet and then create the Headless Service:
+Now, first let's create some Pods with a ReplicaSet and then create the Headless Service:
 
 ```bash
-developer@developer-VirtualBox:~/projects/k4d/lab 17$ kubectl create -f terra10-replicationset.yaml 
+developer@developer-VirtualBox:~/projects/k4d/lab 17$ kubectl create -f terra10-replicaset.yaml 
 replicaset.apps/terra10-rs created
 developer@developer-VirtualBox:~/projects/k4d/lab 17$ kubectl get rs
 NAME         DESIRED   CURRENT   READY     AGE

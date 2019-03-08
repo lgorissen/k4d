@@ -72,7 +72,7 @@ developer@developer-VirtualBox:~/projects/k4d/lab 36$
 
 Get log file of previous instance of Container in a Pod - if exists:
 
-- `kubectl pod <pod> -container <container> -previous`
+- `kubectl logs pod <pod> -container <container> -previous`
 
 ```bash
 developer@developer-VirtualBox:~/projects/k4d/lab 36$ kubectl logs terra10 -c terra10 --previous
@@ -196,14 +196,14 @@ terra10-k5ls8   1/1     Running   0          64s
 developer@developer-VirtualBox:~/projects/k4d/lab 36$
 ```
 
-## Create, scale and delete a ReplicationSet
+## Create, scale and delete a ReplicaSet
 
-Well .. there does not seem to be a way to start a ReplicationSet from `kubectl` command line. Intention is probably that ReplicationSets are to be started using a Deployment - which makes sense.
+Well .. there does not seem to be a way to start a ReplicaSet from `kubectl` command line. Intention is probably that ReplicaSets are to be started using a Deployment - which makes sense.
 
-Nevertheless, for the exercise we will start a ReplicationSet using a manifest file:
+Nevertheless, for the exercise we will start a ReplicaSet using a manifest file:
 
 ```bash
-developer@developer-VirtualBox:~/projects/k4d/lab 36$ kubectl create -f terra10-replicationset.yaml
+developer@developer-VirtualBox:~/projects/k4d/lab 36$ kubectl create -f terra10-replicaset.yaml
 replicaset.apps/terra10-rs created
 developer@developer-VirtualBox:~/projects/k4d/lab 36$ kubectl get pod
 NAME               READY   STATUS    RESTARTS   AGE
@@ -213,7 +213,7 @@ terra10-rs-zllnk   1/1     Running   0          76s
 developer@developer-VirtualBox:~/projects/k4d/lab 36$
 ```
 
-Scale a ReplicationSet
+Scale a ReplicaSet
 
 - `kubectl scale rs terra10-rs --replicas=5`
 
@@ -230,7 +230,7 @@ terra10-rs-zr9l8   0/1     ContainerCreating   0          4s
 developer@developer-VirtualBox:~/projects/k4d/lab 36$
 ```
 
-Delete the ReplicationSet
+Delete the ReplicaSet
 
 - `kubectl delete rs terra-rs`
 
@@ -558,7 +558,7 @@ replicationcontroller/terra10-rc-r2 rolling updated to "terra10-rc-r2"
 developer@developer-VirtualBox:~/projects/k4d/lab 36$
 ```
 
-## ReplicationSet update
+## ReplicaSet update
 
 Is not possible via `kubectl`: you should use a Deployment!
 

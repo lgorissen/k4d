@@ -70,7 +70,7 @@ terra10-simple          1/1       Running   2          23h
 terra10-z4lkv           1/1       Running   2          23h
 ```
 As a side note, the above approach has at least 2 violations of best practices:
-1. instead of directly creating multiple Pods of the same type, a ReplicationContoller (or ReplicationSet) should have been used. Creating multiple Pods of the same type is typically a Kubernetes task that should be done by a Kubernetes object
+1. instead of directly creating multiple Pods of the same type, a ReplicationContoller (or ReplicaSet) should have been used. Creating multiple Pods of the same type is typically a Kubernetes task that should be done by a Kubernetes object
 2. a rel tag inside the yaml file for the Pod is also questionable. It can be argued that such label should be applied after the Pod has been created, so a version label of the Pod is not included in the manifest of the Pod
 
 As you can see in the Pod listing above, things already become ... obfuscated: too many Pods will clutter your view. But watch how labels will help us here...
