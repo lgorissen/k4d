@@ -70,7 +70,7 @@ Where:
 
 | Command (part)  | Description      |
 |-------- |--------|
-| **k**   |  short for kubectl (is your auto-complete running properly?) |
+| **kubectl**   |  short for kubectl (is your auto-complete running properly?) |
 | **terra10** | name of the ReplicationController that will be created |
 | **--image=lgorissen/terra10** | name of the Container image that will be used |
 | **--port=8080** | the port that the app will listen to |
@@ -173,7 +173,7 @@ developer@developer-VirtualBox:~$
 
 ### 2.3.2. Loadbalancer service external ip address
 
-Well, this can not be demo-ed in a minikube environment as there is no support for Loadbalancer services. If the EXTERNAL-IP would be available, the service should be available via `curl <EXTERNAL-OP>:8080`.
+Well, this can not be demo-ed in a minikube environment as there is no support for Loadbalancer services. If the EXTERNAL-IP would be available, the service should be available via `curl <EXTERNAL-IP>:8080`.
 
 This is how - in a production set-up - external clients will access our service. 
 
