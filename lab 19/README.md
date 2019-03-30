@@ -20,7 +20,7 @@ Note:
 - which of the above volume types are supported in your Kubernetes set-up may depend on your provider
 - we will not shown examples of the network and Cloud storage providers as those may not be readily available in your set-up. However, when your have completed the other labs on Volumes, you should be able to figure out the details on any specific Volume type by yourself ;-)
 
-Depending on your Kubernetes provider, some volume types may not be supported: when you set up your Kubernetes platform, slecting the Storage is one of the big topics!
+Depending on your Kubernetes provider, some volume types may not be supported: when you set up your Kubernetes platform, selecting the Storage is one of the big topics!
 
 ## 19.1 hostPath volumes
 

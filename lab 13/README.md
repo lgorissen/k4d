@@ -6,7 +6,7 @@ Well, there isn't much more to it. It is pretty similar to running cron(tab) job
 
 The CronJob needs to be scheduled, which is defined in the spec part of the template. For the spec.schedule, the Kubernetes specs refer to the wiki definition: https://en.wikipedia.org/wiki/Cron
 
-Most important is to understan the schedule string (copied from the above wiki page):
+Most important is to understand the schedule string (copied from the above wiki page):
 
 ```
 # ┌───────────── minute (0 - 59)

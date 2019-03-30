@@ -1,4 +1,4 @@
-# 31. Deployments: manual - ReplicatSet
+# 31. Deployments: manual - ReplicaSet
 
 In real life, your applications will continuously evolve: new versions will become available. New versions means deployment, and there are various strategies to do that. These strategies will usually have to take into account:
 

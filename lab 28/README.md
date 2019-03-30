@@ -171,7 +171,7 @@ default
 > **READ CAREFULLY**
 >
 > In minikube, your service account does NOT have access the all parts of the API Server.
-> This can be quickly *fixed* (mind not to do that in the Pod):
+> This can be quickly *fixed* (mind not to do that in Production):
 >
 > ```bash
 > developer@developer-VirtualBox:~/projects/k4d$ kubectl create clusterrolebinding permissive-binding --clusterrole=cluster-admin --group=system:serviceaccounts

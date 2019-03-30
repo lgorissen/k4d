@@ -40,7 +40,7 @@ In the figure above:
 
 - Creates the Pod specification
 - Defines a Volume in the Pod specification that refers to a Persistent Volume claim
-- Defines the Persistent Volume Claim object describes the storage that is requested
+- Defines the Persistent Volume Claim object that describes the storage that is requested
 
 As a result, the Pod specification has no Volume/storage implementation details
 
