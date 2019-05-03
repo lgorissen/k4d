@@ -6,32 +6,32 @@ The previous lab covered the *emptyDir* Volume type. Kubernetes knows a lot of d
 |--------------|-----------------------------------------------------------------|-------|
 |emptyDir      | Attached to a Pod, initially empty, deleted when Pod is deleted | 18    |
 |hostPath      | Local on the Worker Node                                        | 19    |
-|gitRepo       | Volume initializes with the contact of a Git repository         | 20    |
+|gitRepo       | Volume initializes with the content of a Git repository         | 20    |
 |network storages | nfs, cinder, cephfs, iscsi, flocker, glusterfs, quobyte, rbd, flexVolume, vsphere-Volume, photonPersistentDisk, scaleIO | - |
 | Cloud storage | gcePersistentDisk (Google Compute Engine Persistent Disk), awsElastic-BlockStore (Amazon Web Services Elastic Block Store Volume), azureDisk (Microsoft Azure Disk Volume) | - |
-| configMap    | inject configuration data into a Pod                            | 21, 22    | 
-| secret       | inject sensitive configuration data into a Pod                  | 23    |
-| downwardAPI  | makes downward API data available in plain text files           | 24    |
-| persistentVolumeClaim | claim durable storage without knowing the implementation details | 25 |
+| configMap    | Inject configuration data into a Pod                            | 21, 22    | 
+| secret       | Inject sensitive configuration data into a Pod                  | 23    |
+| downwardAPI  | Makes downward API data available in plain text files           | 24    |
+| persistentVolumeClaim | Claim durable storage without knowing the implementation details | 25 |
 
 
 Note:
 
 - which of the above volume types are supported in your Kubernetes set-up may depend on your provider
-- we will not shown examples of the network and Cloud storage providers as those may not be readily available in your set-up. However, when your have completed the other labs on Volumes, you should be able to figure out the details on any specific Volume type by yourself ;-)
+- we will not show examples of the network and Cloud storage providers as those may not be readily available in your set-up. However, when your have completed the other labs on Volumes, you should be able to figure out the details on any specific Volume type by yourself ;-)
 
 Depending on your Kubernetes provider, some volume types may not be supported: when you set up your Kubernetes platform, selecting the Storage is one of the big topics!
 
 ## 19.1 hostPath volumes
 
-The *hostPath* volume mounts a file or directory from the Worker (host) Node’s filesystem into your Pod. This is a solution that you have to think through carefully: is will make the data for your Pod dependending on the Worker Node that the Pod is running on. That is something that for most Pods your don't want!
+The *hostPath* volume mounts a file or directory from the Worker (host) Node’s filesystem into your Pod. This is a solution that you have to think through carefully: it will make the data for your Pod depending on the Worker Node that the Pod is running on. That is something that for most Pods your don't want!
 However, it may be a viable use case in some situations, e.g. with DaemonSets.
 
 In this lab, we will replace the *emptyDir* volume of lab 18 with a *hostPath* volume:
 
 ![](img/lab19-terra10-transporter-hostpath.png)
 
-The manifest file `terra10-transporter-hostpath.yaml` is pretty much the same as in the previous lab. Only the volume definition had to be changed! (well, I also changed the name of the volumeMount for clarity - but that wasn't necessary!):
+The manifest file `terra10-transporter-hostpath.yaml` is pretty much the same as the one in the previous lab. Only the volume definition has been changed! (well, I also changed the name of the volumeMount for clarity - but that wasn't necessary!):
 
 ```bash
 apiVersion: v1
@@ -110,7 +110,7 @@ developer@developer-VirtualBox:~/projects/k4d/lab 19$
 
 ## 19.2 Is it persistent?
 
-The claim is that the hostVolume - as opposed to the emptyDir Volume - will not be delete when the Pod is deleted / re-started.
+The claim is that the hostVolume - as opposed to the emptyDir Volume - will not be deleted when the Pod is deleted or restarted.
 
 Proof of the pudding:
 

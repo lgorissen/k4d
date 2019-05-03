@@ -1,12 +1,12 @@
-# 8. Docter, docter! My Pod is ill... (Probes)
+# 8. Doctor, doctor! My Pod is ill... (Probes)
 
 Most of the labs so far are using only very basic functionality of Kubernetes. A bit of manual starting and stopping and labelling containers is not very advanced container management. That may make you wonder what the big Kubernetes-container-management fuzz is about... Don't worry, the next labs will reveal more management functionality.
 
-This lab and the next ones will focus on functionality to deal with Pod failures. We will link the Kubernetes functionality to the type of failures that it will be handle.
+This lab and the next ones will focus on functionality to deal with Pod failures. We will link the Kubernetes functionality to the type of failures that it will handle.
 
 ## 8.1 Container crash
 
-Let's look at what happens with a manually started Pod...when the container crashes...
+Let's look at what happens to a manually started Pod...when the container crashes...
 We will start the Pod terra10-simple (file in the `lab 08` directory) and then stop the Docker container manually - to simulate a container crash. The Kubelet should detect that the container is no longer present and will start a new container. So, after a short while, the Pod should be functioning again. Let's go:
 
 **start the Pod and check that it works**
@@ -52,11 +52,11 @@ developer@developer-VirtualBox:~/projects/k4d/lab 08$
 
 ```
 
-So, what happened in the above scenario is that the crashed container is automatically re-started by the Kubelet. This is default Pod behaviour that you'll get for free...
+So, what happened in the above scenario is that the crashed container is automatically restarted by the Kubelet. This is default Pod behaviour that you'll get for free...
 
 ## 8.2 Container not running - Liveness Probe
 
-A container can experience failures that do not result in a crash. For example, if the application is in a deadlock. In such cases, a re-start of the container may help to recover the application.
+A container can experience failures that do not result in a crash. For example, if the application is in a deadlock. In such cases, a restart of the container may help to recover the application.
 In Kubernetes a Pod can define a Liveness Probe. The kubelet will then execute the defined Liveness Probe and based on the outcome, it may decide to restart the container:
 
 ![probe OK](img/lab8-probe-success.png)
@@ -173,7 +173,7 @@ NAME               READY     STATUS    RESTARTS   AGE
 terra10-liveness   1/1       Running   3          6m
 developer@developer-VirtualBox:~/projects/k4d/lab 08$
 ```
-Ah, our Pod has been re-started 3 times. In short: the liveness probe has already re-started the faulted container 3 times. 
+Ah, our Pod has been restarted 3 times. In short: the liveness probe has already restarted the faulted container 3 times. 
 
 For a better understanding of how the Liveness Probe works and what can be configured, use the command `k describe pod terra10-liveness`  and have a close look at the output. Below, a description of the relevant parts of the Liveness Probe:
 ```bash
@@ -188,7 +188,7 @@ This line means:
 | delay=15s     | Number of seconds after the container has started before liveness probes are initiated. |
 | timeout=1s    | Number of seconds after which the probe times out. |
 | period=10s    | How often (in seconds) to perform the probe.|
-| #success=1    |Minimum consecutive successes for the probe to be considered successful after having failed.|
+| #success=1    | Minimum consecutive successes for the probe to be considered successful after having failed.|
 | #failure=3    | Minimum consecutive failures for the probe to be considered failed after having succeeded.| 
 
 Clean up!
@@ -198,7 +198,7 @@ Clean up!
 
 Another typical situation for failures is that, upon start-up, the Pod/container may have a substantial initialization period. For example for establishing connections with other systems, building up caches in memory, etc. Readiness Probes to the rescue! A Readiness Probe determines if the Pod can handle requests. If not, no new requests are routed to that Pod until the Readiness Probe determines that the Pod is ready to handle requests again.
 
-When ***the Pod's Ready contidition*** is true, Kubernetes will route requests to that Pod. If not, Kubernetes will route the requests to another Pod copy that is able to handle the requests.
+When ***the Pod's Ready condition*** is true, Kubernetes will route requests to that Pod. If not, Kubernetes will route the requests to another Pod copy that is able to handle the requests.
 
 Again, the proof of the pudding is in the eating, so we'll:
 - Create an app/container that has a readiness problem
@@ -207,8 +207,8 @@ Again, the proof of the pudding is in the eating, so we'll:
 
 **Create an app/container that has a readiness problem**
 
-The container image `lgorissen/terra10:readiness-problem` is already present in Docker Hub. For those of your who want to have a look at it, the code is in the `lab 08/terra10-readiness-problem'` directory.
-This image will return a response with HTTP 200 code for the first 10 requests. Then, it will return an HTTP 500 code for the next 10 requests. And then HTTP 200 for the next 10 requests, etc. A well, you get it.
+The container image `lgorissen/terra10:readiness-problem` is already present in Docker Hub. For those of your who want to have a look at it, the code is in the `lab 08/terra10-readiness-problem` directory.
+This image will return a response with HTTP 200 code for the first 10 requests. Then, it will return an HTTP 500 code for the next 10 requests. And then HTTP 200 for the next 10 requests, etc. Oh well, you get it.
 
 First a local test: start the Container and curl it:
 ```bash
@@ -339,7 +339,7 @@ NAME                READY     STATUS    RESTARTS   AGE
 terra10-readiness   1/1       Running   1          1h
 ```
 
-Did you notice that the Pod is slightly more 'ready' than 'not ready'? That's because 1 successful probe request marks the Pod as 'ready', whereas it takes 3 failures to mark the Pod as ' not ready'.
+Did you notice that the Pod is slightly more 'ready' than 'not ready'? That's because 1 successful probe request marks the Pod as 'ready', whereas it takes 3 failures to mark the Pod as 'not ready'.
 
 Clean up!
 
@@ -352,6 +352,6 @@ In one of the next labs, we will show the combination of the Probes with a Resou
 ## 8.5 Liveness vs Readiness probes
 
 Sometimes people mix up Liveness and Readiness probes. The difference is in the action that Kubernetes takes when the probes report failure:
-- Liveness probe failure: Kubernetes re-starts the Pod
+- Liveness probe failure: Kubernetes restarts the Pod
 - Readiness probe failure: Kubernetes does not route new requests to the Pod
 

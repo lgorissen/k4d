@@ -30,7 +30,7 @@ NAME      ENDPOINTS                                          AGE
 terra10   172.17.0.11:8080,172.17.0.4:8080,172.17.0.6:8080   6h
 developer@developer-VirtualBox:~/projects/k4d/lab 16$
 ```
-In this lab we will show how external Services, i.e. outside the Kubernetes Cluster, can be accessed using end-points.
+In this lab we will show how external Services, i.e. outside the Kubernetes Cluster, can be accessed using endpoints.
 
 ## 16.1 External Service: by hostname
 
@@ -65,9 +65,9 @@ Events:            <none>
 developer@developer-VirtualBox:~/projects/k4d/lab 16$
 ```
 
-This does not seem too fancy, but it is a very nice and powerfull concept: you can now access the `terra10.io` host from all pods by using the Kubernetes FQDN ` terra10-service.default.service.cluster.local`. So this mechanism centralizes the connection from your Pods to a service in the external world in one single point!
+This does not seem too fancy, but it is a very nice and powerful concept: you can now access the `terra10.io` host from all pods by using the Kubernetes FQDN ` terra10-service.default.service.cluster.local`. So this mechanism centralizes the connection from your Pods to a service in the external world in one single point!
 
-Time to verify if the Kubernetes FQDN works (we still have some Pods running from previous labs):
+Time to verify if the Kubernetes FQDN works (we still have some Pods running from previous labs, and if you don't: you can recreate them with the `terra10-replicaset.yaml` from lab 10):
 
 ```bash
 developer@developer-VirtualBox:~/projects/k4d/lab 16$ kubectl get pod
@@ -89,15 +89,15 @@ root@terra10-rs-f99sq:/# curl terra10-service.default.svc.cluster.local
 ```
 Great, you will see the web page for the Terra10 web site appear.
 
-Of course ... this mechanisme can also be use to access REST services ;-)
+Of course ... this mechanism can also be used to access REST services ;-)
 
 
 
 ## 16.2 External Service: by IP address
 
-It is also possible to separate the creation of the Service and Endpoints. As a benefit of this approach, it is possible to change the Endpoints only, when a service is re-located or perhaps even put inside a Pod in the Cluster.
+It is also possible to separate the creation of the Service and Endpoints. As a benefit of this approach, it is possible to change the Endpoints only, when a service is relocated (or perhaps even put inside a Pod in the Cluster).
 
-We will do the following steps:
+We will perform the following steps:
 
 1. create an 'external' service
 2. create the Endpoints

@@ -9,12 +9,12 @@ ReplicaSets and Replication Controllers are different in 2 areas:
 1. **Label selectors:** the Kubernetes documentation learns us that 'ReplicaSet supports the new set-based selector requirements as described in the labels user guide whereas a Replication Controller only supports equality-based selector requirements'
 2. **Deployments:** the Replication Controller supports the kubectl 'rolling-update' command for updating to new Pod version. In case of the ReplicaSet however, updates are done using the combination of the Kubernetes Deployment and the ReplicaSet 
 
-For deployment and updates, there will be separate labs. In this lab, we'll focus on the ReplicaSet. There, you will also learn that ' Deployments are the way to go'!
+For deployment and updates, there will be separate labs. In this lab, we'll focus on the ReplicaSet. There, you will also learn that 'Deployments are the way to go'!
 
 
 **ReplicaSets and set-based Label Selectors**
 
-The Replication Controller supports Label Selectors with requirements of the type 'equality-based'. With these 'equality-based' requirements, matching is done based on Label keys and values, and matching objects must satify ALL of the specified Label constraints. Three operators are supported: '=', '==' and '!='. Ahum, well ... that's only 2 different operators!
+The Replication Controller supports Label Selectors with requirements of the type 'equality-based'. With these 'equality-based' requirements, matching is done based on Label keys and values, and matching objects must satisfy ALL of the specified Label constraints. Three operators are supported: '=', '==' and '!='. Ahum, well ... that's only 2 different operators!
 
 The ReplicaSet on the other hand supports Label Selectors with requirements of the type 'set-based'. With these 'set-based' requirements, matching is done by 'filtering keys according to a set of values'. Three operators are supported: 'in', 'notin' and 'exists'. For example:
 
@@ -67,21 +67,7 @@ terra10-rs-t9rjr   1/1       Running   0          9s
 developer@developer-VirtualBox:~/projects/k4d/lab 10$ 
 ```
 
-The ReplicaSet created 3 Pods - just as expected.
-Now, let's delete the ReplicaSet without deleting the Pods:
-
-```bash
-developer@developer-VirtualBox:~/projects/k4d/lab 10$ kubectl delete rs terra10-rs --cascade=false
-replicaset.extensions "terra10-rs" deleted
-developer@developer-VirtualBox:~/projects/k4d/lab 10$ kubectl get pod
-NAME               READY     STATUS    RESTARTS   AGE
-terra10-rs-g65nx   1/1       Running   0          3m
-terra10-rs-k7vbz   1/1       Running   0          3m
-terra10-rs-t9rjr   1/1       Running   0          3m
-developer@developer-VirtualBox:~/projects/k4d/lab 10$
-```
-
-You now can delete the Pods manually:
+The ReplicaSet created 3 Pods - just as expected. Now, let's delete the Pods manually:
 
 ```bash
 developer@developer-VirtualBox:~/projects/k4d/lab 10$ kubectl delete pod -l app=terra10
@@ -134,11 +120,23 @@ terra10-rs-tpxqv   1/1     Terminating   0          6m46s
 developer@developer-VirtualBox:~/projects/k4d/lab 10$ 
 ```
 
-... and clean up the Replication Controller
+... and clean up the ReplicaSet without deleting the pods:
 
 ```bash
-developer@developer-VirtualBox:~/projects/k4d/lab 10$ kubectl delete rs terra10-rs
+developer@developer-VirtualBox:~/projects/k4d/lab 10$ kubectl delete rs terra10-rs --cascade=false
 replicaset.extensions "terra10-rs" deleted
+developer@developer-VirtualBox:~/projects/k4d/lab 10$ kubectl get pod
+NAME               READY   STATUS        RESTARTS   AGE
+terra10-rs-bzqmf   1/1     Running       0          8m46s
+terra10-rs-n6wqd   1/1     Running       0          8m46s
+developer@developer-VirtualBox:~/projects/k4d/lab 10$
+```
+
+... and finally delete the pods:
+```bash
+developer@developer-VirtualBox:~/projects/k4d/lab 10$ kubectl delete pod -l app=terra10
+pod "terra10-rs-bzqmf" deleted
+pod "terra10-rs-n6wqd" deleted
 developer@developer-VirtualBox:~/projects/k4d/lab 10$ 
 ```
 

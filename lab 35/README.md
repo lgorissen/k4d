@@ -13,17 +13,17 @@ A stateful Pod requires that:
 Both requirements can't be met with the Kubernetes objects we have covered so far:
 
 - the Service can't route requests to a specific Pod
-- a re-start of the Pod can't guarantee that it will get the same storage
+- a restart of the Pod can't guarantee that it will get the same storage
 
-There are work arounds to handle this, think along the lines of layering multiple Services, and let Pods share a PVC, but use 'a free' directory within that PV. But these work arounds are complicated and therefore error-prone.
+There are workarounds to handle this, think along the lines of layering multiple Services, and let Pods share a PVC, but use 'a free' directory within that PV. But these workarounds are complicated and therefore error-prone.
 
 We need a different solution for stateful Pods ...
 
 ## 35.2 StatefulSets
 
-Kubernetes offers the StatefulSet object to manage stateful applications. The StatefulSet, unlike the Deployment, gives the Pods a persistent identifier. That identifier is maintained, also across re-scheduling for e.g. failures, upgrades and up/down scaling. 
+Kubernetes offers the StatefulSet object to manage stateful applications. The StatefulSet, unlike the Deployment, gives the Pods a persistent identifier. That identifier is maintained, also across rescheduling for e.g. failures, upgrades and up/down scaling. 
 
-StatefulSets have the following properties - as per Kubernetes reference documentation:
+StatefulSets have the following properties - as per the Kubernetes reference documentation:
 
 - Stable, unique network identifiers.
 - Stable, persistent storage.
@@ -36,7 +36,7 @@ The next sections will describe StatefulSets, step-by-step. The above mentioned 
 
 ### 35.2.1 Stable, unique network identifiers
 
-A StatefulSet, just like a ReplicaSet, creates a number of Pods from the Pod template that is part of its definition. With a ReplicaSet, the Pod get rondom names. With the StatefulSet on the other hand, the Pod names are assigned as
+A StatefulSet, just like a ReplicaSet, creates a number of Pods from the Pod template that is part of its definition. With a ReplicaSet, the Pod gets random names. With the StatefulSet on the other hand, the Pod names are assigned as
 
  *\<StatefulSet-name\>-\<index>*.
 
@@ -44,7 +44,7 @@ In the figure below, there is a StatefulSet named *S*, and 3 Pods that have name
 
 ![lab35-predictable-host-names](img/lab35-predictable-host-names.png)
 
-This results in Pods having a predictable hostname, in our case *S-0*, *S-1* and *S-2*. However, that is not enough! It must be possible for clients to address a specific Pod. Unlike the stateless Pods, where a LoadBalancer Service distrubutes requests over all available Pods, the state application has different requirements: the client must be able to address a *specific* Pod.
+This results in Pods having a predictable hostname, in our case *S-0*, *S-1* and *S-2*. However, that is not enough! It must be possible for clients to address a specific Pod. Unlike the stateless Pods, where a LoadBalancer Service distributes requests over all available Pods, the state application has different requirements: the client must be able to address a *specific* Pod.
 
 For these requirements the Headless Service can be used. This Service controls the domain of the Pods, and is also known as the *governing service*:
 
@@ -91,7 +91,7 @@ With respect to scaling, it is important to understand what happens with Pods an
 ![scale down](img/lab35-scale-down.png)
 
 Note that the corresponding storage remains in place.
-Now, when scaling up again, the new Pod will (re-)use the still present storage:
+Now, when scaling up again, the new Pod will (re-)use the still present storage.
 
 That behaviour around storage, together with assigning the same Pod (DNS) names, gives a predictable, stable network and storage experience.
 
@@ -100,7 +100,7 @@ That behaviour around storage, together with assigning the same Pod (DNS) names,
 
 **Recovery**
 
-The above behavior also applies in case of recovery from Pod failures. When e.g. the Worker Node crashes that runs Pod S-1, this Pod will be re-created on another Worker Node:
+The above behavior also applies in case of recovery from Pod failures. When e.g. the Worker Node crashes that runs Pod S-1, this Pod will be recreated on another Worker Node:
 
 - with the same name, and
 - with the same storage
@@ -136,11 +136,11 @@ So far, a lot of theory. Now it's time to get to work. We will create an example
 
 ![earlier set-up](img/lab35-earlier-setup.png)
 
-We will re-structure this set-up into a configuration of multiple transporters that write their data into a log file. We will change the Container slightly: it will write the Pod's hostname into the log file... The code - as well as all the other files -  is available in the `lab 35` directory.
+We will restructure this set-up into a configuration of multiple transporters that write their data into a log file. We will change the Container slightly: it will write the Pod's hostname into the log file... The code - as well as all the other files -  is available in the `lab 35` directory.
 
 The Container images are available in Docker Hub: `lgorissen/terra10-transporter:podname` and `lgorissen-terra10-monitor:latest`.
 
-The set-up we will make is shown below:
+The set-up we will create is shown below:
 
 ![example set-up](img/lab35-example-set-up.png)
 
@@ -149,7 +149,7 @@ The above set-up will be created in 2 steps:
 - Create the Headless Service *terra10-hs* (defined in `terra10-service-headless.yaml`)
 - Create the StatefulSet *terra10* (defined in `terra10-statefulset.yaml`)
 
-We will first only create the set-up. Some tests will be done in a separate section.
+We will only create the set-up at first. Some tests will be done in a separate section.
 
 
 ## 35.4 StatefulSets - create Headless Service *terra10-hs*

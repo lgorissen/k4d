@@ -1,8 +1,7 @@
 # 5. Pods and labels
-Imagine a production Kubernetes cluster with ... drumroll ... over 100 Pods. That would be great. And a nightmare to keep them Pods apart.
+Imagine a production Kubernetes cluster with ... drumroll ... over 100 Pods. That would be great. And a nightmare to keep those Pods apart.
 
-<img src="img/lab5-a-lot-of-pods.png" width=400 >
-
+<img src="img/lab5-a-lot-of-pods.png" width="400"/>
 
 You need to organise your stuff, and **labels** will come to the rescue.
 
@@ -91,7 +90,7 @@ terra10-simple          1/1       Running   2          23h       <none>
 terra10-z4lkv           1/1       Running   2          1d        run=terra10
 developer@developer-VirtualBox:~/projects/k4d/lab 05$ 
 ```
-List Pods and values for labels microservice and rel:  
+List Pods and values for labels _microservice_ and _rel_:  
 ```bash
 developer@developer-VirtualBox:~/projects/k4d/lab 05$ kubectl get pod -L microservice,rel
 NAME                    READY     STATUS    RESTARTS   AGE       MICROSERVICE   REL
@@ -106,7 +105,7 @@ terra10-record-4139     1/1       Running   0          5m        record         
 terra10-simple          1/1       Running   2          23h                      
 terra10-z4lkv           1/1       Running   2          1d                       
 ```
-Use a label selector to list Pods - list all Pods with microservice label value 'playback' 
+Use a label selector to list Pods - list all Pods with _microservice_ label value 'playback' 
 ```bash
 developer@developer-VirtualBox:~/projects/k4d/lab 05$ kubectl get po -l microservice=playback
 NAME                    READY     STATUS    RESTARTS   AGE
@@ -116,7 +115,7 @@ terra10-playback-5674   1/1       Running   0          9m
 developer@developer-VirtualBox:~/projects/k4d/lab 05$
 ```
 
-Use a label selector with multiple conditions - list all Pods with microservice label value 'record' and rel label value '18.1.3' 
+Use a label selector with multiple conditions - list all Pods with _microservice_ label value 'record' and _rel_ label value '18.1.3' 
 ```bash
 developer@developer-VirtualBox:~/projects/k4d/lab 05$ kubectl get po -l microservice=record,rel=18.1.3
 NAME                  READY     STATUS    RESTARTS   AGE

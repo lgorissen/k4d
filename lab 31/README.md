@@ -7,9 +7,9 @@ In real life, your applications will continuously evolve: new versions will beco
 - available platform resources: are there enough resources to run the old and new application versions in parallel
 - backwards compatibility: is it possible to have a mix of old and new application versions in parallel
 
-A running Pod itself can't be upgraded: Pods will allways run according to the template that they have been started with. Taking this into account, there are 3 main strategy options:
+A running Pod itself can't be upgraded: Pods will always run according to the template that they have been started with. Taking this into account, there are 3 main strategies for upgrading:
 
-1. Delete the old Pods and then create the new Pods
+1. Delete all the old Pods and then create the new Pods
 2. Gradually delete old Pods and create new Pods
 3. Create the new Pods and then switch the Service over to the new Pods
 
@@ -64,7 +64,7 @@ spec:
 
 ```
 
-The files can be found in the `lab 31` directory as `terra10-replicaset.yaml` and `terra10-service.yaml`.
+The files can be found in the `lab 31` directory as `terra10-replicaset.yaml` and `terra10-service-loadbalancer.yaml`.
 
 Start the ReplicaSet and Service:
 
@@ -124,12 +124,12 @@ Hello, you landed on Terra10 (version r1) and host terra10-rs-gn57x welcomes you
 ^C
 developer@developer-VirtualBox:~/projects/k4d/lab 31$
 ```
-And watch that the Service load balances over the 3 available Pods.
+And watch the Service balancing the load over the 3 available Pods.
 
 
 ## 31.2 Manual upgrade (1) - delete old Pods, create new Pods
 
-Now, let's upgrade our set-up to use a new version of the Pod, that uses the version r2 of the Container. We will:
+Now, let's upgrade our set-up to use a new version of the Pod, which uses the version r2 of the Container. We will:
 
 - update the ReplicaSet definition to use the new Container image
 - delete all existing Pods
@@ -208,11 +208,11 @@ Hello, you landed on Terra10 (version r2) and host terra10-rs-zmzz8 welcomes you
 Hello, you landed on Terra10 (version r2) and host terra10-rs-z8r4p welcomes you!
 Hello, you landed on Terra10 (version r2) and host terra10-rs-z8r4p welcomes you!
 ```
-The test window also reveals the drawback of this scenario: during the upgrade, for some period, there are no Pods available to service requests,
+The test window also reveals the drawback of this scenario: during the upgrade, for some period, there are no Pods available to service requests.
 
 ## 31.3 Manual upgrade (2) - gradually delete old Pods and create new Pods
 
-Now, we will upgrade our set-up from version r2 of the Container to version r1. We will do that gradually, i.e. without loss off service.
+Now, we will upgrade our set-up from version r2 of the Container to version r1. We will do that gradually, i.e. without loss of service.
 
 - update the ReplicaSet definition to use the r1 Container image
 - gradually delete all r2 Pods

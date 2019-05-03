@@ -179,7 +179,7 @@ This is how - in a production set-up - external clients will access our service.
 
 ### 2.3.3. Loadbalancer service cluster ip address
 
-The Loadbalancer service has a cluster ip address - which should be used be clients that reside on the Kubernetes platform itself. The cluster ip address in our case is `10.107.86.130` : see above.
+The Loadbalancer service has a cluster ip address - which should be used by clients that reside on the Kubernetes platform itself. The cluster ip address in our case is `10.107.86.130`: see above.
 
 The service should be available on this address port `8080`:
 
@@ -210,6 +210,6 @@ developer@developer-VirtualBox:~$
 
 A Pod is a group of Containers that runs on the same Kubernetes Node and in the same Linux namespace. Therefore, the Pod not only has its own files and processes, but also its own network interfaces and hostname. So, the Pod has its own IP address and the hostname is the same as the Pod name. IP address and hostname are always unique across the whole Kubernetes cluster.
 
-As a consequence, all Containers that run in the same Pod share the same hostname. Which also means that they can address each other using  `localhost:\<port>` addresses. But you do need to avoid port conflicts in a Pod. 
+As a consequence, all Containers that run in the same Pod share the same hostname. Which also means that they can address each other using  `localhost:<port>` addresses. But you do need to avoid port conflicts in a Pod. 
 
-**Often, trouble shooting a Pod starts with determining whether it can be accessed. For a real good analysis, you need to master the Kubernetes networking. Spend some time on it!**
+**Often, troubleshooting a Pod starts with determining whether it can be accessed. For a real good analysis, you need to master the Kubernetes networking. Spend some time on it!**

@@ -1,18 +1,18 @@
 # 14. Expose your ... Pod
 
-Already in Lab 2 we used a Service to expose the Pod to the outside world. We need a Service because directly exposing Pods to clients is not a good idea:
+Already in Lab 2 we used a Service to expose the Pod to the outside world. We need a Service because exposing Pods to clients directly is not a good idea:
 
 ![rc and simple service](img/lab14-rc-and-simple-service.png)
 
-In the above figure, we see a ReplicationController that controls a set of Pods. The benefits are clear: the ReplicationController starts/stops Pods as many as needed. And when a Pod crashes, the ReplicationController starts a new Pod somewhere in the Kubernetes Cluster. For clients, this leads to the following problems:
+In the above figure, we see a ReplicationController that controls a set of Pods. The benefits are clear: the ReplicationController starts/stops Pods as required. And when a Pod crashes, the ReplicationController starts a new Pod somewhere in the Kubernetes Cluster. For clients, this leads to the following problems:
 
 - traffic must be routed - load balanced - over multiple destinations (Pods)
-- these destinations IP address are not known beforehand: Pods get their IP address upon creation
+- these destinations IP addresses are not known beforehand: Pods get their IP address upon creation
 - at any moment, a Pod may disappear or be created
 
 The Service will hide all this Pod and ReplicationController behavior and provide one single access point to clients.
 
-Time for hands-on.
+Time for a hands-on.
 
 ## 14.1 A simple Service
 
@@ -218,7 +218,7 @@ Nice.
 ## 14.4 Yet another solution - an Ingress Service
 
 By now you should have the feeling that the options that are presented in this lab are getting better and better. You are right. 
-Kubernetes also offers the so-called Ingress Service, which is not an actual Service but is sits in front of the Service. The Ingress Service can do Layer 7 HTTP(S) load balancing: it routes based on host and path:
+Kubernetes also offers the so-called Ingress Service, which is not an actual Service but it sits in front of the Service. The Ingress Service can do Layer 7 HTTP(S) load balancing: it routes based on host and path:
 
 ![Ingress Service](img/lab14-ingress-service.png)
 
@@ -351,12 +351,12 @@ Events:
   Normal  UPDATE  6m    nginx-ingress-controller  Ingress default/terra10-ingress
 developer@developer-VirtualBox:~/projects/k4d/lab 14$
 ```
-Aha, so now we now how to access it. We can use curl:
+Aha, so now we know how to access it. We can use curl:
 
 - use the host name `terra10.io` 
 - use the path `/landing`
 
-I order to map the `terra10.io` host name to the Ingress IP Address `10.0.2.15`, you need to add the following entry to your `/etc/hosts` file:
+In order to map the `terra10.io` host name to the Ingress IP Address `10.0.2.15`, you need to add the following entry to your `/etc/hosts` file:
 
 ```bash
 # for kubernetes exercise
@@ -370,7 +370,7 @@ Hello, you landed on Terra10 and host terra10-rc-zkwt5 welcomes you!
 developer@developer-VirtualBox:~/projects/k4d/lab 14$
 ```
 
-Don't clean up - if you want to do lab 15
+Don't clean up - if you want to do lab 15.
 
 ## 14.5 Summary
 
@@ -379,8 +379,8 @@ The various solutions for accessing Pods via clients are summarized below:
 | Service type | Description |
 |--------------|-------------|
 | ClusterIP    | 'plain' Service makes Pods accessible within the Cluster by giving them one internal Cluster-wide IP address | 
-| NodePort | The Service opens a dedicated port on all Cluster Nodes for access to the Pods. For external access, access to the Cluster Nodes has to be made possible. In a Cloud based Kubernetes e.g. the Google one, you will have to configure some routes on the load balancer. **Bring your own Load Balancer**|
+| NodePort | The Service opens a dedicated port on all Cluster Nodes for access to the Pods. For external access, access to the Cluster Nodes has to be made possible. In a Cloud based Kubernetes e.g. the Google one, you will have to configure some routes on the load balancer. **Bring your own Load Balancer**.|
 | LoadBalancer | Makes the Service accessible through a LoadBalancer that is part of the Cluster infrastructure. The Nodes open a port, just like with the NodePort Service. **Load Balancer included**. | 
-| Ingress  |   Offers Layer 7 HTTP(S) load balancing. Supported only when the Kubernetes platform has implemented an **Ingress Controller**  |
+| Ingress  |   Offers Layer 7 HTTP(S) load balancing. Supported only when the Kubernetes platform has implemented an **Ingress Controller**.  |
 
-Don't clean up - if you want to do lab 15
+Don't clean up - if you want to do lab 15.

@@ -198,7 +198,7 @@ developer@developer-VirtualBox:~/projects/k4d/lab 36$
 
 ## Create, scale and delete a ReplicaSet
 
-Well .. there does not seem to be a way to start a ReplicaSet from `kubectl` command line. Intention is probably that ReplicaSets are to be started using a Deployment - which makes sense.
+Well ... there does not seem to be a way to start a ReplicaSet from `kubectl` command line. The intention is probably that ReplicaSets are to be started using a Deployment - which makes sense.
 
 Nevertheless, for the exercise we will start a ReplicaSet using a manifest file:
 

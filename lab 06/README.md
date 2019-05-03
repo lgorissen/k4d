@@ -8,18 +8,18 @@ In this lab, Kubernetes Namespaces are introduced. A Kubernetes Namespace is dif
 
 **default Namespace**
 
-So far, in all our kubectl commands, we have never mentioned a Namespace. Reason is that so far, we only used the Namespace ***default***, which is the default for the kubectl commands.
+So far, in all of our kubectl commands, we have never mentioned a Namespace. The reason is that, so far, we only used the Namespace ***default***, which is the default for the kubectl commands.
 
 **Usage**
 
-You can use Kubernetes Namespaces e.g. to split a large, complex cluster into smaller distinct groups of Objects. Or to split a Kubernetes cluster into a multi-tenant environment where all tenants have their own Namespace. By default, Kubernetes does not limit network access between Pods from different namespaces. However, security settings can be changed to isolate the Namespaces from network point of view. 
+You can use Kubernetes Namespaces for example to split a large and complex cluster into smaller distinct groups of Objects. Or to split a Kubernetes cluster into a multi-tenant environment where all tenants have their own Namespace. By default, Kubernetes does not limit network access between Pods from different namespaces. However, security settings can be changed to isolate the Namespaces from a networking point of view. 
 
 **What we will do**
 
 In this lab we will:
 
 - create a new namespace named `terra10`. 
-- start in the new namespace a copy of a Pod that already runs in the namespace `default` (under the same name). 
+- start in this new namespace a copy of a Pod that already runs in the namespace `default` (under the same name). 
 
 The configuration that we will establish is:
 
@@ -146,7 +146,7 @@ terra10-simple   1/1       Running   0          8s
 developer@developer-VirtualBox:~/projects/k4d/lab 06$
 ```
 
-Alternatively, the namespace can also be put in the Pod's manifest:
+Alternatively, the namespace can also be put in the Pods manifest:
 
 ```bash
 apiVersion: v1
