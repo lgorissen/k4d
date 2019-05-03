@@ -16,7 +16,7 @@ The Downward API can be used to expose Pod and Container fields to a running Con
 | requests.memory | Memory requests for each Container | yes | yes | 
 | limits.memory | Memory limits for each Container | yes | yes | 
 
-Most of them you should already know by now. The new ones are:
+Most of them should be familiar for you by now. The new ones are:
 
 - *serviceAccountName*: when the Pod contacts the API Server, it authenticates using the serviceAccountName that it runs under
 - *requests.cpu*: amount of cpu that is guaranteed to a Container
@@ -36,7 +36,7 @@ In this part, we will create a Pod and environment variables for the Downward AP
 
 ![environment variables](img/lab24-downward-env-variables.png)
 
-The manifest file can be found in directory `lab 24` under name `terra10-env-variables.yaml`:
+The manifest file can be found in directory `lab 24` under the name `terra10-env-variables.yaml`:
 
 ```bash
 apiVersion: v1

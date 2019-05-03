@@ -106,7 +106,7 @@ The start situation for the upgrade is:
 
 ![start](img/lab33-deployment-start.png)
 
-After giving the upgrade command,the Deployment adds a new ReplicaSet and gradually adds/removes Pods:
+After giving the upgrade command, the Deployment adds a new ReplicaSet and gradually adds/removes Pods:
 
 ![during](img/lab33-deployment-during-upgrade.png)
 
@@ -167,7 +167,7 @@ developer@developer-VirtualBox:~/projects/k4d/lab 33$
 
 The *minReadySecond* value determines how long a new Pod must be *ready* before the upgrade process continues with the next step.
 
-**do upgrade**
+**Do upgrade**
 
 Now, patch the image and watch what happens:
 
@@ -203,7 +203,7 @@ The new situation is:
 ![new situation](img/lab33-deployment-final.png)
 
 
-**verify new situation**
+**Verify new situation**
 
 Verify the new situation. First, look at the *Deployment*:
 
@@ -357,7 +357,7 @@ By now, you should be able to:
 
 The Deployment knows 2 upgrade strategies:
 
-1. RollingUpdate: Pods are updated in a rolling fashion. The update process can be tuned using the *maxUnavailable*  and *maxSurge* : https://kubernetes.io/docs/concepts/workloads/controllers/deployment/#writing-a-deployment-spec 
+1. RollingUpdate: Pods are updated in a rolling fashion. The update process can be tuned using the *maxUnavailable*  and *maxSurge* parameters : https://kubernetes.io/docs/concepts/workloads/controllers/deployment/#writing-a-deployment-spec 
 2. Recreate: all existing Pods are killed before new ones are created
 
 

@@ -9,7 +9,7 @@ A way to discover what Services are available on your cluster is via environment
 
 This lab starts with the situation from the previous lab, so a couple of Services are present. Below, we will:
 
-1. Re-create all our Pods by deleting them and letting the ReplicationController start new Pods. That ensures that all Pods have an up-to-date set of environment variables.
+1. Recreate all our Pods by deleting them and letting the ReplicationController start new Pods. That ensures that all Pods have an up-to-date set of environment variables.
 2. Inspect the environment variables in a Pod
 
 Let's go.
@@ -29,7 +29,7 @@ terra10-rc-ndfww   1/1       Running   0          42s
 developer@developer-VirtualBox:~/projects/k4d$
 ```
 
-**Step 2:** inspect environment variables in a Pod
+**Step 2:** inspect environment variables in a Pod:
 
 We will use `kubectl exec` to run the `env` command in one of the Pods:
 
@@ -84,7 +84,7 @@ developer@developer-VirtualBox:~/projects/k4d$
 ```
 Note how the Service names are translated into env variable names.
 
-The big drawback with this approach is that the Services have to be known before the Pod is started. Wouldn't it be nice to have something like Kubernetes DNS?
+The big drawback of this approach is that the Services have to be known before the Pod is started. Wouldn't it be nice to have something like Kubernetes DNS?
 
 ## 15.2 Kubernetes DNS
 
@@ -111,7 +111,7 @@ nginx-ingress-controller-7c66d668b-vvsxz   1/1     Running   0          18m
 storage-provisioner                        1/1     Running   8          45h
 developer@developer-VirtualBox:~/projects/k4d/lab 14$
 ```
-Note the `core-dns-...` Pods in the listing above. 
+Note the `coredns-...` Pods in the listing above. 
 
 Look at the services in the `kube-system` namespace:
 
@@ -124,18 +124,18 @@ kubernetes-dashboard   NodePort    10.106.226.98   <none>        80:30000/TCP   
 developer@developer-VirtualBox:~/projects/k4d$
 ```
 
-Yes, there is a Kubernetes DNS! The kube-dns Service routes the calls to the `core-dns-...` Pods.
+Yes, there is a Kubernetes DNS! The `kube-dns` Service routes the calls to the `coredns-...` Pods.
 
 Now - and this is important - ALL dns calls by all Pods in the Kubernetes Cluster are handled by this Kubernetes DNS. And the Kubernetes DNS knows exactly what Services are running!
 
 **FQDN: Fully Qualified Domain Name**
 
-As a DNS is about translating domain names into IP addresses, we must know how the FQDN of a Kubernetes Service looks like. Well, the format is:
+As a DNS is about translating domain names into IP addresses, we must know what the FQDN of a Kubernetes Service looks like. Well, the format is:
 `<service name>.<namespace>.<cluster domain suffix>`
 
 The `cluster domain suffix` is configurable, and by default it is `svc.cluster.local`.
 
-Out 3 services from above have the following FQDN names:
+Our 3 services from above have the following FQDNs:
 
 - terra10.default.svc.cluster.local
 - terra10-loadbalancer.default.svc.cluster.local

@@ -19,7 +19,7 @@ Secrets can be created:
 - using kubectl command line
 - using a manifest file
 
-Depending on your companies requirements around handling sensitive information, either option can be used.
+Depending on your the requirements in your company on handling sensitive information, either option can be used.
 
 **Secrets use**
 
@@ -66,9 +66,9 @@ namespace:  7 bytes
 token:      eyJhbGciOiJSUzI1NiIsImtpZCI6IiJ9.eyJpc3MiOiJrdWJlcm5ldGVzL3NlcnZpY2VhY2NvdW50Iiwia3ViZXJuZXRlcy5pby9zZXJ2aWNlYWNjb3VudC9uYW1lc3BhY2UiOiJkZWZhdWx0Iiwia3ViZXJuZXRlcy5pby9zZXJ2aWNlYWNjb3VudC9zZWNyZXQubmFtZSI6ImRlZmF1bHQtdG9rZW4tN3NkZHoiLCJrdWJlcm5ldGVzLmlvL3NlcnZpY2VhY2NvdW50L3NlcnZpY2UtYWNjb3VudC5uYW1lIjoiZGVmYXVsdCIsImt1YmVybmV0ZXMuaW8vc2VydmljZWFjY291bnQvc2VydmljZS1hY2NvdW50LnVpZCI6ImU2Njg0ODRkLWM5NDEtMTFlOC1hZjViLTA4MDAyNzYyNTFhMiIsInN1YiI6InN5c3RlbTpzZXJ2aWNlYWNjb3VudDpkZWZhdWx0OmRlZmF1bHQifQ.LZZd7nEKYzAh46yPoj757ILL8k05IXCLZwAYV3mIHdiQLgXgfKPSHM4iosAk11Y_f3MdQeKGBfmoR_Cmpkiimdgtw68dFQd7f_Dc6tyKOcjpbdLrWnHr3zjTweqGAG_hbuDWZNZa6yoSPYe1MWTDRC-21Bx1dsi55mkGfVhIEaOpE73DmdPdd0jOiH18XKRaYN5zqoMICazwFQjKU4hsxAxD_ZavweCpEvGy6cnhATlyjgM_Yt2MKeGKb2oejsm_BNKeZySx4YmyjKUO6aEEksal5mLAeIRSD-FGqntcBLj5Bfv8PmnGlHdWAgSbCJV8ElLhFjheuFcuoKdy4hpUJw
 developer@developer-VirtualBox:~/projects/k4d$
 ```
-So, this Secret has the `ca.crt`, `namespace` and `token` that are needed to communicate to the API Server.
+So, this Secret has the `ca.crt`, `namespace` and `token` that are needed to communicate with the API Server.
 
-Now, let's check if that token is mounted as a Volume into a Pod. We assume that you haven't cleaned up everything on your K8S Cluster, so there is a Pod still active. Ours is Pod 'terra10-rs-2zttd'. Looking at the Pod description, you will find a mounted Volume with the default token:
+Now, let's check whether that token is mounted as a Volume into a Pod. We assume that you haven't cleaned up everything on your K8S Cluster, so there is a Pod still active. Ours is Pod 'terra10-rs-2zttd'. Looking at the Pod description, you will find a mounted Volume with the default token:
 
 ```bash
 developer@developer-VirtualBox:~/projects/k4d$ kubectl describe pod terra10-rs-2zttd
@@ -94,7 +94,7 @@ Volumes:
 developer@developer-VirtualBox:~/projects/k4d$ 
 
 ```
-So yes, the Volume is mounted into the Pod. And, looking in the same description, it is also clear that the Volume is mounted into the Container:
+So yes, the Volume is mounted into the Pod. And, looking at the same description, it is also clear that the Volume is mounted into the Container:
 
 ```bash
 developer@developer-VirtualBox:~/projects/k4d$ kubectl describe pod terra10-rs-2zttd 
@@ -233,7 +233,7 @@ data:
   terra10-password: d2VsY29tZTAx           # the data has to be base64 encoded
 ```
 
-Run it, examine it:
+Run it and examine it:
 
 ```bash
 developer@developer-VirtualBox:~/projects/k4d/lab 23$ kubectl create -f terra10-secret.yaml 
@@ -260,7 +260,7 @@ So, now you've seen 3 ways to create the same Secret.
 
 Nope, I'm not a shrink.
 
-In your Secrets, the data can be retrieved:
+You can retrieve the data from Secrets:
 
 ```bash
 developer@developer-VirtualBox:~/projects/k4d/lab 23$ kubectl get secrets 

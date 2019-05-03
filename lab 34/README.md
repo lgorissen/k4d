@@ -8,7 +8,7 @@ This Lab will show how the readiness probe can be used to automatically block th
 ## 34.1 Theory
 
 
-During a rollout, the Deployment gradually replaces the old Pods by new Pods, using the ReplicaSet. This is illustrated in the figure below, where there are 2 'old' Pods on the left side, and 1 new Pods in the right side:
+During a rollout, the Deployment gradually replaces the old Pods by new Pods, using the ReplicaSet. This is illustrated in the figure below, where there are 2 'old' Pods on the left side, and 1 new Pod on the right side:
 
 ![during upgrade](img/lab34-deployment-during-upgrade.png)
 
@@ -137,7 +137,7 @@ So far, all is OK. Ready for upgrade.
 
 ## 34.3 Upgrade with a faulted Container
 
-We have create a Container named `lgorissen/terra10:r2-max-4` that returns 4 times a `200 OK` response and after that, only `500 Internal Server Error` responses. The code can be found in the `terra10-max-4` folder. You don't have to build the Container yourself: it is already available in Docker Hub.
+We have create a Container named `lgorissen/terra10:r2-max-4` that returns 4 times a `200 OK` response and after that, only `500 Internal Server Error` responses. The code can be found in the `terra10-max-4` folder. You don't have to build the Container yourself: it is already available on Docker Hub.
 
 When we change the Container image in the Deployment to `lgorissen/terra10:r2-max-4`, the following will happen:
 

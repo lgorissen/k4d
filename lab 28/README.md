@@ -1,8 +1,8 @@
 # 28. Kubernetes API Server: curl from within a Pod 
 
-The DownwardAPI volume provides access to some metadata of a Pod and its Containers. But sometimes you will want to more. Then, you have talk directly to the Kubernetes API Server!
+The DownwardAPI volume provides access to some metadata of a Pod and its Containers. But sometimes you'll want more. Then, you have to talk directly to the Kubernetes API Server!
 
-In this and the next couple of labs, we will show several ways to access the Kubernetes API Server:
+In this one and the next couple of labs, we will show several ways to access the Kubernetes API Server:
 
 - **lab 27:** Use *curl and the kubectl proxy*
 - **lab 28:** Use *curl - from within a Pod*
@@ -101,7 +101,7 @@ For checking the Kubernetes API Server's certificate, *curl* needs the certifica
 ca.crt     namespace  token
 / #
 ```
-If you don't remember, look at the Secrets lab 23.
+If you don't remember, look at the Secrets `lab 23`.
 
 So, let *curl* check the certificate:
 
@@ -130,7 +130,7 @@ Note above, that we used `https://kubernetes/api` for addressing the Kubernetes 
 
 Above, the Kubernetes API Server responded. However, that's only because of the minikube set-up. Normally, you would also need to authenticate with the Kubernetes API Server.
 
-Authentication has to be done with a bearer token in an http Header. The token can be found in the same folder where also the signing certificate was located. Let's put it in an environment variable named TOKEN:
+Authentication has to be done with a bearer token in an http Header. The token can be found in the same folder where also the signing certificate is located. Let's put it in an environment variable named TOKEN:
 
 ```bash
 / # TOKEN=$(cat /var/run/secrets/kubernetes.io/serviceaccount/token)

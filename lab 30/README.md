@@ -1,8 +1,8 @@
 # 30. Kubernetes API Server: client libraries
 
-The DownwardAPI volume provides access to some metadata of a Pod and its Containers. But sometimes you will want to more. Then, you have talk directly to the Kubernetes API Server!
+The DownwardAPI volume provides access to some metadata of a Pod and its Containers. But sometimes you'll want more. Then, you have to talk directly to the Kubernetes API Server!
 
-In this and the next couple of labs, we will show several ways to access the Kubernetes API Server:
+In this one and the next couple of labs, we will show several ways to access the Kubernetes API Server:
 
 - **lab 27:** Use *curl and the kubectl proxy*
 - **lab 28:** Use *curl - from within a Pod*

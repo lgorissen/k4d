@@ -1,8 +1,8 @@
 # 27. Kubernetes API Server: access via kubectl proxy
 
-The DownwardAPI volume provides access to some metadata of a Pod and its Containers. But sometimes you will want to more. Then, you have talk directly to the Kubernetes API Server!
+The DownwardAPI volume provides access to some metadata of a Pod and its Containers. But sometimes you'll want more. Then, you have to talk directly to the Kubernetes API Server!
 
-In this and the next couple of labs, we will show several ways to access the Kubernetes API Server:
+In this one and the next couple of labs, we will show several ways to access the Kubernetes API Server:
 
 - **lab 27:** Use *curl and the kubectl proxy*
 - **lab 28:** Use *curl - from within a Pod*
@@ -43,7 +43,7 @@ how to fix it, please visit the web page mentioned above.
 developer@developer-VirtualBox:~/projects/k4d/lab 27$
 ```
 
-Now, that didn't work: the clients certificate was missing, and therefore curl can't establish a safe connection. We're lazy and use the unsafe -k option (= insecure):
+Now, that didn't work: we don't trust the clients certificate, and therefore curl can't establish a safe connection. We're lazy and use the unsafe -k option (= insecure):
 
 ```bash
 
@@ -64,7 +64,7 @@ developer@developer-VirtualBox:~/projects/k4d/lab 27$
 
 Above:
 
-- we used the curl option `-k` to skip the authorization
+- we used the curl option `-k` to skip the validation of the certificate(s)
 - we got a response because we were running curl on the Master Node
 
 Running the above curl command from another host would have given a result like shown below:

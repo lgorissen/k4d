@@ -4,7 +4,7 @@ I like ReplicationControllers. To me, they feel like they are at the core of wha
 
 **Definition**
 
-In the Kubernetes reference manuals, the Replication Controller is described:
+In the Kubernetes reference manuals, the Replication Controller is described as:
 'A ReplicationController ensures that a specified number of pod replicas are running at any one time. In other words, a ReplicationController makes sure that a pod or a homogeneous set of pods is always up and available.'
 
 Aha! So, if I have a Kubernetes cluster with 2 nodes, and a Replication Controller that specifies that 3 Pods have to be up and running, that could look like:
@@ -13,7 +13,7 @@ Aha! So, if I have a Kubernetes cluster with 2 nodes, and a Replication Controll
 
 **Failures**
 
-Now, in the previous lab, we saw that the kubelet can re-start a container in a Pod when it is malfunctioning or crashed by using Liveness Probes. But ... when a complete Worker node crashes, the kubelet is also gone.
+Now, in the previous lab, we saw that the kubelet can restart a container in a Pod when it is malfunctioning or crashed by using Liveness Probes. But ... when a complete Worker node crashes, the kubelet is also gone.
 
 <img src="img/lab9-rc-3-pods-worker-gone.png" width="350px"/>
 
@@ -35,8 +35,7 @@ In a figure:
 
 ## 9.1 A simple Replication Controller
 
-Time to get some hands-on experience. Remember in lab 02, we created a Replication Controller with the command `kubectl run terra10 --image=lgorissen/terra10 --port
-=8080 --generator=run/v1`. 
+Time to get some hands-on experience. Remember in lab 02, we created a Replication Controller with the command `kubectl run terra10 --image=lgorissen/terra10 --port=8080 --generator=run/v1`. 
 
 In this lab, however, we will use a manifest file for a Replication Controller:
 
@@ -60,12 +59,12 @@ spec:
         ports:
         - containerPort: 8080
 ```
-Note that in the manifest file the Label `app:terra10` appears twice. That leaves room for errors. There are 2 things you must know:
+Note that in the manifest file the Label `app:terra10` appears twice. This leaves room for errors. There are 2 things you must know:
 
 1. You don't have to specify a label selector. If you don't, Kubernetes will get the labels from the Pod specification
 2. If the Label Selector and the Pod labels don't match, Kubernetes will not accept the Replication Controller manifest file
 
-Now, we will use `kubectl` to create the Replication Controller. Note that we will not explicitly create Pods: the Replication Controller will do that :-) (the manifest file `terra1-rc.yaml` is in the lab 09 directory):
+Now, we will use `kubectl` to create the Replication Controller. Note that we will not explicitly create Pods: the Replication Controller will do that :-) (the manifest file `terra10-rc.yaml` is in the lab 09 directory):
  
 ```bash
 developer@developer-VirtualBox:~/projects/k4d/lab 09$ kubectl create -f terra10-rc.yaml 
@@ -136,5 +135,5 @@ No resources found.
 developer@developer-VirtualBox:~/projects/k4d/lab 09$
 ```
 
-If you would have wanted the Pods to keep alive, you should have used the command ` kubectl delete rc terra10-rc --cascade=false`.
+If you would have wanted the Pods to stay alive, you should have used the command ` kubectl delete rc terra10-rc --cascade=false`.
 

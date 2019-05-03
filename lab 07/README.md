@@ -122,4 +122,4 @@ pod "terra10-record-3899" deleted
 pod "terra10-record-4139" deleted
 developer@developer-VirtualBox:~/projects/k4d/lab 07$ 
 ```
-Opgeruimd staat netjes.
+The Dutch would say: *Opgeruimd staat netjes*.

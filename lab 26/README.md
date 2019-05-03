@@ -4,7 +4,7 @@ In the previous lab, we learned how Persistent Volumes and Persistent Volume Cla
 - the admin deals with the Storage specifics and prepares the Persistent Volumes
 - the developer makes a Persistent Volume Claim to use the Persistent Volume - without having to know the Storage specifics  
 
-Dynamic Volume Provisioning takes the developer-admin de-coupling even one step further. In the above scenario, the admin still has to provision a Volume up front. However, with Dynamic Volume Provisioning, the user can create Storage Volumes on demand. 
+Dynamic Volume Provisioning takes the developer-admin decoupling even one step further. In the above scenario, the admin still has to provision a Volume up front. However, with Dynamic Volume Provisioning, the user can create Storage Volumes on demand. 
 
 Dynamic Provisioning centers around the so-called StorageClass objects. A **StorageClass** object specifies:
 
@@ -40,14 +40,13 @@ parameters:
 Now, lets do a minikube example. First, look at the available StorageClass objects:
 
 ```bash
-developer@developer-VirtualBox:~/projects/k4d/lab 26/img$ kubectl get sc
+developer@developer-VirtualBox:~/projects/k4d/lab 26$ kubectl get sc
 NAME                 PROVISIONER                AGE
 standard (default)   k8s.io/minikube-hostpath   29d
-developer@developer-VirtualBox:~/projects/k4d/lab 26/img$ kubectl describe sc standard 
-Name:            standard
-IsDefaultClass:  Yes
-Annotations:     kubectl.kubernetes.io/last-applied-configuration={"apiVersion":"storage.k8s.io/v1","kind":"StorageClass","metadata":{"annotations":{"storageclass.beta.kubernetes.io/is-default-class":"true"},"labels":{"addonmanager.kubernetes.io/mode":"Reconcile"},"name":"standard","namespace":""},"provisioner":"k8s.io/minikube-hostpath"}
-,storageclass.beta.kubernetes.io/is-default-class=true
+developer@developer-VirtualBox:~/projects/k4d/lab 26$ kubectl describe sc standard 
+Name:                  standard
+IsDefaultClass:        Yes
+Annotations:           storageclass.beta.kubernetes.io/is-default-class=true
 Provisioner:           k8s.io/minikube-hostpath
 Parameters:            <none>
 AllowVolumeExpansion:  <unset>
@@ -55,10 +54,10 @@ MountOptions:          <none>
 ReclaimPolicy:         Delete
 VolumeBindingMode:     Immediate
 Events:                <none>
-developer@developer-VirtualBox:~/projects/k4d/lab 26/img$
+developer@developer-VirtualBox:~/projects/k4d/lab 26$
 ```
 
-Well, that is a simple StorageClass. You can see amongst others the Provisioner name, the ReclaimPolicy and that is has no Parameters. 
+Well, that is a simple StorageClass. You can see among other things the Provisioner name, the ReclaimPolicy and that it has no Parameters. 
 
 In our example, we will use this **standard** StorageClass to create the configuration:
 

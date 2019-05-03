@@ -1,8 +1,8 @@
 # 25. Persistent Volumes: hiding tech details from the developer
 
-In all the labs about Volumes, we (well actually: I) skipped the network and Cloud Volume types. Labs for these types also require access to these types of Volumes, which may not be possible in the environment where you run your labs.
+In all the labs about Volumes, we (well actually: I) skipped the network and Cloud Volume types. Labs for these types also require access to these types of Volumes, which may not be possible in the environment where you run your labs (like minikube on a VM).
 
-Nevertheles, let's hava a look at a manifest file for a Volume of type *gcePersistentDisk*, in a Pod specification:
+Nevertheless, let's have a look at a manifest file for a Volume of type *gcePersistentDisk*, in a Pod specification:
 
 ```bash
 apiVersion: v1
@@ -23,7 +23,7 @@ spec:
       fsType: ext4                      # ... and its file type
 ```
 
-The above example, is taken from the Kubernetes reference documentation, and is therefore correct ;-)
+The above example is taken from the Kubernetes reference documentation, and is therefore correct ;-)
 
 However, there are 2 things about this approach that we don't like:
 
@@ -42,14 +42,14 @@ In the figure above:
 - Defines a Volume in the Pod specification that refers to a Persistent Volume claim
 - Defines the Persistent Volume Claim object that describes the storage that is requested
 
-As a result, the Pod specification has no Volume/storage implementation details
+As a result, the Pod specification has no Volume/storage implementation details.
 
 **Kubernetes admin**
  
  - Ensures that physical storage is available - in our example Cloud storage in the Google Cloud: GCE PD
  - Creates a Persistent Volume object that represents this storage
  
- Note that a Persistent Volume is a resource on Cluster level, i.e. it does not belong to any Namespace
+ Note that a Persistent Volume is a resource on Cluster level, i.e. it does not belong to any Namespace.
  
 **Kubernetes**
 
@@ -106,7 +106,7 @@ The *accessMode* describes how the volume will be mounted on a node:
 
 **volumeMode**
 
-The *volumeMode* distinguishes between raw block device (raw) or use a filesystem (filesystem)
+The *volumeMode* distinguishes between a raw block device (raw) or a filesystem (filesystem).
 
 
 The Persistent Volume describes the storage:
@@ -132,7 +132,7 @@ spec:
 
 The example in the previous section describes a PVC and PV. When Kubernetes gets the PVC, it will have to select a matching PV. In our case, the selection would 'look for an 8GB file system with RWO access mode'. 
 
-To guide this matching process, it is possible to add a label selector to the Persistent Volume Claim. This label selector will the specific a label query that will by used to determine what Persistent Volumes are considered for binding. For example:
+To guide this matching process it is possible to add a label selector to the Persistent Volume Claim. This label selector will specify a label query that will be used to determine what Persistent Volumes are considered for binding. For example:
 
 ```bash
   selector:               # label selector helps with selecting the right Persistent Volume
@@ -147,10 +147,10 @@ To guide this matching process, it is possible to add a label selector to the Pe
 It is important to understand the lifespan of PVC, PV and Pod. In general:
 
 - The Persistent Volume is created by the k8s admin and ceases to exist when the admin deletes it.
-- The Persistent Volume Claim is a Kubernetes object with it's own lifespan. It is created by the Kubernetes user and at some point deleted by the user. Upon deletion of the Persistent Volume Claim, the Persistent Volume will be recycled and can then be claimed by another PVC
+- The Persistent Volume Claim is a Kubernetes object with its own lifespan. It is created by the Kubernetes user and at some point deleted by the user. Upon deletion of the Persistent Volume Claim, the Persistent Volume will be recycled and can then be claimed by another PVC.
 - The Pod can mount a PVC and unmount it at the end of its lifespan. When the Pod unmounts the PVC, the PVC (and its data) remain present to be mounted by another Pod.
 
-However, also other possibilities exist: it is possible to define a *reclaim policy* for a PV that defines different behaviour. Please consult the Kubernetes reference documentation.
+However, other possibilities also exist: it is possible to define a *reclaim policy* for a PV that defines different behaviour. Please consult the Kubernetes reference documentation for more information on this.
 
 ## 25.4 Storage is difficult!
 
@@ -160,21 +160,21 @@ There is a good reason why Persistent Volumes are introduced in Kubernetes: stor
 ## 25.5 Finally, a Lab exercise 
 ...Albeit a simple one...
 
-Like earlier, we will not do a lab exercise with network or Cloud storage involved.
+Like before, we will not do a lab exercise with network or Cloud storage involved.
 
 Instead, we will use the hostPath storage: it accesses the local file system on the Cluster Node. So, for production situations where you want to access local files (mostly system related) that could be OK. And for testing purposes. BUT ... NOT for production purposes.
 
-Anyway, what we want to make a configuration that looks like:
+Anyway, we want to make a configuration that looks like this:
 
 ![](img/lab25-persistent-volumes-hostPath.png)
 
-This is pretty similar to the set-up we made in Lab 18, where the storage for the Pod was an emptyDir Volume. This time, we will use Persistent Volumes to create a more persistent storage.
+This is pretty similar to the set-up we made in `lab 18`, where the storage for the Pod was an emptyDir Volume. This time, we will use Persistent Volumes to create a more persistent storage.
 
 Let's first have a look at the 3 manifest files that we need:
 
-1. Persistent Volume: terra10-transporter-pv.yaml
-2. Persistent Volume Claim: terra10-transporter-pvc.yaml
-3. Pod: terra10-transporter.yaml
+1. Persistent Volume: `terra10-transporter-pv.yaml`
+2. Persistent Volume Claim: `terra10-transporter-pvc.yaml`
+3. Pod: `terra10-transporter.yaml`
 
 The manifest files can be found in the `lab 25` directory.
 
@@ -308,7 +308,7 @@ spec:
 
 ```
 
-Note how similar this manifest is to the one for Lab 18: only the Volume specification has changed!
+Note how similar this manifest is to the one for `lab 18`: only the Volume specification has changed!
 
 Go!
 
@@ -419,7 +419,7 @@ developer@developer-VirtualBox:~/projects/k4d/lab 25$
 
 Just what we expected: the new Containers will use the same Volume.
 
-Now we delete the Pod and then re-create it again:
+Now we delete the Pod and then recreate it again:
 
 ```bash
 developer@developer-VirtualBox:~/projects/k4d/lab 25$ kubectl delete pod terra10-transporter
@@ -435,7 +435,7 @@ JimmyHoffa is transported from DenBosch to Moon
 developer@developer-VirtualBox:~/projects/k4d/lab 25$ 
 ```
 
-Final tests: when we delete Pod, PVC and PV, the transport.log file should still be present, due to the *persistentVolumeReclaimPolicy* that was set to *Retain*:
+Final tests: when we delete the Pod, PVC and PV, the transport.log file should still be present, due to the *persistentVolumeReclaimPolicy* that was set to *Retain*:
 
 ```bash
 developer@developer-VirtualBox:~/projects/k4d/lab 25$ kubectl delete pod terra10-transporter
