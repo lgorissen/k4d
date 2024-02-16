@@ -93,7 +93,7 @@ developer@developer-VirtualBox:~/projects/k4d/lab 32$
 ## 32.2 Do the upgrade - theory
 
 
-Our upgrade goal is to upgrade to the new version of the Container image. i.e. `lgorissen/terra10:r2`. In the process, ReplicationController `terra10-rc` will be upgraded to ReplicationController `terra10-rc-r2`. Only 1 *kubectl* command is enough to do that:
+Our upgrade goal is to upgrade to the new version of the Container image. i.e. `lgorissen/terra10:r2`. In the process, ReplicationController `terra10-rc` will be upgraded to ReplicationController `terra10-rc-r2`. A single *kubectl* command will suffice:
 
 ```bash
 developer@developer-VirtualBox:~/projects/k4d/lab 32$ kubectl rolling-update terra10-rc terra10-rc-r2 --image=lgorissen/terra10:r2
@@ -255,7 +255,7 @@ developer@developer-VirtualBox:~/projects/k4d/lab 32$
 
 In the previous lab, we agreed that a manual upgrade was complex and error prone. Well ... there may be people that claim otherwise, but just don't believe them.
 
-This lab has shown an automatic upgrade of an ReplicationController, which is ... still not quite what we want. Basically, the upgrade is now automated, but still has some shortcomings:
+This lab has shown an automatic upgrade of aa ReplicationController, which is ... still not quite what we want. Basically, the upgrade is now automated, but still has some shortcomings:
 
 - the upgrade messes with your ReplicationController definition. It adds labels and even replaces it with a complete different one. Now that is confusing: you want your resources under version control and not being changed by the platform itself. 
 - in case of an error during the upgrade, the system will be left behind in an inconsistent status for the involved Pods and ReplicationController(s). And note that the upgrade is driven from `kubectl`, sending out commands to the Kubernetes objects. A network failure would be enough to stop the upgrade.

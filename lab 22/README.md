@@ -29,19 +29,19 @@ A configMap that takes entries from the files in a directory:
 ![from configuration directory](img/lab22-configMap-from-configuration-directory.png)
 
 
-The configuration options that are shown above illustrate that the configMap mechanism is very flexible: it will most likely also cover your application's configuration requirements.
+The configuration options that are shown above illustrate that the configMap mechanism is very flexible: it will most likely also cover your applications configuration requirements.
 
 ## 22.1 Mount configMap into a Pod
 
-The only part that is missing now in your toolkit is 'how to mount *only* the right file of the configMap in the right directory/file'.
+The only part that is missing in your toolkit at this point is 'how to mount *only* the right file of the configMap in the right directory/file'.
 
 The image below shows what we want to achieve:
 
 ![](img/lab22-configMap-volume-pod.png)
 
-We want to map the transporter.json file contants onto a file in the Container in the Pod.
+We want to map the transporter.json file contents onto a file in the Container in the Pod.
 
-(Part of) the Pod's manifest file looks like below:
+(Part of) the Pods manifest file looks like below:
 
 ```bash
 spec:

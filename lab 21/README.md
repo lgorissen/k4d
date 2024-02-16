@@ -1,10 +1,10 @@
 # 21. Volume configMap
 
-Your Pod consists of a number of Containers, and each of them requires configuration data - well, except for the most simple cases. 
+Your Pod consists of a number of Containers, and each one of them requires configuration data - well, except for the most simple cases. 
 
 ## 21.1 Containers and Pod specification
 
-For Docker Containers, configuration information can be passed in as:
+For Docker Containers, configuration information can be passed to the container as:
 1. Command-line arguments 
 2. Environment variables
 
@@ -16,7 +16,7 @@ How a Docker Container is started is defined in the Dockerfile. The Dockerfile u
 
 With this approach:
 - ENTRYPOINT ensures that the Container can start without additional parameters
-- CMD ensures that the optional parameters hava sensible default values
+- CMD ensures that the optional parameters have sensible default values
 
 Example:
 
@@ -25,7 +25,7 @@ ENTRYPOINT ["/bin/myterra.sh"]
 CMD ["60"]
 ```
 
-In Kubernetes, the Container specification in a Pod can overrride the ENTRYPOINT and CMD entries. This is how they map/match:
+In Kubernetes, the Container specification in a Pod can override the ENTRYPOINT and CMD entries. This is how they map/match:
 
 | Docker  | Kubernetes - Container specification in Pod |
 |---------|-------------|
@@ -71,7 +71,7 @@ We have a Container named `lgorissen/terra10-transporter:config`, that has two c
 The Docker container can be started manually and then used. Note:
 
 - the environment variable is passed to the Container using `-e TRANSPORTER_PLATFORM=local_13`
-- the command line argument is passed to the Containter after the container name: `30`
+- the command line argument is passed to the Container after the container name: `30`
 
 
 ```bash
@@ -131,11 +131,11 @@ developer@developer-VirtualBox:~/projects/k4d/lab 21$
 
 ### 21.1.4 Pod specification and configuration - not a happy marriage
 
-It does not take a Kubernetes wizzard to understand that hard-coding configuration information in a Pod specification is not a desirable situation. You will end up with different Pod specifications for different environments. As the Pod is basically your application specification, it does not feel good to have a different specification for each environment. The configuration data has to go: please welcome the ConfigMap.
+It does not take a Kubernetes wizard to understand that hard-coding configuration information in a Pod specification is not a desirable situation. You will end up with different Pod specifications for different environments. As the Pod is basically your application specification, it does not feel good to have a different specification for each environment. The configuration data has to go: please welcome the ConfigMap.
 
 ## 21.2 ConfigMap to the rescue...
 
-The ConfigMap is a Kubernetes object which contains key-value pairs. The values are passed on the the Containers as environment variables or as files in a Volume.
+The ConfigMap is a Kubernetes object which contains key-value pairs. The values are passed into the Containers as environment variables or as files in a Volume.
 
 ![configMap to the rescue](img/lab21-configMap.png)
 
@@ -143,7 +143,7 @@ The Pod refers to a configMap by name. In that way, the *different configuration
 
 ![configMap and environments](img/lab21-configMap-and-environments.png)
 
-Note that configuration of different environments in this requires those different environments to be handled in different Kubernetes namespaces! Which is a sensible thing to do anyway...
+Note that configuration of different environments in this example requires those different environments to be handled in different Kubernetes namespaces! Which is a sensible thing to do anyway...
 
 
 ## 21.3 configMap example
@@ -152,7 +152,7 @@ Now it's time to start putting the configMap to use. Our goal is to use the conf
 
 **ConfigMap manifest**
 
-First, create a ConfigMap that has the 2 configuration items for the `lgorissen/terra10-transporter:config` Container. It is in the file `terra10-transporter-configMap.yaml` that is in the `lab 21` directory:
+First, create a ConfigMap that has the 2 configuration items for the `lgorissen/terra10-transporter:config` Container. It is in the file `terra10-transporter-configMap.yaml` which lives in the `lab 21` directory:
 
 ```bash
 apiVersion: v1
@@ -167,7 +167,7 @@ data:
 
 **Pod manifest**
 
-Now that the configMap is defined, the Pod manifest use it (`terra10-transporter-pod.yaml`). In this example we see how a Container argument and an environment variable get their values from the `terra10-transporter-config` ConfigMap that was defined above.
+Now that the configMap is defined, the Pod manifest (`terra10-transporter-pod.yaml`) is using it. In this example we see how a Container argument and an environment variable get their values from the `terra10-transporter-config` ConfigMap that was defined previously.
 
 ```bash
 apiVersion: v1

@@ -126,7 +126,7 @@ metadata:
       protocol: TCP
 ```
 
-With such a YAML manifest file, it is really easy to create the Kubernetes resources/objects. The command for running a YAML manifest file is allways of format `kubectl create -f <yaml_file_name>`. 
+With such a YAML manifest file, it is really easy to create the Kubernetes resources/objects. The command for running a YAML manifest file is always of format `kubectl create -f <yaml_file_name>`. 
 
 In our case:
 ```bash
@@ -164,7 +164,7 @@ developer@developer-VirtualBox:~/projects/k4d/lab 04$ kubectl get pod terra10-si
 developer@developer-VirtualBox:~/projects/k4d/lab 04$
 ```
 
-The last part of the JSON shows that the Pod IP addres is 172.17.0.7. Let's use that to directly access the Pod:
+The last part of the JSON shows that the Pod IP address is 172.17.0.7. Let's use that to directly access the Pod:
 ```bash
 developer@developer-VirtualBox:~/projects/k4d/lab 04$ curl 172.17.0.7:8080
 Hello, you landed on Terra10 and host terra10-simple welcomes you!

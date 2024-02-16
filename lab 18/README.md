@@ -1,6 +1,6 @@
 # 18. Volume emptyDir: data on disk
 
-So far, all the stuff we have put into Pods was stateless. No data was needed for operation of the Pods, nor did the Pods persist data in whatever way. However, only a very small part of your application's functionality will work in this manner. Most applications require some form of storage.
+So far, all the stuff we have put into Pods was stateless. No data was needed for operation of the Pods, nor did the Pods persist data in whatever way. However, only a very small part of your applications functionality will work in this manner. Most applications require some form of storage.
 
 This Lab is the first lab where we introduce you to Kubernetes Volumes: 
 
@@ -9,7 +9,7 @@ This Lab is the first lab where we introduce you to Kubernetes Volumes:
 - is mounted into a Container
 - is specified in the Pod specification, including where the Volume is mounted
 - the lifetime is the same as the lifetime of the Pod
-- as a consequence, data is preserved across Container re-starts 
+- as a consequence, data is preserved across Container restarts 
 
 A process in a Container sees a filesystem view composed from their Docker image and Volumes!
 
@@ -34,7 +34,7 @@ We will specify a Pod that consists of:
 - Container terra10-monitor: returns a log file of the activity of the transporter
 - Volume transportlog: holds the log file for the transporter
 
-You probably have already guessed that terra10-transporter writes logging data to the transportlog Volume. The terrra10-monitor retrieves the data from the transportlog Volume
+You probably have already guessed that terra10-transporter writes logging data to the transportlog Volume. The terra10-monitor retrieves the data from the transportlog Volume.
 
 ## 18.2 Pod specification
 
@@ -117,9 +117,9 @@ developer@developer-VirtualBox:~/projects/k4d/lab 18$
 OK, so the emptyDir volume does exchange the data between the 2 Containers.
 
 
-## 18.4 Container re-start
+## 18.4 Container restart
 
-Now, the specification says that the emptyDir volume survives the Container re-starts. So, let's stop the 2 Containers in the Pod and see what happens.
+Now, the specification says that the emptyDir volume survives the Container restarts. So, let's stop the 2 Containers in the Pod and see what happens.
 Get the 2 Docker Container IDs from the Pod description and stop them:
 
 ```bash
@@ -150,6 +150,6 @@ Harry is transported from DenBosch to Moon
 developer@developer-VirtualBox:~/projects/k4d/lab 18$
 ```
 
-We see that the Kubernetes Pod has re-started the Containers and that the data is pre-served in the emptyDir Volume!
+We see that the Kubernetes Pod has restarted the Containers and that the data is preserved in the emptyDir Volume!
 
 Clean up!
